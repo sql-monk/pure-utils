@@ -10,9 +10,12 @@
 *.userosscache
 *.sln.docstates
 *.sln
-.ls/
+.lh/
 .history/
-
+*.sqlproj_backup
+*.gitignore
+*.gitattributes
+.Properties/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Security\util.sql" />
-    <None Include="util\Documentation\SetUtilsDescriptions.sql" />
     <None Include="util\Functions\indexesGetConventionNames.sql" />
     <None Include="util\Functions\indexesGetScriptConventionRename.sql" />
     <None Include="util\Functions\metadataGetAnyId.sql" />
@@ -111,7 +110,6 @@
     <None Include="util\Procedures\metadataSetTriggerDescription.sql" />
     <None Include="util\Procedures\metadataSetViewDescription.sql" />
     <None Include="util\Procedures\xeErrorsToTable.sql" />
-    <None Include="util\Scripts\ШаблониКоментарів.sql" />
     <None Include="util\Tables\errorLog.sql" />
     <None Include="util\Tables\xeErrorLog.sql" />
     <None Include="XESessions\utilsErrors.sql" />

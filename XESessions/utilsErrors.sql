@@ -10,7 +10,12 @@ ON SERVER
 		 sqlserver.tsql_frame,
 		 sqlserver.tsql_stack
 	 )
-	 WHERE(severity > (10) AND message <> N'''Not primary hadr replica''')
+	 WHERE(
+		 package0.greater_than_int64(Severity, (10))
+		 AND sqlserver.not_equal_i_sql_unicode_string(Message, N'''Not primary hadr replica''')
+		 AND sqlserver.client_app_name <> N'''Sql MP Monitoring'''
+		 AND error_number <> (17830)
+	 )
 	)
 	ADD TARGET package0.event_file
 	(SET filename = N'utilsErrors', max_file_size = (8), max_rollover_files = (1))
@@ -24,5 +29,4 @@ WITH(
 	STARTUP_STATE = OFF
 );
 GO
-
 

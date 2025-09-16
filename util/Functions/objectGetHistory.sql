@@ -1,38 +1,38 @@
 /*
 # Description
-ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ” Ñ–ÑÑ‚Ð¾Ñ€Ñ–ÑŽ Ð·Ð¼Ñ–Ð½ Ñ‚Ð° Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚Ñ– Ð´Ð»Ñ ÐºÐ¾Ð½ÐºÑ€ÐµÑ‚Ð½Ð¾Ð³Ð¾ Ð¾Ð±'Ñ”ÐºÑ‚Ð° Ð±Ð°Ð·Ð¸ Ð´Ð°Ð½Ð¸Ñ….
-Ð¤ÑƒÐ½ÐºÑ†Ñ–Ñ Ð¿Ð¾Ð²ÐµÑ€Ñ‚Ð°Ñ” Ð²ÑÑ– Ð¿Ð¾Ð´Ñ–Ñ—, Ð¿Ð¾Ð²'ÑÐ·Ð°Ð½Ñ– Ð· Ð²ÐºÐ°Ð·Ð°Ð½Ð¸Ð¼ Ð¾Ð±'Ñ”ÐºÑ‚Ð¾Ð¼, Ð²Ð¸ÐºÐ¾Ð½Ð°Ð½Ñ– Ð¿Ð¾Ñ‚Ð¾Ñ‡Ð½Ð¸Ð¼ ÐºÐ¾Ñ€Ð¸ÑÑ‚ÑƒÐ²Ð°Ñ‡ÐµÐ¼.
+Îòðèìóº ³ñòîð³þ çì³í òà àêòèâíîñò³ äëÿ êîíêðåòíîãî îá'ºêòà áàçè äàíèõ.
+Ôóíêö³ÿ ïîâåðòàº âñ³ ïîä³¿, ïîâ'ÿçàí³ ç âêàçàíèì îá'ºêòîì, âèêîíàí³ ïîòî÷íèì êîðèñòóâà÷åì.
 
 # Parameters
-@object NVARCHAR(128) - ÐÐ°Ð·Ð²Ð° Ð¾Ð±'Ñ”ÐºÑ‚Ð° Ð´Ð»Ñ Ð¾Ñ‚Ñ€Ð¸Ð¼Ð°Ð½Ð½Ñ Ñ–ÑÑ‚Ð¾Ñ€Ñ–Ñ—
-@startTime DATETIME2 = NULL - ÐŸÐ¾Ñ‡Ð°Ñ‚ÐºÐ¾Ð²Ð¸Ð¹ Ñ‡Ð°Ñ Ð´Ð»Ñ Ñ„Ñ–Ð»ÑŒÑ‚Ñ€Ð°Ñ†Ñ–Ñ— Ð¿Ð¾Ð´Ñ–Ð¹ (NULL = Ð²ÑÑ– Ð¿Ð¾Ð´Ñ–Ñ—)
+@object NVARCHAR(128) - Íàçâà îá'ºêòà äëÿ îòðèìàííÿ ³ñòîð³¿
+@startTime DATETIME2 = NULL - Ïî÷àòêîâèé ÷àñ äëÿ ô³ëüòðàö³¿ ïîä³é (NULL = âñ³ ïîä³¿)
 
 # Returns
-TABLE - ÐŸÐ¾Ð²ertÐ°Ñ” Ñ‚Ð°Ð±Ð»Ð¸Ñ†ÑŽ Ð· ÐºÐ¾Ð»Ð¾Ð½ÐºÐ°Ð¼Ð¸:
-- eventType NVARCHAR - Ð¢Ð¸Ð¿ Ð¿Ð¾Ð´Ñ–Ñ—
-- postTime DATETIME - Ð§Ð°Ñ Ð¿ÑƒÐ±Ð»Ñ–ÐºÐ°Ñ†Ñ–Ñ— Ð¿Ð¾Ð´Ñ–Ñ—
-- SPID INT - Ð†Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ñ–ÐºÐ°Ñ‚Ð¾Ñ€ ÑÐµÑÑ–Ñ—
-- serverName NVARCHAR - ÐÐ°Ð·Ð²Ð° ÑÐµÑ€Ð²ÐµÑ€Ð°
-- loginName NVARCHAR - Ð†Ð¼'Ñ ÐºÐ¾Ñ€Ð¸ÑÑ‚ÑƒÐ²Ð°Ñ‡Ð° Ð´Ð»Ñ Ð²Ñ…Ð¾Ð´Ñƒ
-- userName NVARCHAR - Ð†Ð¼'Ñ ÐºÐ¾Ñ€Ð¸ÑÑ‚ÑƒÐ²Ð°Ñ‡Ð°
-- roleName NVARCHAR - ÐÐ°Ð·Ð²Ð° Ñ€Ð¾Ð»Ñ–
-- databaseName NVARCHAR - ÐÐ°Ð·Ð²Ð° Ð±Ð°Ð·Ð¸ Ð´Ð°Ð½Ð¸Ñ…
-- schemaName NVARCHAR - ÐÐ°Ð·Ð²Ð° ÑÑ…ÐµÐ¼Ð¸
-- objectName NVARCHAR - ÐÐ°Ð·Ð²Ð° Ð¾Ð±'Ñ”ÐºÑ‚Ð°
-- objectType NVARCHAR - Ð¢Ð¸Ð¿ Ð¾Ð±'Ñ”ÐºÑ‚Ð°
-- loginType NVARCHAR - Ð¢Ð¸Ð¿ Ð²Ñ…Ð¾Ð´Ñƒ
-- targetObjectName NVARCHAR - ÐÐ°Ð·Ð²Ð° Ñ†Ñ–Ð»ÑŒÐ¾Ð²Ð¾Ð³Ð¾ Ð¾Ð±'Ñ”ÐºÑ‚Ð°
-- targetObjectType NVARCHAR - Ð¢Ð¸Ð¿ Ñ†Ñ–Ð»ÑŒÐ¾Ð²Ð¾Ð³Ð¾ Ð¾Ð±'Ñ”ÐºÑ‚Ð°
-- propertyName NVARCHAR - ÐÐ°Ð·Ð²Ð° Ð²Ð»Ð°ÑÑ‚Ð¸Ð²Ð¾ÑÑ‚Ñ–
-- propertyValue NVARCHAR - Ð—Ð½Ð°Ñ‡ÐµÐ½Ð½Ñ Ð²Ð»Ð°ÑÑ‚Ð¸Ð²Ð¾ÑÑ‚Ñ–
-- parameters NVARCHAR - ÐŸÐ°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¸
-- tsql_command NVARCHAR - T-SQL ÐºÐ¾Ð¼Ð°Ð½Ð´Ð°
+TABLE - Ïîâertàº òàáëèöþ ç êîëîíêàìè:
+- eventType NVARCHAR - Òèï ïîä³¿
+- postTime DATETIME - ×àñ ïóáë³êàö³¿ ïîä³¿
+- SPID INT - ²äåíòèô³êàòîð ñåñ³¿
+- serverName NVARCHAR - Íàçâà ñåðâåðà
+- loginName NVARCHAR - ²ì'ÿ êîðèñòóâà÷à äëÿ âõîäó
+- userName NVARCHAR - ²ì'ÿ êîðèñòóâà÷à
+- roleName NVARCHAR - Íàçâà ðîë³
+- databaseName NVARCHAR - Íàçâà áàçè äàíèõ
+- schemaName NVARCHAR - Íàçâà ñõåìè
+- objectName NVARCHAR - Íàçâà îá'ºêòà
+- objectType NVARCHAR - Òèï îá'ºêòà
+- loginType NVARCHAR - Òèï âõîäó
+- targetObjectName NVARCHAR - Íàçâà ö³ëüîâîãî îá'ºêòà
+- targetObjectType NVARCHAR - Òèï ö³ëüîâîãî îá'ºêòà
+- propertyName NVARCHAR - Íàçâà âëàñòèâîñò³
+- propertyValue NVARCHAR - Çíà÷åííÿ âëàñòèâîñò³
+- parameters NVARCHAR - Ïàðàìåòðè
+- tsql_command NVARCHAR - T-SQL êîìàíäà
 
 # Usage
--- ÐžÑ‚Ñ€Ð¸Ð¼Ð°Ñ‚Ð¸ Ð²ÑÑŽ Ñ–ÑÑ‚Ð¾Ñ€Ñ–ÑŽ Ð·Ð¼Ñ–Ð½ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ–
+-- Îòðèìàòè âñþ ³ñòîð³þ çì³í òàáëèö³
 SELECT * FROM util.objectGetHistory('myTable', NULL);
 
--- ÐžÑ‚Ñ€Ð¸Ð¼Ð°Ñ‚Ð¸ Ñ–ÑÑ‚Ð¾Ñ€Ñ–ÑŽ Ð·Ð¼Ñ–Ð½ Ð·Ð° Ð¾ÑÑ‚Ð°Ð½Ð½ÑŽ Ð´Ð¾Ð±Ñƒ
+-- Îòðèìàòè ³ñòîð³þ çì³í çà îñòàííþ äîáó
 SELECT * FROM util.objectGetHistory('myTable', DATEADD(day, -1, GETDATE()));
 */
 CREATE FUNCTION util.objectGetHistory(@object NVARCHAR(128), @startTime DATETIME2 = NULL)
@@ -58,7 +58,7 @@ RETURN(
 		property_value propertyValue,
 		parameters,
 		tsql_command
-	FROM msdb.dbo.events_notifications
+	FROM dbo.events_notifications
 	WHERE
 		(login_name = ORIGINAL_LOGIN() AND (@startTime IS NULL OR post_time >= @startTime))
         AND (object_name = @object OR target_object_name = @object)

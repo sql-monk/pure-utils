@@ -16,7 +16,7 @@ SELECT util.metadataGetObjectType('myTable');
 -- Перевірити чи є об'єкт таблицею
 SELECT CASE WHEN util.metadataGetObjectType('myTable') = 'U' THEN 'Table' ELSE 'Not Table' END;
 */
-CREATE FUNCTION util.metadataGetObjectType(@object NVARCHAR(128))
+CREATE OR ALTER FUNCTION util.metadataGetObjectType(@object NVARCHAR(128))
 RETURNS NVARCHAR(60)
 AS
 BEGIN

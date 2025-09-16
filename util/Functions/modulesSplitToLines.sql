@@ -19,21 +19,24 @@ SELECT * FROM util.modulesSplitToLines('myProc', NULL);
 -- Розбити всі модулі на рядки
 SELECT * FROM util.modulesSplitToLines(NULL, NULL);
 */
-CREATE FUNCTION util.modulesSplitToLines(@object NVARCHAR(128) = NULL, @additionalParameter NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.modulesSplitToLines(@object NVARCHAR(128), @skipEmpty BIT = 1)
 RETURNS TABLE
 AS
 RETURN(
-	SELECT 
-		m.object_id,
-		ROW_NUMBER() OVER (PARTITION BY m.object_id ORDER BY v.number) AS ordinal,
-		LTRIM(RTRIM(SUBSTRING(m.definition, v.number, CHARINDEX(CHAR(10), m.definition + CHAR(10), v.number) - v.number))) AS line
-	FROM sys.sql_modules m (NOLOCK)
-	CROSS APPLY (
-		SELECT number 
-		FROM master..spt_values 
-		WHERE type = 'P' 
-		AND number <= LEN(m.definition)
-		AND (number = 1 OR SUBSTRING(m.definition, number - 1, 1) = CHAR(10))
-	) v
-	WHERE (@object IS NULL OR m.object_id = ISNULL(TRY_CONVERT(INT, @object), OBJECT_ID(@object)))
+	WITH cteLines AS (
+		SELECT
+			sm.object_id objectId,
+			TRIM(REPLACE(line.value, CHAR(9), ' ')) line,
+			line.ordinal
+		FROM sys.sql_modules sm
+			CROSS APPLY STRING_SPLIT(REPLACE(sm.definition, CHAR(13), CHAR(10)), CHAR(10), 1) line
+		WHERE(@object IS NULL OR sm.object_id = ISNULL(TRY_CONVERT(INT, @object), OBJECT_ID(@object)))
+	)
+	SELECT
+		cteLines.objectId,
+		cteLines.line,
+		cteLines.ordinal lineNumber
+	FROM cteLines
+	WHERE(@skipEmpty = 0 OR LEN(cteLines.line) > 0)
 );
+

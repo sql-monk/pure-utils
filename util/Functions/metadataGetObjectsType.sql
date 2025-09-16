@@ -19,7 +19,7 @@ SELECT * FROM util.metadataGetObjectsType('myTable');
 -- Отримати типи кількох об'єктів
 SELECT * FROM util.metadataGetObjectsType('myTable,myView,myProcedure');
 */
-CREATE FUNCTION util.metadataGetObjectsType(@object NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.metadataGetObjectsType(@object NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

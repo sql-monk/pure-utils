@@ -1,24 +1,37 @@
 /*
 # Description
-Рекурсивно шукає всі входження заданого рядка у визначеннях модулів бази даних.
+Рекурсивно шукає всі входження заданого рядка у визначеннях модулів бази даних (stored procedures, functions, views, triggers).
+Використовує CTE для знаходження всіх позицій входження з можливістю фільтрації за опціями.
 
 # Parameters
-@searchFor NVARCHAR(64) - рядок для пошуку
-@options TINYINT - опції пошуку (зарезервовано для майбутнього використання)
+@searchFor NVARCHAR(64) - рядок для пошуку в тексті визначень модулів
+@options TINYINT - бітові опції пошуку:
+  - Біт 1 (2): пропускати входження перед '.' або '].'
+  - Біт 2 (4): шукати тільки цілі слова (не частини слів)
+  - Біт 3 (8): пропускати входження в quoted names ([...])
 
 # Returns
 TABLE - Повертає таблицю з колонками:
-- object_id INT - ідентифікатор об'єкта
-- occurrencePosition INT - позиція входження
+- object_id INT - ідентифікатор об'єкта модуля (sys.objects.object_id)
+- occurrencePosition INT - позиція входження в тексті визначення (1-based)
 
-# Usage
--- Знайти всі входження слова 'SELECT' в модулях
+# Usage Examples
+-- Знайти всі входження слова 'SELECT' без фільтрів
 SELECT * FROM util.modulesRecureSearchForOccurrences('SELECT', 0);
 
--- Пошук специфічного тексту
-SELECT * FROM util.modulesRecureSearchForOccurrences('BEGIN TRANSACTION', 0);
+-- Пошук цілих слів 'user' (не 'users', 'username' тощо)
+SELECT * FROM util.modulesRecureSearchForOccurrences('user', 4);
+
+-- Комбінація опцій: цілі слова + пропуск quoted names
+SELECT * FROM util.modulesRecureSearchForOccurrences('name', 12); -- 4 + 8
+
+-- Отримати детальну інформацію про знайдені об'єкти
+SELECT o.name, o.type_desc, f.occurrencePosition
+FROM util.modulesRecureSearchForOccurrences('BEGIN TRANSACTION', 0) f
+JOIN sys.objects o ON f.object_id = o.object_id
+ORDER BY o.name, f.occurrencePosition;
 */
-CREATE FUNCTION [util].[modulesRecureSearchForOccurrences](@searchFor NVARCHAR(64), @options TINYINT)
+CREATE OR ALTER FUNCTION [util].[modulesRecureSearchForOccurrences](@searchFor NVARCHAR(64), @options TINYINT)
 RETURNS TABLE
 AS
 RETURN(

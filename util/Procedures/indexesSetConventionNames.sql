@@ -38,8 +38,4 @@ BEGIN
 	BEGIN
 		EXEC sys.sp_executesql @sql;
 	END;
-END;
-
-
-
-
+END; 

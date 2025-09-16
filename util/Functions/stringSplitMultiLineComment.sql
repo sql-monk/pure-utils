@@ -20,7 +20,7 @@ SELECT * FROM util.stringMultiLineComment(@commentString);
 -- Отримати тільки опис параметрів
 SELECT * FROM util.stringMultiLineComment(@commentString) WHERE minor IS NOT NULL;
 */
-CREATE FUNCTION util.stringSplitMultiLineComment(@string NVARCHAR(MAX))
+CREATE OR ALTER FUNCTION util.stringSplitMultiLineComment(@string NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN(

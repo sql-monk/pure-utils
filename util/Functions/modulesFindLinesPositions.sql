@@ -17,7 +17,7 @@ TABLE - Повертає таблицю з колонками:
 -- Знайти всі рядки в конкретному об'єкті
 SELECT * FROM util.modulesFindLinesPositions(OBJECT_ID('myProc'));
 */
-CREATE FUNCTION [util].[modulesFindLinesPositions](@objectId INT = NULL)
+CREATE OR ALTER FUNCTION [util].[modulesFindLinesPositions](@objectId INT = NULL)
 RETURNS TABLE
 AS
 RETURN(

@@ -46,41 +46,22 @@ BEGIN
 	SET @backupName = @name + N'_' + @timestamp;
 
 	-- Check if property already exists
-	IF EXISTS (
-		SELECT 1
-		FROM sys.extended_properties
-		WHERE
-			name = @name
-			AND major_id = ISNULL(OBJECT_ID(QUOTENAME(ISNULL(@level0name, '')) + '.' + QUOTENAME(ISNULL(@level1name, ''))), 0)
-			AND minor_id = ISNULL(
-											 (SELECT column_id FROM sys.columns WHERE
-												object_id = OBJECT_ID(QUOTENAME(ISNULL(@level0name, '')) + '.' + QUOTENAME(ISNULL(@level1name, ''))) AND name = @level2name
-											 ), 0
-										)
-	)
+	IF EXISTS (SELECT * FROM sys.fn_listextendedproperty(@name, @level0type, @level0name, @level1type, @level1name, @level2type, @level2name))
 	BEGIN
 		-- Get current value for backup
+		--SELECT 
 		SELECT @currentValue = value
-		FROM sys.extended_properties
-		WHERE
-			name = @name
-			AND major_id = ISNULL(OBJECT_ID(QUOTENAME(ISNULL(@level0name, '')) + '.' + QUOTENAME(ISNULL(@level1name, ''))), 0)
-			AND minor_id = ISNULL(
-										 (SELECT column_id FROM sys.columns WHERE
-											object_id = OBJECT_ID(QUOTENAME(ISNULL(@level0name, '')) + '.' + QUOTENAME(ISNULL(@level1name, ''))) AND name = @level2name
-										 ), 0
-									);
-
-		-- Create backup copy of existing property
-		EXEC sys.sp_addextendedproperty
-			@name = @backupName,
-			@value = @currentValue,
-			@level0type = @level0type,
-			@level0name = @level0name,
-			@level1type = @level1type,
-			@level1name = @level1name,
-			@level2type = @level2type,
-			@level2name = @level2name;
+		FROM sys.fn_listextendedproperty(@name, @level0type, @level0name, @level1type, @level1name, @level2type, @level2name);
+		IF(@currentValue IS NOT NULL)
+			EXEC sys.sp_addextendedproperty
+				@name = @backupName,
+				@value = @currentValue,
+				@level0type = @level0type,
+				@level0name = @level0name,
+				@level1type = @level1type,
+				@level1name = @level1name,
+				@level2type = @level2type,
+				@level2name = @level2name;
 
 		-- Update existing property
 		EXEC sys.sp_updateextendedproperty
@@ -108,3 +89,5 @@ BEGIN
 	END;
 END;
 GO
+
+

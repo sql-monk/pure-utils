@@ -17,7 +17,7 @@ EXEC util.metadataSetParameterDescription @major = 'dbo.myProcedure', @parameter
 -- Встановити опис для параметра функції
 EXEC util.metadataSetParameterDescription @major = 'dbo.myFunction', @parameter = '@searchValue', @description = 'Значення для пошуку в таблиці';
 */
-CREATE PROCEDURE [util].[metadataSetParameterDescription]
+CREATE OR ALTER PROCEDURE [util].[metadataSetParameterDescription]
 	@major NVARCHAR(128),
 	@parameter NVARCHAR(128),
 	@description NVARCHAR(MAX)
@@ -38,7 +38,7 @@ BEGIN
 			ELSE 'PROCEDURE'
 		END
 	FROM sys.objects o (NOLOCK)
-	WHERE o.object_id = OBJECT_ID(@major);
+	WHERE o.object_id = ISNULL(TRY_CONVERT(INT, @major), OBJECT_ID(@major));
 
 	EXEC util.metadataSetExtendedProperty 
 		@name = 'MS_Description',

@@ -17,7 +17,7 @@ EXEC util.metadataSetFunctionDescription @function = 'dbo.MyScalarFunction', @de
 -- Встановити опис для табличної функції
 EXEC util.metadataSetFunctionDescription @function = 'dbo.MyTableFunction', @description = 'Функція повертає набір рядків';
 */
-CREATE PROCEDURE [util].[metadataSetFunctionDescription]
+CREATE OR ALTER PROCEDURE [util].[metadataSetFunctionDescription]
 	@function NVARCHAR(128),
 	@description NVARCHAR(MAX)
 AS

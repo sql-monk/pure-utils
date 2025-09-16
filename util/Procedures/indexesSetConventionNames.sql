@@ -17,27 +17,29 @@ EXEC util.indexesSetConventionNames @table = 'myTable', @output = 1;
 -- Перейменувати конкретний індекс без виведення
 EXEC util.indexesSetConventionNames @table = 'myTable', @index = 'oldIndexName', @output = 0;
 */
-CREATE PROCEDURE util.indexesSetConventionNames
-    @table NVARCHAR(128) = NULL,
-    @index NVARCHAR(128) = NULL,
-    @output TINYINT = 1
+CREATE PROCEDURE util.indexesSetConventionNames @table NVARCHAR(128) = NULL,
+	@index NVARCHAR(128) = NULL,
+	@output TINYINT = 1
 AS
 BEGIN
-    SET NOCOUNT ON;
+	SET NOCOUNT ON;
 
-    DECLARE @sql NVARCHAR(MAX) = '';
+	DECLARE @sql NVARCHAR(MAX) = N'';
 
-    -- Build concatenated SQL from all rename scripts
-    SELECT @sql = @sql + RenameScript + CHAR(13) + CHAR(10)
-    FROM util.indexesGetScriptConventionRename(@table, @index);
+	-- Build concatenated SQL from all rename scripts
+	SELECT @sql = @sql + statement + CHAR(13) + CHAR(10)FROM util.indexesGetScriptConventionRename(@table, @index);
 
- 
-        IF (@output & 2 = 2) PRINT @sql;
-        IF (@output & 4 = 4) SELECT CONVERT(XML, @sql) AS RenameScriptsXML;
-    END
-     
-    IF (@output & 8 = 8 AND  LEN(@sql) > 0) 
-    BEGIN
-        EXEC sp_executesql @sql;
-    END
+
+	IF(@output & 2 = 2)PRINT @sql;
+	IF(@output & 4 = 4)SELECT CONVERT(XML, @sql) RenameScriptsXML;
+
+
+	IF(@output & 8 = 8 AND LEN(@sql) > 0)
+	BEGIN
+		EXEC sys.sp_executesql @sql;
+	END;
 END;
+
+
+
+

@@ -21,28 +21,19 @@ BEGIN
 	SET NOCOUNT ON;
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
-	DECLARE @LastProcessedFileName NVARCHAR(260) = NULL;
-	DECLARE @LastProcessedFileOffset BIGINT;
+	--DECLARE @LastProcessedFileName NVARCHAR(260) = NULL;
+	--DECLARE @LastProcessedFileOffset BIGINT;
 	DECLARE @LastProcessedTimestamp DATETIME2(7);
 
 	-- Get the last processed position
-	SELECT TOP 1
-		@LastProcessedFileName = FileName,
-		@LastProcessedFileOffset = FileOffset,
-		@LastProcessedTimestamp = EventTime
-	FROM util.xeErrorLog
-	ORDER BY id DESC;
+	SELECT @LastProcessedTimestamp = MAX(EventTime)FROM util.xeErrorLog;
 
- 
-	BEGIN TRY
- 
- 
-		WITH xe_data AS (
-			SELECT
-				CAST(event_data AS XML) event_data,
-				file_name,
-				file_offset
-			FROM sys.fn_xe_file_target_read_file('utilsErrors*.xel', NULL, @LastProcessedFileName, @LastProcessedFileOffset)
+
+
+	BEGIN TRY;
+		WITH xe_data AS (SELECT CAST(event_data AS XML) event_data, file_name, file_offset FROM sys.fn_xe_file_target_read_file(
+																																														'utilsErrors*.xel', NULL, NULL, NULL
+																																														)
 		)
 		INSERT INTO util.xeErrorLog(EventTime,
 			ErrorNumber,
@@ -74,14 +65,7 @@ BEGIN
 			xe_data.file_name FileName,
 			xe_data.file_offset FileOffset
 		FROM xe_data
-		WHERE
-			-- Only get events newer than what we've already processed
-			(
-			@LastProcessedFileName IS NULL
-			OR xe_data.file_name > @LastProcessedFileName
-			OR (xe_data.file_name = @LastProcessedFileName AND xe_data.file_offset > @LastProcessedFileOffset)
-		)
-			AND (@LastProcessedTimestamp IS NULL OR xe_data.event_data.value('(event/@timestamp)[1]', 'DATETIME2(7)') > @LastProcessedTimestamp)
+		WHERE(@LastProcessedTimestamp IS NULL OR xe_data.event_data.value('(event/@timestamp)[1]', 'DATETIME2(7)') > @LastProcessedTimestamp)
 		ORDER BY EventTime;
 
 	END TRY

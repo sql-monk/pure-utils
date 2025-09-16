@@ -6,3 +6,6 @@
 /.vs
 /obj/Debug
 /util/.vs
+/.lh
+/obj
+/utils.sln

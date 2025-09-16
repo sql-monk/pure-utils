@@ -124,7 +124,21 @@
     <Build Include="util\Functions\metadataGetObjectType.sql" />
     <Build Include="util\Functions\modulesGetDescriptionFromComments.sql" />
     <Build Include="util\Functions\modulesSplitToLines.sql" />
-    <Build Include="util\Procedures\indexesRenameByPolicy.sql" />
+    <Build Include="util\Functions\myselfActiveIndexCreation.sql" />
+    <Build Include="util\Functions\myselfGetHistory.sql" />
+    <Build Include="util\Functions\objectGetHistory.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="msdb">
+      <Value>$(SqlCmdVar__1)</Value>
+      <DefaultValue>msdb</DefaultValue>
+    </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <ArtifactReference Include="..\msdb\bin\Debug\msdb.dacpac">
+      <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>msdb</DatabaseSqlCmdVariable>
+    </ArtifactReference>
   </ItemGroup>
   <Import Project="$(NETCoreTargetsPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" Condition="'$(NetCoreBuild)' == 'true'" />
   <Target Name="BeforeBuild">

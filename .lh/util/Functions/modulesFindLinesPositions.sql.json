@@ -1,0 +1,18 @@
+{
+    "sourceFile": "util/Functions/modulesFindLinesPositions.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1757953365002,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1757953365002,
+            "name": "Commit-0",
+            "content": "USE model; \r\nGO\r\nCREATE OR ALTER     FUNCTION [util].[modulesFindLinesPositions](@objectId INT = NULL)\r\nRETURNS TABLE\r\nAS\r\nRETURN(\r\nWITH cteLines\r\nAS (SELECT object_id, startPosition, endPosition FROM util.modulesRecureSearchStartEndPositionsExtended (CHAR (10), CHAR (10), 1, @objectId) ),\r\ncteFirstLine\r\nAS (SELECT l.object_id, 1 startPosition, MIN (l.startPosition) endPosition FROM cteLines l GROUP BY l.object_id),\r\ncteAllLines\r\nAS (SELECT\r\n\t\t\tfl.object_id,\r\n\t\t\tfl.startPosition,\r\n\t\t\tfl.endPosition\r\n\t\tFROM\tcteFirstLine fl\r\n\t\tWHERE fl.startPosition <> fl.endPosition\r\n\t\tUNION ALL\r\n\t\tSELECT\r\n\t\t\tl.object_id,\r\n\t\t\tl.startPosition,\r\n\t\t\tl.endPosition\r\n\t\tFROM\tcteLines l)\r\nSELECT\r\n\tal.object_id,\r\n\tal.startPosition,\r\n\tal.endPosition,\r\n\tROW_NUMBER () OVER (PARTITION BY al.object_id ORDER BY al.startPosition) lineNumber\r\nFROM\tcteAllLines al\r\n);\r\nGO\r\n\r\n"
+        }
+    ]
+}

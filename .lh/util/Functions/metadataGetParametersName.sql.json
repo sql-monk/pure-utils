@@ -1,0 +1,18 @@
+{
+    "sourceFile": "util/Functions/metadataGetParametersName.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1757965875109,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1757965875109,
+            "name": "Commit-0",
+            "content": "CREATE FUNCTION util.metadataGetParametersName(@object NVARCHAR(128) = NULL)\r\nRETURNS TABLE\r\nAS\r\nRETURN(\r\n\tSELECT DISTINCT \r\n\t\tp.name parameterName\r\n\tFROM sys.parameters p\r\n\t\tINNER JOIN sys.objects o ON p.object_id = o.object_id\r\n\tWHERE p.name IS NOT NULL -- Виключаємо системні параметри без імені\r\n\t\tAND (@object IS NULL OR o.object_id = ISNULL(TRY_CONVERT(INT, @object), OBJECT_ID(@object)))\r\n);\r\n"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Functions/metadataGetColumnName.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1757967031079,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1757967069469,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,5 @@\n--- Column name function  \r\n-USE model; \r\n-GO\r\n-USE model; \r\n-GO\r\n-CREATE OR ALTER     FUNCTION [util].[metadataGetColumnName](@major NVARCHAR(128), @columnId INT)\r\n+CREATE FUNCTION [util].[metadataGetColumnName](@major NVARCHAR(128), @columnId INT)\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n \treturn(\r\n"
+                }
+            ],
+            "date": 1757967031079,
+            "name": "Commit-0",
+            "content": "-- Column name function  \r\nUSE model; \r\nGO\r\nUSE model; \r\nGO\r\nCREATE OR ALTER     FUNCTION [util].[metadataGetColumnName](@major NVARCHAR(128), @columnId INT)\r\nRETURNS NVARCHAR(128)\r\nAS\r\nBEGIN\r\n\treturn(\r\n\t\tSELECT QUOTENAME (c.name)\r\n\t\tFROM sys.columns c (NOLOCK)\r\n\t\tWHERE c.object_id = ISNULL(TRY_CONVERT(INT, @major), OBJECT_ID(@major)) AND c.column_id = @columnId\r\n\t)\r\nEND;\r\nGO\r\n\r\n"
+        }
+    ]
+}

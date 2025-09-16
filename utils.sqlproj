@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>utils</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>947136c9-7376-458d-827e-f022ccd4ac92</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>utils</RootNamespace>
+    <AssemblyName>utils</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(NetCoreBuild)' != 'true' AND '$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(NetCoreBuild)' != 'true' AND '$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Security\util.sql" />
+    <None Include="util\Documentation\SetUtilsDescriptions.sql" />
+    <None Include="util\Functions\indexesGetConventionNames.sql" />
+    <None Include="util\Functions\indexesGetScriptConventionRename.sql" />
+    <None Include="util\Functions\metadataGetAnyId.sql" />
+    <None Include="util\Functions\metadataGetAnyName.sql" />
+    <None Include="util\Functions\metadataGetCertificateName.sql" />
+    <None Include="util\Functions\metadataGetClassByName.sql" />
+    <None Include="util\Functions\metadataGetClassName.sql" />
+    <None Include="util\Functions\metadataGetColumnId.sql" />
+    <None Include="util\Functions\metadataGetColumnName.sql" />
+    <None Include="util\Functions\metadataGetColumns.sql" />
+    <None Include="util\Functions\metadataGetDataspaceId.sql" />
+    <None Include="util\Functions\metadataGetDataspaceName.sql" />
+    <None Include="util\Functions\metadataGetDescriptions.sql" />
+    <None Include="util\Functions\metadataGetExtendedProperiesValues.sql" />
+    <None Include="util\Functions\metadataGetIndexes.sql" />
+    <None Include="util\Functions\metadataGetIndexId.sql" />
+    <None Include="util\Functions\metadataGetIndexName.sql" />
+    <None Include="util\Functions\metadataGetObjectName.sql" />
+    <None Include="util\Functions\metadataGetObjectsType.sql" />
+    <None Include="util\Functions\metadataGetObjectType.sql" />
+    <None Include="util\Functions\metadataGetParameterId.sql" />
+    <None Include="util\Functions\metadataGetParameterName.sql" />
+    <None Include="util\Functions\metadataGetParameters.sql" />
+    <None Include="util\Functions\metadataGetPartitionFunctionId.sql" />
+    <None Include="util\Functions\metadataGetPartitionFunctionName.sql" />
+    <None Include="util\Functions\modulesFindCommentsPositions.sql" />
+    <None Include="util\Functions\modulesFindInlineCommentsPositions.sql" />
+    <None Include="util\Functions\modulesFindLinesPositions.sql" />
+    <None Include="util\Functions\modulesFindMultilineCommentsPositions.sql" />
+    <None Include="util\Functions\modulesGetDescriptionFromComments.sql" />
+    <None Include="util\Functions\modulesRecureSearchForOccurrences.sql" />
+    <None Include="util\Functions\modulesRecureSearchStartEndPositions.sql" />
+    <None Include="util\Functions\modulesRecureSearchStartEndPositionsExtended.sql" />
+    <None Include="util\Functions\modulesSplitToLines.sql" />
+    <None Include="util\Functions\indexesGetScript.sql" />
+    <None Include="util\Functions\tablesGetScript.sql" />
+    <None Include="util\Procedures\errorHandler.sql" />
+    <None Include="util\Procedures\indexesSetConventionNames.sql" />
+    <None Include="util\Procedures\metadataSetColumnDescription.sql" />
+    <None Include="util\Procedures\metadataSetDataspaceDescription.sql" />
+    <None Include="util\Procedures\metadataSetExtendedProperty.sql" />
+    <None Include="util\Procedures\metadataSetFilegroupDescription.sql" />
+    <None Include="util\Procedures\metadataSetFunctionDescription.sql" />
+    <None Include="util\Procedures\metadataSetIndexDescription.sql" />
+    <None Include="util\Procedures\metadataSetParameterDescription.sql" />
+    <None Include="util\Procedures\metadataSetProcedureDescription.sql" />
+    <None Include="util\Procedures\metadataSetSchemaDescription.sql" />
+    <None Include="util\Procedures\metadataSetTableDescription.sql" />
+    <None Include="util\Procedures\metadataSetTriggerDescription.sql" />
+    <None Include="util\Procedures\metadataSetViewDescription.sql" />
+    <None Include="util\Procedures\xeErrorsToTable.sql" />
+    <None Include="util\Tables\errorLog.sql" />
+    <None Include="util\Tables\xeErrorLog.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Condition="'$(NetCoreBuild)' == 'true'">
+      <Version>1.0.0</Version>
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="util\Functions\metadataGetObjectType.sql" />
+    <Build Include="util\Functions\modulesGetDescriptionFromComments.sql" />
+    <Build Include="util\Functions\modulesSplitToLines.sql" />
+    <Build Include="util\Procedures\indexesRenameByPolicy.sql" />
+  </ItemGroup>
+  <Import Project="$(NETCoreTargetsPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" Condition="'$(NetCoreBuild)' == 'true'" />
+  <Target Name="BeforeBuild">
+    <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
+  </Target>
+</Project>

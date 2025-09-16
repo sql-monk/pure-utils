@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Functions/metadataGetIndexId.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1757966351373,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1757966357637,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,5 @@\n-USE model;\r\n-GO\r\n-CREATE OR ALTER FUNCTION util.metadataGetIndexId(@major NVARCHAR(128), @minor NVARCHAR(128))\r\n+CREATE FUNCTION util.metadataGetIndexId(@major NVARCHAR(128), @minor NVARCHAR(128))\r\n RETURNS INT\r\n AS\r\n BEGIN\r\n \tRETURN (SELECT ix.index_id FROM sys.indexes ix(NOLOCK)WHERE ix.object_id = ISNULL(TRY_CONVERT(INT, @major), OBJECT_ID(@major)) AND ix.name = @minor);\r\n"
+                }
+            ],
+            "date": 1757966351373,
+            "name": "Commit-0",
+            "content": "USE model;\r\nGO\r\nCREATE OR ALTER FUNCTION util.metadataGetIndexId(@major NVARCHAR(128), @minor NVARCHAR(128))\r\nRETURNS INT\r\nAS\r\nBEGIN\r\n\tRETURN (SELECT ix.index_id FROM sys.indexes ix(NOLOCK)WHERE ix.object_id = ISNULL(TRY_CONVERT(INT, @major), OBJECT_ID(@major)) AND ix.name = @minor);\r\nEND;\r\nGO\r\n\r\n"
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "sourceFile": "util/Functions/metadataGetDescriptions.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1757957157272,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1757957169710,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,5 @@\n-USE model;\r\n-GO\r\n-CREATE OR ALTER FUNCTION util.metadataGetDescriptions(@majorId INT = NULL, @minorId SMALLINT = NULL)\r\n+CREATE FUNCTION util.metadataGetDescriptions(@majorId INT = NULL, @minorId SMALLINT = NULL)\r\n RETURNS TABLE\r\n AS\r\n RETURN(\r\n \twith cte as (SELECT\r\n"
+                },
+                {
+                    "date": 1757961256977,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,6 +17,5 @@\n \tFROM util.metadataGetExtendedProperiesValues(@majorId, @minorId, 'Description')\r\n \t)\r\n \tSELECT Id, name, propertyValue description, typeDesc FROM cte\r\n );\r\n-GO\r\n \r\n"
+                }
+            ],
+            "date": 1757957157272,
+            "name": "Commit-0",
+            "content": "USE model;\r\nGO\r\nCREATE OR ALTER FUNCTION util.metadataGetDescriptions(@majorId INT = NULL, @minorId SMALLINT = NULL)\r\nRETURNS TABLE\r\nAS\r\nRETURN(\r\n\twith cte as (SELECT\r\n\t\tId,\r\n\t\tname,\r\n\t\tpropertyValue,\r\n\t\ttypeDesc\r\n\tFROM util.metadataGetExtendedProperiesValues(@majorId, @minorId, 'MS_Description')\r\n\tUNION ALL\r\n\tSELECT\r\n\t\tId,\r\n\t\tname,\r\n\t\tpropertyValue,\r\n\t\ttypeDesc\r\n\tFROM util.metadataGetExtendedProperiesValues(@majorId, @minorId, 'Description')\r\n\t)\r\n\tSELECT Id, name, propertyValue description, typeDesc FROM cte\r\n);\r\nGO\r\n\r\n"
+        }
+    ]
+}

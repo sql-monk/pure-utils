@@ -1,0 +1,18 @@
+{
+    "sourceFile": "util/Procedures/metadataSetDataspaceDescription.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1757964185855,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1757964185855,
+            "name": "Commit-0",
+            "content": "USE model; \r\nGO\r\nCREATE OR ALTER PROCEDURE [util].[metadataSetDataspaceDescription]\r\n\t@dataspace NVARCHAR(128),\r\n\t@description NVARCHAR(MAX)\r\nAS\r\nBEGIN\r\n\tEXEC util.metadataSetExtendedProperty \r\n\t\t@name = 'MS_Description',\r\n\t\t@value = @description,\r\n\t\t@level0type = 'PARTITION SCHEME',\r\n\t\t@level0name = @dataspace;\r\nEND;\r\nGO"
+        }
+    ]
+}

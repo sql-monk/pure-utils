@@ -1,0 +1,15 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{42EA0DBD-9CF1-443E-919E-BE9C484E4577}") = "utils", "utils.sqlproj", "{947136C9-7376-458D-827E-F022CCD4AC92}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD9902BA-616E-405B-BAB7-9690011DAAB7}
+	EndGlobalSection
+EndGlobal

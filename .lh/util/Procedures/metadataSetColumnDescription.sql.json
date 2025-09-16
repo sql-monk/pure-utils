@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Procedures/metadataSetColumnDescription.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1757963847940,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1757964185857,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n \t\t@name = 'MS_Description',\r\n \t\t@value = @description,\r\n \t\t@level0type = 'SCHEMA',\r\n \t\t@level0name = @schema_name,\r\n-\t\t@level1type = 'OBJECT_OR_COLUMN',\r\n+\t\t@level1type = 'TABLE',\r\n \t\t@level1name = @table_name,\r\n \t\t@level2type = 'COLUMN',\r\n \t\t@level2name = @column;\r\n END;\r\n"
+                }
+            ],
+            "date": 1757963847940,
+            "name": "Commit-0",
+            "content": "USE model; \r\nGO\r\nCREATE OR ALTER PROCEDURE [util].[metadataSetColumnDescription]\r\n\t@major NVARCHAR(128),\r\n\t@column NVARCHAR(128),\r\n\t@description NVARCHAR(MAX)\r\nAS\r\nBEGIN\r\n\tDECLARE @schema_name NVARCHAR(128);\r\n\tDECLARE @table_name NVARCHAR(128);\r\n\t\r\n\tSELECT @schema_name = SCHEMA_NAME(o.schema_id), @table_name = o.name\r\n\tFROM sys.objects o (NOLOCK)\r\n\tWHERE o.object_id = OBJECT_ID(@major);\r\n\r\n\tEXEC util.metadataSetExtendedProperty \r\n\t\t@name = 'MS_Description',\r\n\t\t@value = @description,\r\n\t\t@level0type = 'SCHEMA',\r\n\t\t@level0name = @schema_name,\r\n\t\t@level1type = 'OBJECT_OR_COLUMN',\r\n\t\t@level1name = @table_name,\r\n\t\t@level2type = 'COLUMN',\r\n\t\t@level2name = @column;\r\nEND;\r\nGO"
+        }
+    ]
+}

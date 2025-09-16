@@ -1,0 +1,38 @@
+{
+    "sourceFile": "util/Functions/modulesGetDescriptionFromComments.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1757956851522,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1757956900356,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,5 +10,5 @@\n \tWHERE\r\n \t\t(@object IS NULL OR object_id = CONVERT(INT, @object) OR OBJECT_NAME(object_id) = @object)\r\n \t\tAND definition LIKE '%-- Description:\t%'\r\n \t\tAND s.value LIKE '%Description:\t%'\r\n-);-- Write your own SQL object definition here, and it'll be included in your package.\r\n+);\r\n"
+                },
+                {
+                    "date": 1757956980328,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,13 +2,13 @@\n RETURNS TABLE\r\n AS\r\n RETURN(\r\n \tSELECT\r\n-\t\tCONCAT(QUOTENAME(OBJECT_SCHEMA_NAME(object_id)), '.', QUOTENAME(OBJECT_NAME(object_id))) objectName,\r\n+\t\tobject_id objectId,\r\n \t\tTRIM(REPLACE(s.value, 'Description:', '')) description\r\n \tFROM sys.sql_modules\r\n \t\tCROSS APPLY STRING_SPLIT(REPLACE(definition, '--', CHAR(31)), CHAR(31)) s\r\n \tWHERE\r\n \t\t(@object IS NULL OR object_id = CONVERT(INT, @object) OR OBJECT_NAME(object_id) = @object)\r\n \t\tAND definition LIKE '%-- Description:\t%'\r\n \t\tAND s.value LIKE '%Description:\t%'\r\n-);\r\n+);\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1757958407613,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-CREATE FUNCTION modulesGetDescriptionFromComments(@object NVARCHAR(128) = NULL)\r\n+CREATE FUNCTION util.modulesGetDescriptionFromComments(@object NVARCHAR(128) = NULL)\r\n RETURNS TABLE\r\n AS\r\n RETURN(\r\n \tSELECT\r\n"
+                },
+                {
+                    "date": 1757959519771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n \t\tTRIM(REPLACE(s.value, 'Description:', '')) description\r\n \tFROM sys.sql_modules\r\n \t\tCROSS APPLY STRING_SPLIT(REPLACE(definition, '--', CHAR(31)), CHAR(31)) s\r\n \tWHERE\r\n-\t\t(@object IS NULL OR object_id = CONVERT(INT, @object) OR OBJECT_NAME(object_id) = @object)\r\n+\t\t(@object IS NULL OR object_id = TRY_CONVERT(INT, @object) OR OBJECT_NAME(object_id) = @object)\r\n \t\tAND definition LIKE '%-- Description:\t%'\r\n \t\tAND s.value LIKE '%Description:\t%'\r\n );\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1757960927765,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,17 @@\n CREATE FUNCTION util.modulesGetDescriptionFromComments(@object NVARCHAR(128) = NULL)\r\n RETURNS TABLE\r\n AS\r\n RETURN(\r\n-\tSELECT\r\n-\t\tobject_id objectId,\r\n-\t\tTRIM(REPLACE(s.value, 'Description:', '')) description\r\n-\tFROM sys.sql_modules\r\n-\t\tCROSS APPLY STRING_SPLIT(REPLACE(definition, '--', CHAR(31)), CHAR(31)) s\r\n-\tWHERE\r\n-\t\t(@object IS NULL OR object_id = TRY_CONVERT(INT, @object) OR OBJECT_NAME(object_id) = @object)\r\n-\t\tAND definition LIKE '%-- Description:\t%'\r\n-\t\tAND s.value LIKE '%Description:\t%'\r\n+SELECT\r\n+\tlnCreate.object_id objectId,\r\n+\tTRIM(REPLACE(lnDescr.line, '-- Description:', '')) description,\r\n+\tlnDescr.ordinal lineNumber\r\n+FROM util.modulesSplitToLines(DEFAULT, DEFAULT) lnDescr\r\n+\tCROSS APPLY(\r\n+\t\tSELECT lnCreate.object_id, lnCreate.ordinal \r\n+\t\tFROM util.modulesSplitToLines(lnDescr.object_id, DEFAULT) lnCreate \r\n+\t\tWHERE lnCreate.line LIKE 'CREATE%'\r\n+) lnCreate\r\n+WHERE\r\n+\tlnDescr.line LIKE '%-- Description:%' AND lnCreate.ordinal > lnDescr.ordinal\r\n );\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1757956851522,
+            "name": "Commit-0",
+            "content": "CREATE FUNCTION modulesGetDescriptionFromComments(@object NVARCHAR(128) = NULL)\r\nRETURNS TABLE\r\nAS\r\nRETURN(\r\n\tSELECT\r\n\t\tCONCAT(QUOTENAME(OBJECT_SCHEMA_NAME(object_id)), '.', QUOTENAME(OBJECT_NAME(object_id))) objectName,\r\n\t\tTRIM(REPLACE(s.value, 'Description:', '')) description\r\n\tFROM sys.sql_modules\r\n\t\tCROSS APPLY STRING_SPLIT(REPLACE(definition, '--', CHAR(31)), CHAR(31)) s\r\n\tWHERE\r\n\t\t(@object IS NULL OR object_id = CONVERT(INT, @object) OR OBJECT_NAME(object_id) = @object)\r\n\t\tAND definition LIKE '%-- Description:\t%'\r\n\t\tAND s.value LIKE '%Description:\t%'\r\n);-- Write your own SQL object definition here, and it'll be included in your package.\r\n"
+        }
+    ]
+}

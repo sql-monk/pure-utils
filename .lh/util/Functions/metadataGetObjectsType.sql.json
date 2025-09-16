@@ -1,0 +1,18 @@
+{
+    "sourceFile": "util/Functions/metadataGetObjectsType.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1757962919146,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1757962919145,
+            "name": "Commit-0",
+            "content": "CREATE FUNCTION util.metadataGetObjectsType(@object NVARCHAR(128) = NULL)\r\nRETURNS TABLE\r\nAS\r\nRETURN(\r\n\tWITH cteSplit AS (\r\n\t\tSELECT\r\n\t\t\to.object_id objectId,\r\n\t\t\tLOWER(s.value) objectType,\r\n\t\t\tROW_NUMBER() OVER (PARTITION BY o.object_id ORDER BY s.ordinal DESC) rn\r\n\t\tFROM sys.objects o\r\n\t\t\tCROSS APPLY STRING_SPLIT(o.type_desc, '_', 1) s\r\n\t\tWHERE(@object IS NULL OR o.object_id = ISNULL(TRY_CONVERT(INT, @object), OBJECT_ID(@object)))\r\n\t)\r\n\tSELECT DISTINCT cteSplit.objectType FROM cteSplit WHERE cteSplit.rn = 1\r\n);"
+        }
+    ]
+}

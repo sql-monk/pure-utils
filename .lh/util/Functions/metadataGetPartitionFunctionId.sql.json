@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Functions/metadataGetPartitionFunctionId.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758021954375,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758024321011,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,18 @@\n+/*\r\n+# Description\r\n+Отримує ідентифікатор функції розділення за її назвою.\r\n+\r\n+# Parameters\r\n+@function NVARCHAR(128) - назва функції розділення\r\n+\r\n+# Returns\r\n+INT - ідентифікатор функції розділення або NULL якщо не знайдено\r\n+\r\n+# Usage\r\n+-- Отримати ID функції розділення\r\n+SELECT util.metadataGetPartitionFunctionId('myPartitionFunction');\r\n+*/\r\n CREATE FUNCTION util.metadataGetPartitionFunctionId(@function NVARCHAR(128))\r\n RETURNS INT\r\n AS\r\n BEGIN\r\n"
+                }
+            ],
+            "date": 1758021954375,
+            "name": "Commit-0",
+            "content": "CREATE FUNCTION util.metadataGetPartitionFunctionId(@function NVARCHAR(128))\r\nRETURNS INT\r\nAS\r\nBEGIN\r\n\tRETURN (SELECT function_id FROM sys.partition_functions(NOLOCK)WHERE name = @function);\r\nEND;\r\nGO"
+        }
+    ]
+}

@@ -1,3 +1,28 @@
+/*
+# Description
+Отримує значення розширених властивостей (extended properties) для об'єктів бази даних.
+Дозволяє фільтрувати по об'єктах та типах властивостей.
+
+# Parameters
+@major NVARCHAR(128) = NULL - основний об'єкт для пошуку (NULL = всі)
+@minor NVARCHAR(128) = NULL - додатковий об'єкт (NULL = всі)
+@property NVARCHAR(128) = NULL - назва властивості (NULL = всі властивості)
+
+# Returns
+TABLE - Повертає таблицю з колонками:
+- majorName NVARCHAR(128) - назва основного об'єкта
+- minorName NVARCHAR(128) - назва додаткового об'єкта
+- propertyName NVARCHAR(128) - назва властивості
+- propertyValue NVARCHAR(MAX) - значення властивості
+- class TINYINT - клас об'єкта
+
+# Usage
+-- Отримати всі розширені властивості для таблиці
+SELECT * FROM util.metadataGetExtendedProperiesValues('myTable', NULL, NULL);
+
+-- Отримати значення конкретної властивості
+SELECT * FROM util.metadataGetExtendedProperiesValues('myTable', 'myColumn', 'MS_Description');
+*/
 CREATE FUNCTION util.metadataGetExtendedProperiesValues(@major NVARCHAR(128) = NULL, @minor NVARCHAR(128) = NULL, @property NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS

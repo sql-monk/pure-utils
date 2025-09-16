@@ -1,3 +1,19 @@
+/*
+# Description
+Повертає текстову назву класу об'єкта за його числовим кодом.
+Зворотна функція до metadataGetClassByName.
+
+# Parameters
+@class TINYINT - числовий код класу об'єкта
+
+# Returns
+NVARCHAR(128) - текстова назва класу або NULL для невідомого коду
+
+# Usage
+-- Отримати назву класу за кодом
+SELECT util.metadataGetClassName(1); -- OBJECT_OR_COLUMN
+SELECT util.metadataGetClassName(3); -- SCHEMA
+*/
 CREATE FUNCTION util.metadataGetClassName(@class TINYINT)
 RETURNS NVARCHAR(128)
 AS

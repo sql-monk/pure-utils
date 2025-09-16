@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1757953365002,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758021996728,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,5 @@\n-USE model; \r\n-GO\r\n-CREATE OR ALTER     FUNCTION [util].[modulesFindLinesPositions](@objectId INT = NULL)\r\n+CREATE FUNCTION [util].[modulesFindLinesPositions](@objectId INT = NULL)\r\n RETURNS TABLE\r\n AS\r\n RETURN(\r\n WITH cteLines\r\n"
+                },
+                {
+                    "date": 1758024321013,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,23 @@\n+/*\r\n+# Description\r\n+Знаходить позиції всіх рядків у модулях бази даних, включаючи перший рядок.\r\n+Нумерує рядки та визначає їх початкові та кінцеві позиції.\r\n+\r\n+# Parameters\r\n+@objectId INT = NULL - ідентифікатор об'єкта для пошуку рядків (NULL = усі об'єкти)\r\n+\r\n+# Returns\r\n+TABLE - Повертає таблицю з колонками:\r\n+- object_id INT - ідентифікатор об'єкта\r\n+- startPosition INT - позиція початку рядка\r\n+- endPosition INT - позиція кінця рядка\r\n+- lineNumber INT - номер рядка\r\n+\r\n+# Usage\r\n+-- Знайти всі рядки в конкретному об'єкті\r\n+SELECT * FROM util.modulesFindLinesPositions(OBJECT_ID('myProc'));\r\n+*/\r\n CREATE FUNCTION [util].[modulesFindLinesPositions](@objectId INT = NULL)\r\n RETURNS TABLE\r\n AS\r\n RETURN(\r\n"
                 }
             ],
             "date": 1757953365002,

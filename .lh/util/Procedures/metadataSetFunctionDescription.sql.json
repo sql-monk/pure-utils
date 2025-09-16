@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Procedures/metadataSetFunctionDescription.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758022108956,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758024321037,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,23 @@\n \r\n+/*\r\n+# Description\r\n+Встановлює опис для функції через розширені властивості MS_Description.\r\n+\r\n+# Parameters\r\n+@function NVARCHAR(128) - назва функції\r\n+@description NVARCHAR(MAX) - текст опису для функції\r\n+\r\n+# Returns\r\n+Нічого не повертає. Встановлює розширену властивість MS_Description для функції\r\n+\r\n+# Usage\r\n+-- Встановити опис для скалярної функції\r\n+EXEC util.metadataSetFunctionDescription @function = 'dbo.MyScalarFunction', @description = 'Функція розрахунку значення';\r\n+\r\n+-- Встановити опис для табличної функції\r\n+EXEC util.metadataSetFunctionDescription @function = 'dbo.MyTableFunction', @description = 'Функція повертає набір рядків';\r\n+*/\r\n CREATE PROCEDURE [util].[metadataSetFunctionDescription]\r\n \t@function NVARCHAR(128),\r\n \t@description NVARCHAR(MAX)\r\n AS\r\n"
+                }
+            ],
+            "date": 1758022108956,
+            "name": "Commit-0",
+            "content": "\r\nCREATE PROCEDURE [util].[metadataSetFunctionDescription]\r\n\t@function NVARCHAR(128),\r\n\t@description NVARCHAR(MAX)\r\nAS\r\nBEGIN\r\n\tDECLARE @schema_name NVARCHAR(128);\r\n\tDECLARE @function_name NVARCHAR(128);\r\n\t\r\n\tSELECT @schema_name = SCHEMA_NAME(o.schema_id), @function_name = o.name\r\n\tFROM sys.objects o (NOLOCK)\r\n\tWHERE o.object_id = ISNULL(TRY_CONVERT(INT, @function), OBJECT_ID(@function));\r\n\r\n\tEXEC util.metadataSetExtendedProperty \r\n\t\t@name = 'MS_Description',\r\n\t\t@value = @description,\r\n\t\t@level0type = 'SCHEMA',\r\n\t\t@level0name = @schema_name,\r\n\t\t@level1type = 'FUNCTION',\r\n\t\t@level1name = @function_name;\r\nEND;\r\nGO"
+        }
+    ]
+}

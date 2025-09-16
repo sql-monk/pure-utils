@@ -1,0 +1,26 @@
+{
+    "sourceFile": "util/Functions/modulesFindCommentsPositions.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1758021964074,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758021969720,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,5 @@\n-\r\n-USE model;\r\n-GO\r\n-CREATE OR ALTER FUNCTION util.modulesFindCommentsPositions(@objectId INT = NULL)\r\n+CREATE FUNCTION util.modulesFindCommentsPositions(@objectId INT = NULL)\r\n RETURNS TABLE\r\n AS\r\n RETURN(\r\n \tSELECT object_id, startPosition, endPosition FROM util.modulesFindMultilineCommentsPositions(@objectId)\r\n"
+                },
+                {
+                    "date": 1758024321012,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,25 @@\n+/*\r\n+# Description\r\n+Знаходить позиції всіх коментарів (багаторядкових та однорядкових) у модулях бази даних.\r\n+Об'єднує результати з функцій пошуку багаторядкових та однорядкових коментарів.\r\n+\r\n+# Parameters\r\n+@objectId INT = NULL - ідентифікатор об'єкта для пошуку коментарів (NULL = усі об'єкти)\r\n+\r\n+# Returns\r\n+TABLE - Повертає таблицю з колонками:\r\n+- object_id INT - ідентифікатор об'єкта\r\n+- startPosition INT - позиція початку коментаря\r\n+- endPosition INT - позиція кінця коментаря\r\n+\r\n+# Usage\r\n+-- Знайти всі коментарі в конкретному об'єкті\r\n+SELECT * FROM util.modulesFindCommentsPositions(OBJECT_ID('myProc'));\r\n+\r\n+-- Знайти всі коментарі в усіх об'єктах\r\n+SELECT * FROM util.modulesFindCommentsPositions(NULL);\r\n+*/\r\n CREATE FUNCTION util.modulesFindCommentsPositions(@objectId INT = NULL)\r\n RETURNS TABLE\r\n AS\r\n RETURN(\r\n"
+                }
+            ],
+            "date": 1758021964074,
+            "name": "Commit-0",
+            "content": "\r\nUSE model;\r\nGO\r\nCREATE OR ALTER FUNCTION util.modulesFindCommentsPositions(@objectId INT = NULL)\r\nRETURNS TABLE\r\nAS\r\nRETURN(\r\n\tSELECT object_id, startPosition, endPosition FROM util.modulesFindMultilineCommentsPositions(@objectId)\r\n\tUNION ALL\r\n\tSELECT\r\n\t\tic.object_id,\r\n\t\tic.startPosition,\r\n\t\tic.endPosition\r\n\tFROM util.modulesFindInlineCommentsPositions(@objectId) ic\r\n\t\tOUTER APPLY util.modulesFindMultilineCommentsPositions(@objectId) mc\r\n\tWHERE\r\n\t\tic.startPosition NOT BETWEEN ISNULL(mc.startPosition, 0) AND ISNULL(mc.endPosition, 0)\r\n);\r\nGO\r\n\r\n"
+        }
+    ]
+}

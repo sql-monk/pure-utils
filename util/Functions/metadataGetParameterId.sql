@@ -1,4 +1,22 @@
-CREATE FUNCTION util.metadataGetParameterId(@object INT, @parameterName NVARCHAR(128))
+/*
+# Description
+Отримує ідентифікатор параметра для вказаного об'єкта бази даних.
+
+# Parameters
+@object NVARCHAR(128) - назва або ID об'єкта бази даних
+@parameterName NVARCHAR(128) - назва параметра
+
+# Returns
+INT - ідентифікатор параметра або NULL якщо параметр не знайдено
+
+# Usage
+-- Отримати ID параметра процедури
+SELECT util.metadataGetParameterId('myProcedure', '@param1');
+
+-- Використовуючи object_id
+SELECT util.metadataGetParameterId('1234567890', '@param1');
+*/
+CREATE FUNCTION util.metadataGetParameterId(@object NVARCHAR(128), @parameterName NVARCHAR(128))
 RETURNS INT
 AS
 BEGIN

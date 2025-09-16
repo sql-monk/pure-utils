@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1757957157272,
@@ -16,6 +16,10 @@
                 {
                     "date": 1757961256977,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,6 +17,5 @@\n \tFROM util.metadataGetExtendedProperiesValues(@majorId, @minorId, 'Description')\r\n \t)\r\n \tSELECT Id, name, propertyValue description, typeDesc FROM cte\r\n );\r\n-GO\r\n \r\n"
+                },
+                {
+                    "date": 1758024321010,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,21 +1,41 @@\n-CREATE FUNCTION util.metadataGetDescriptions(@majorId INT = NULL, @minorId SMALLINT = NULL)\r\n+/*\r\n+# Description\r\n+Отримує описи (extended properties) для об'єктів бази даних за заданими критеріями.\r\n+Працює з розширеними властивостями типу MS_Description.\r\n+\r\n+# Parameters\r\n+@major NVARCHAR(128) - основний об'єкт для пошуку описів\r\n+@minor NVARCHAR(128) - додатковий об'єкт (колонка, параметр тощо)\r\n+\r\n+# Returns\r\n+TABLE - Повертає таблицю з колонками:\r\n+- majorId INT - ідентифікатор основного об'єкта\r\n+- minorId INT - ідентифікатор додаткового об'єкта\r\n+- class TINYINT - клас об'єкта\r\n+- description NVARCHAR(MAX) - текст опису\r\n+\r\n+# Usage\r\n+-- Отримати описи для конкретної таблиці та її колонок\r\n+SELECT * FROM util.metadataGetDescriptions('myTable', 'myColumn');\r\n+*/\r\n+CREATE FUNCTION util.metadataGetDescriptions(@major NVARCHAR(128), @minor NVARCHAR(128))\r\n RETURNS TABLE\r\n AS\r\n RETURN(\r\n-\twith cte as (SELECT\r\n+\tWITH cte AS (SELECT\r\n \t\tId,\r\n \t\tname,\r\n \t\tpropertyValue,\r\n \t\ttypeDesc\r\n-\tFROM util.metadataGetExtendedProperiesValues(@majorId, @minorId, 'MS_Description')\r\n+\tFROM util.metadataGetExtendedProperiesValues(@major, @minor, 'MS_Description')\r\n \tUNION ALL\r\n \tSELECT\r\n \t\tId,\r\n \t\tname,\r\n \t\tpropertyValue,\r\n \t\ttypeDesc\r\n-\tFROM util.metadataGetExtendedProperiesValues(@majorId, @minorId, 'Description')\r\n+\tFROM util.metadataGetExtendedProperiesValues(@major, @minor, 'Description')\r\n \t)\r\n \tSELECT Id, name, propertyValue description, typeDesc FROM cte\r\n );\r\n \r\n"
                 }
             ],
             "date": 1757957157272,

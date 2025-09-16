@@ -1,4 +1,25 @@
-ALTER FUNCTION util.modulesGetDescriptionFromComments(@object NVARCHAR(128) = NULL)
+/*
+# Description
+Витягує описи об'єктів з коментарів у вихідному коді модулів, шукаючи рядки що починаються з '-- Description:'.
+
+# Parameters
+@object NVARCHAR(128) = NULL - назва об'єкта для пошуку описів (NULL = усі об'єкти)
+
+# Returns
+TABLE - Повертає таблицю з колонками:
+- objectId INT - ідентифікатор об'єкта
+- schemaName NVARCHAR(128) - назва схеми
+- objectName NVARCHAR(128) - назва об'єкта
+- description NVARCHAR(MAX) - витягнутий опис з коментарів
+
+# Usage
+-- Витягти описи з коментарів для конкретного об'єкта
+SELECT * FROM util.modulesGetDescriptionFromComments('myProc');
+
+-- Витягти описи для всіх об'єктів
+SELECT * FROM util.modulesGetDescriptionFromComments(NULL);
+*/
+CREATE FUNCTION util.modulesGetDescriptionFromComments(@object NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

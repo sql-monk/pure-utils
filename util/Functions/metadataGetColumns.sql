@@ -1,3 +1,17 @@
+/*
+# Description
+Отримує детальну інформацію про всі стовпці таблиці або представлення.
+
+# Parameters
+@object NVARCHAR(128) = NULL - назва об'єкта або NULL для всіх таблиць
+
+# Returns
+Таблиця з колонками: column_id, name, system_type_name, max_length, precision, scale, is_nullable, is_identity
+
+# Usage
+SELECT * FROM util.metadataGetColumns('dbo.MyTable');
+-- Отримати інформацію про всі стовпці таблиці
+*/
 CREATE FUNCTION util.metadataGetColumns(@object NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS

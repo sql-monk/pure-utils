@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Functions/metadataGetParameterName.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758021937590,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758024321011,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,19 @@\n+/*\r\n+# Description\r\n+Отримує повну назву параметра об'єкта за його ідентифікаторами.\r\n+\r\n+# Parameters\r\n+@majorId INT - ідентифікатор об'єкта (object_id)\r\n+@minorId INT - ідентифікатор параметра (parameter_id)\r\n+\r\n+# Returns\r\n+NVARCHAR(128) - повна назва у форматі \"схема.об'єкт (параметр)\" або NULL якщо не знайдено\r\n+\r\n+# Usage\r\n+-- Отримати назву параметра за ID\r\n+SELECT util.metadataGetParameterName(OBJECT_ID('myProc'), 1);\r\n+*/\r\n USE model;\r\n GO\r\n CREATE OR ALTER FUNCTION util.metadataGetParameterName(@majorId INT, @minorId INT)\r\n RETURNS NVARCHAR(128)\r\n"
+                }
+            ],
+            "date": 1758021937590,
+            "name": "Commit-0",
+            "content": "USE model;\r\nGO\r\nCREATE OR ALTER FUNCTION util.metadataGetParameterName(@majorId INT, @minorId INT)\r\nRETURNS NVARCHAR(128)\r\nAS\r\nBEGIN\r\n\tRETURN (\r\n\t\tSELECT CONCAT(QUOTENAME(SCHEMA_NAME(o.schema_id)), '.', QUOTENAME(o.name), ' (', p.name, ')')\r\n\t\tFROM sys.parameters p(NOLOCK)\r\n\t\t\tINNER JOIN sys.objects o(NOLOCK)ON p.object_id = o.object_id\r\n\t\tWHERE\r\n\t\t\tp.object_id = @majorId AND p.parameter_id = @minorId\r\n\t);\r\nEND;\r\nGO\r\n\r\n"
+        }
+    ]
+}

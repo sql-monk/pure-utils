@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1757967340985,
@@ -12,6 +12,14 @@
                 {
                     "date": 1757967346607,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,5 @@\n--- Dataspace name function\r\n-USE model;\r\n-GO\r\n-CREATE OR ALTER FUNCTION util.metadataGetDataspaceName(@dataSpaceId INT)\r\n+CREATE FUNCTION util.metadataGetDataspaceName(@dataSpaceId INT)\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n \tRETURN (SELECT QUOTENAME(name) name FROM sys.data_spaces(NOLOCK)WHERE data_space_id = @majorId);\r\n"
+                },
+                {
+                    "date": 1758022338807,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n CREATE FUNCTION util.metadataGetDataspaceName(@dataSpaceId INT)\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n-\tRETURN (SELECT QUOTENAME(name) name FROM sys.data_spaces(NOLOCK)WHERE data_space_id = @majorId);\r\n+\tRETURN (SELECT QUOTENAME(name) name FROM sys.data_spaces(NOLOCK)WHERE data_space_id = @dataSpaceId);\r\n END;\r\n GO\r\n \r\n"
+                },
+                {
+                    "date": 1758024321003,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,22 @@\n+/*\r\n+# Description\r\n+Отримує назву простору даних (data space) за його ідентифікатором.\r\n+Повертає назву в квадратних дужках для безпечного використання в SQL.\r\n+\r\n+# Parameters\r\n+@dataSpaceId INT - ідентифікатор простору даних\r\n+\r\n+# Returns\r\n+NVARCHAR(128) - назва простору даних в квадратних дужках або NULL якщо не знайдено\r\n+\r\n+# Usage\r\n+-- Отримати назву файлової групи за ID\r\n+SELECT util.metadataGetDataspaceName(1);\r\n+\r\n+-- Отримати назву схеми розділення за ID\r\n+SELECT util.metadataGetDataspaceName(65537);\r\n+*/\r\n CREATE FUNCTION util.metadataGetDataspaceName(@dataSpaceId INT)\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n"
                 }
             ],
             "date": 1757967340985,

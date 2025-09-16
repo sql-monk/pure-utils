@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1757961364998,
@@ -24,6 +24,10 @@
                 {
                     "date": 1757963283412,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,15 +1,7 @@\n-CREATE FUNCTION util.metadataGetObjectsType(@object NVARCHAR(128) = NULL)\r\n-RETURNS TABLE\r\n+CREATE FUNCTION util.metadataGetObjectType(@object NVARCHAR(128))\r\n+RETURNS NVARCHAR(60)\r\n AS\r\n-RETURN(\r\n-\tWITH cteSplit AS (\r\n-\t\tSELECT\r\n-\t\t\to.object_id objectId,\r\n-\t\t\tLOWER(s.value) objectType,\r\n-\t\t\tROW_NUMBER() OVER (PARTITION BY o.object_id ORDER BY s.ordinal DESC) rn\r\n-\t\tFROM sys.objects o\r\n-\t\t\tCROSS APPLY STRING_SPLIT(o.type_desc, '_', 1) s\r\n-\t\tWHERE(@object IS NULL OR o.object_id = ISNULL(TRY_CONVERT(INT, @object), OBJECT_ID(@object)))\r\n-\t)\r\n\\ No newline at end of file\n-\tSELECT DISTINCT cteSplit.objectType FROM cteSplit WHERE cteSplit.rn = 1\r\n-);\n+BEGIN\r\n+    RETURN (SELECT objectType FROM util.metadataGetObjectsType(@object)) ;\r\n+END\r\n+  \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1758024321020,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,22 @@\n+/*\r\n+# Description\r\n+Отримує тип об'єкта бази даних за його назвою.\r\n+Спрощена версія metadataGetObjectsType для отримання одного значення.\r\n+\r\n+# Parameters\r\n+@object NVARCHAR(128) - назва об'єкта бази даних\r\n+\r\n+# Returns\r\n+NVARCHAR(60) - тип об'єкта (наприклад, 'U' для таблиці, 'P' для процедури, 'FN' для функції)\r\n+\r\n+# Usage\r\n+-- Отримати тип об'єкта\r\n+SELECT util.metadataGetObjectType('myTable');\r\n+\r\n+-- Перевірити чи є об'єкт таблицею\r\n+SELECT CASE WHEN util.metadataGetObjectType('myTable') = 'U' THEN 'Table' ELSE 'Not Table' END;\r\n+*/\r\n CREATE FUNCTION util.metadataGetObjectType(@object NVARCHAR(128))\r\n RETURNS NVARCHAR(60)\r\n AS\r\n BEGIN\r\n"
                 }
             ],
             "date": 1757961364998,

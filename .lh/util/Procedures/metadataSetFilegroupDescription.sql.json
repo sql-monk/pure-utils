@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Procedures/metadataSetFilegroupDescription.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758022104153,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758024321039,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,22 @@\n+/*\r\n+# Description\r\n+Встановлює опис для файлової групи через розширені властивості MS_Description.\r\n+\r\n+# Parameters\r\n+@filegroup NVARCHAR(128) - назва файлової групи\r\n+@description NVARCHAR(MAX) - текст опису для файлової групи\r\n+\r\n+# Returns\r\n+Нічого не повертає. Встановлює розширену властивість MS_Description для файлової групи\r\n+\r\n+# Usage\r\n+-- Встановити опис для файлової групи\r\n+EXEC util.metadataSetFilegroupDescription @filegroup = 'PRIMARY', @description = 'Основна файлова група системи';\r\n+\r\n+-- Встановити опис для додаткової файлової групи\r\n+EXEC util.metadataSetFilegroupDescription @filegroup = 'DATA_FG', @description = 'Файлова група для користувацьких даних';\r\n+*/\r\n CREATE PROCEDURE [util].[metadataSetFilegroupDescription]\r\n \t@filegroup NVARCHAR(128),\r\n \t@description NVARCHAR(MAX)\r\n AS\r\n"
+                }
+            ],
+            "date": 1758022104153,
+            "name": "Commit-0",
+            "content": "CREATE PROCEDURE [util].[metadataSetFilegroupDescription]\r\n\t@filegroup NVARCHAR(128),\r\n\t@description NVARCHAR(MAX)\r\nAS\r\nBEGIN\r\n\tEXEC util.metadataSetExtendedProperty \r\n\t\t@name = 'MS_Description',\r\n\t\t@value = @description,\r\n\t\t@level0type = 'FILEGROUP',\r\n\t\t@level0name = @filegroup;\r\nEND;\r\nGO"
+        }
+    ]
+}

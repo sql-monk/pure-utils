@@ -1,6 +1,23 @@
-USE model; 
-GO
-CREATE OR ALTER PROCEDURE [util].[metadataSetIndexDescription]
+/*
+# Description
+Встановлює опис для індексу через розширені властивості MS_Description.
+
+# Parameters
+@major NVARCHAR(128) - назва таблиці або object_id
+@index NVARCHAR(128) - назва індексу
+@description NVARCHAR(MAX) - текст опису для індексу
+
+# Returns
+Нічого не повертає. Встановлює розширену властивість MS_Description для індексу
+
+# Usage
+-- Встановити опис для індексу
+EXEC util.metadataSetIndexDescription @major = 'dbo.myTable', @index = 'IX_myTable_Column1', @description = 'Індекс для швидкого пошуку по Column1';
+
+-- Встановити опис для первинного ключа
+EXEC util.metadataSetIndexDescription @major = 'dbo.myTable', @index = 'PK_myTable', @description = 'Первинний ключ таблиці';
+*/
+CREATE PROCEDURE [util].[metadataSetIndexDescription]
 	@major NVARCHAR(128),
 	@index NVARCHAR(128),
 	@description NVARCHAR(MAX)

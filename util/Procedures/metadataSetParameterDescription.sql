@@ -1,6 +1,23 @@
-USE model; 
-GO
-CREATE OR ALTER PROCEDURE [util].[metadataSetParameterDescription]
+/*
+# Description
+Встановлює опис для параметра процедури або функції через розширені властивості MS_Description.
+
+# Parameters
+@major NVARCHAR(128) - назва процедури або функції
+@parameter NVARCHAR(128) - назва параметра
+@description NVARCHAR(MAX) - текст опису для параметра
+
+# Returns
+Нічого не повертає. Встановлює розширену властивість MS_Description для параметра
+
+# Usage
+-- Встановити опис для параметра процедури
+EXEC util.metadataSetParameterDescription @major = 'dbo.myProcedure', @parameter = '@inputParam', @description = 'Вхідний параметр для фільтрації';
+
+-- Встановити опис для параметра функції
+EXEC util.metadataSetParameterDescription @major = 'dbo.myFunction', @parameter = '@searchValue', @description = 'Значення для пошуку в таблиці';
+*/
+CREATE PROCEDURE [util].[metadataSetParameterDescription]
 	@major NVARCHAR(128),
 	@parameter NVARCHAR(128),
 	@description NVARCHAR(MAX)

@@ -1,3 +1,21 @@
+/*
+# Description
+Встановлює опис для тригера через розширені властивості MS_Description.
+
+# Parameters
+@trigger NVARCHAR(128) - назва тригера
+@description NVARCHAR(MAX) - текст опису для тригера
+
+# Returns
+Нічого не повертає. Встановлює розширену властивість MS_Description для тригера
+
+# Usage
+-- Встановити опис для тригера INSERT
+EXEC util.metadataSetTriggerDescription @trigger = 'dbo.tr_Customers_Insert', @description = 'Тригер для логування додавання нових клієнтів';
+
+-- Встановити опис для тригера UPDATE
+EXEC util.metadataSetTriggerDescription @trigger = 'dbo.tr_Orders_Update', @description = 'Тригер для перевірки бізнес-правил при оновленні замовлень';
+*/
 CREATE PROCEDURE [util].[metadataSetTriggerDescription]
 	@trigger NVARCHAR(128),
 	@description NVARCHAR(MAX)

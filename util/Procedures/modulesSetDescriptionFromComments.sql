@@ -1,4 +1,23 @@
 
+/*
+# Description
+Встановлює описи для об'єктів бази даних, витягуючи їх з коментарів у вихідному коді модулів.
+Автоматично аналізує коментарі типу "-- Description:" та встановлює відповідні розширені властивості.
+
+# Parameters
+@object NVARCHAR(128) - назва об'єкта для обробки
+@OnlyEmpty BIT = 1 - встановлювати описи тільки для об'єктів без існуючих описів (1) або для всіх (0)
+
+# Returns
+Нічого не повертає. Встановлює розширені властивості MS_Description на основі коментарів
+
+# Usage
+-- Встановити описи з коментарів для конкретного об'єкта
+EXEC util.modulesSetDescriptionFromComments @object = 'myProcedure', @OnlyEmpty = 1;
+
+-- Оновити описи для всіх об'єктів навіть якщо вони вже існують
+EXEC util.modulesSetDescriptionFromComments @object = 'myFunction', @OnlyEmpty = 0;
+*/
 --CREATE PROCEDURE util.modulesSetDescriptionFromComments @object NVARCHAR(128), @OnlyEmpty BIT = 1
 --AS
 --BEGIN

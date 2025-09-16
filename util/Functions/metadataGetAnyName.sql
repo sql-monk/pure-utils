@@ -1,3 +1,23 @@
+/*
+# Description
+Універсальна функція для отримання імені будь-якого об'єкта бази даних за його ID та класом.
+Дозволяє отримувати імена для різних типів об'єктів залежно від їх класу.
+
+# Parameters
+@majorId INT - основний ідентифікатор об'єкта
+@minorId INT = 0 - додатковий ідентифікатор (для колонок, індексів, параметрів)
+@class NVARCHAR(128) = '1' - клас об'єкта (число або текстова назва)
+
+# Returns
+NVARCHAR(128) - ім'я відповідного об'єкта
+
+# Usage
+-- Отримати ім'я таблиці за object_id
+SELECT util.metadataGetAnyName(OBJECT_ID('dbo.MyTable'), 0, '1');
+
+-- Отримати ім'я колонки
+SELECT util.metadataGetAnyName(OBJECT_ID('dbo.MyTable'), 1, '1');
+*/
 CREATE FUNCTION [util].[metadataGetAnyName](@majorId INT, @minorId INT = 0, @class NVARCHAR(128) = '1')
 RETURNS NVARCHAR(128)
 AS

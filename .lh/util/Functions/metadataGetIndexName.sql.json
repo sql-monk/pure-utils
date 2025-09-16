@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1757966970500,
@@ -12,6 +12,10 @@
                 {
                     "date": 1757966977764,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,5 @@\n--- Index name function\r\n-USE model;\r\n-GO\r\n-CREATE OR ALTER     FUNCTION [util].[metadataGetIndexName](@major NVARCHAR(128), @indexId INT)\r\n+CREATE FUNCTION [util].[metadataGetIndexName](@major NVARCHAR(128), @indexId INT)\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n \tRETURN (\r\n"
+                },
+                {
+                    "date": 1758024321008,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,22 @@\n+/*\r\n+# Description\r\n+Отримує назву індексу за ідентифікатором таблиці та ідентифікатором індексу.\r\n+\r\n+# Parameters\r\n+@major NVARCHAR(128) - назва таблиці або object_id\r\n+@indexId INT - ідентифікатор індексу\r\n+\r\n+# Returns\r\n+NVARCHAR(128) - повна назва індексу у форматі \"схема.таблиця (індекс)\" або NULL якщо не знайдено\r\n+\r\n+# Usage\r\n+-- Отримати назву індексу за ID\r\n+SELECT util.metadataGetIndexName('myTable', 2);\r\n+\r\n+-- Використовуючи object_id таблиці\r\n+SELECT util.metadataGetIndexName('1234567890', 2);\r\n+*/\r\n CREATE FUNCTION [util].[metadataGetIndexName](@major NVARCHAR(128), @indexId INT)\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n"
                 }
             ],
             "date": 1757966970500,

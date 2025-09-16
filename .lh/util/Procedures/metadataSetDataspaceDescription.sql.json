@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1757964185855,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758022090818,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,5 @@\n-USE model; \r\n-GO\r\n-CREATE OR ALTER PROCEDURE [util].[metadataSetDataspaceDescription]\r\n+CREATE PROCEDURE [util].[metadataSetDataspaceDescription]\r\n \t@dataspace NVARCHAR(128),\r\n \t@description NVARCHAR(MAX)\r\n AS\r\n BEGIN\r\n"
+                },
+                {
+                    "date": 1758024321035,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,22 @@\n+/*\r\n+# Description\r\n+Встановлює опис для простору даних (файлової групи або схеми розділення) через розширені властивості MS_Description.\r\n+\r\n+# Parameters\r\n+@dataspace NVARCHAR(128) - назва простору даних\r\n+@description NVARCHAR(MAX) - текст опису для простору даних\r\n+\r\n+# Returns\r\n+Нічого не повертає. Встановлює розширену властивість MS_Description для простору даних\r\n+\r\n+# Usage\r\n+-- Встановити опис для файлової групи\r\n+EXEC util.metadataSetDataspaceDescription @dataspace = 'PRIMARY', @description = 'Основна файлова група';\r\n+\r\n+-- Встановити опис для схеми розділення\r\n+EXEC util.metadataSetDataspaceDescription @dataspace = 'MyPartitionScheme', @description = 'Схема розділення по датах';\r\n+*/\r\n CREATE PROCEDURE [util].[metadataSetDataspaceDescription]\r\n \t@dataspace NVARCHAR(128),\r\n \t@description NVARCHAR(MAX)\r\n AS\r\n"
                 }
             ],
             "date": 1757964185855,

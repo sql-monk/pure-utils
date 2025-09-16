@@ -1,8 +1,22 @@
 /*
-@options:
-2 - skip before dot (skip if next char = '.' or nex two = '].'
-4 - single word (skip if prev or next char is latter)
-8 - skip quotename (skip if prev char = '[' or next = ']')
+# Description
+Рекурсивно шукає всі входження заданого рядка у визначеннях модулів бази даних.
+
+# Parameters
+@searchFor NVARCHAR(64) - рядок для пошуку
+@options TINYINT - опції пошуку (зарезервовано для майбутнього використання)
+
+# Returns
+TABLE - Повертає таблицю з колонками:
+- object_id INT - ідентифікатор об'єкта
+- occurrencePosition INT - позиція входження
+
+# Usage
+-- Знайти всі входження слова 'SELECT' в модулях
+SELECT * FROM util.modulesRecureSearchForOccurrences('SELECT', 0);
+
+-- Пошук специфічного тексту
+SELECT * FROM util.modulesRecureSearchForOccurrences('BEGIN TRANSACTION', 0);
 */
 CREATE FUNCTION [util].[modulesRecureSearchForOccurrences](@searchFor NVARCHAR(64), @options TINYINT)
 RETURNS TABLE

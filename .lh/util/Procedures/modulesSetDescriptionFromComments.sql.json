@@ -1,0 +1,18 @@
+{
+    "sourceFile": "util/Procedures/modulesSetDescriptionFromComments.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1758024320998,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1758024320998,
+            "name": "Commit-0",
+            "content": "\r\n/*\r\n# Description\r\nВстановлює описи для об'єктів бази даних, витягуючи їх з коментарів у вихідному коді модулів.\r\nАвтоматично аналізує коментарі типу \"-- Description:\" та встановлює відповідні розширені властивості.\r\n\r\n# Parameters\r\n@object NVARCHAR(128) - назва об'єкта для обробки\r\n@OnlyEmpty BIT = 1 - встановлювати описи тільки для об'єктів без існуючих описів (1) або для всіх (0)\r\n\r\n# Returns\r\nНічого не повертає. Встановлює розширені властивості MS_Description на основі коментарів\r\n\r\n# Usage\r\n-- Встановити описи з коментарів для конкретного об'єкта\r\nEXEC util.modulesSetDescriptionFromComments @object = 'myProcedure', @OnlyEmpty = 1;\r\n\r\n-- Оновити описи для всіх об'єктів навіть якщо вони вже існують\r\nEXEC util.modulesSetDescriptionFromComments @object = 'myFunction', @OnlyEmpty = 0;\r\n*/\r\n--CREATE PROCEDURE util.modulesSetDescriptionFromComments @object NVARCHAR(128), @OnlyEmpty BIT = 1\r\n--AS\r\n--BEGIN\r\n\r\n--DECLARE @cmd NVARCHAR(max);\r\nWITH cteCD AS (\r\n\tSELECT\r\n\t\tcd.objectId,\r\n\t\tcd.description,\r\n\t\tutil.metadataGetObjectType(cd.objectId) objectType\r\n\tFROM util.modulesGetDescriptionFromComments(DEFAULT) cd\r\n\tWHERE NOT EXISTS (SELECT * FROM util.metadataGetDescriptions(cd.objectId, DEFAULT) )\r\n),\r\nctePre AS (\r\n\tSELECT\r\n\t\tutil.metadataGetObjectName(cd.objectId) objName,\r\n\t\tSTUFF(cd.objectType, 1, 1, UPPER(LEFT(cd.objectType, 1))) objType,\r\n\t\tCONCAT('''', REPLACE(cd.description, '''', ''''''), '''') objDescr\r\n\tFROM cteCD cd\r\n)\r\nSELECT CONCAT('EXEC util.metadataSet', c.objType, 'Description ''', c.objName,''', ',  c.objDescr) FROM ctePre c;\r\n--END\r\n--EXEC util.metadataSetTableDescription\r\n--\t@table = N'', -- nvarchar(128)\r\n--\t@description = N'' -- nvarchar(max)\r\n"
+        }
+    ]
+}

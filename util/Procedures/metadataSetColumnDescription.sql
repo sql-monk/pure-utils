@@ -1,3 +1,23 @@
+
+/*
+# Description
+Встановлює опис для колонки таблиці чи представлення через розширені властивості MS_Description.
+
+# Parameters
+@object NVARCHAR(128) - назва таблиці або представлення
+@column NVARCHAR(128) - назва колонки
+@description NVARCHAR(MAX) - текст опису для колонки
+
+# Returns
+Нічого не повертає. Встановлює розширену властивість MS_Description для колонки
+
+# Usage
+-- Встановити опис для колонки таблиці
+EXEC util.metadataSetColumnDescription @object = 'myTable', @column = 'myColumn', @description = 'Опис колонки';
+
+-- Встановити опис для колонки представлення
+EXEC util.metadataSetColumnDescription @object = 'myView', @column = 'calculatedColumn', @description = 'Розрахункова колонка';
+*/
 CREATE PROCEDURE util.metadataSetColumnDescription 
 	@object NVARCHAR(128),
 	@column NVARCHAR(128),

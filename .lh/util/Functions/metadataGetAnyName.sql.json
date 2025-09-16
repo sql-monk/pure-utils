@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1757961321821,
@@ -12,6 +12,10 @@
                 {
                     "date": 1757966750034,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,10 @@\n-CREATE FUNCTION [util].[metadataGetAnyName](@majorId INT, @minorId INT = 0, @class TINYINT = 1)\r\n+CREATE FUNCTION [util].[metadataGetAnyName](@majorId INT, @minorId INT = 0, @class NVARCHAR(128) = '1')\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n-\tRETURN CASE @class\r\n+DECLARE @cls INT = ISNULL(TRY_CONVERT(INT, @class), metadataGetClassByName(@class));\r\n+\tRETURN CASE @cls\r\n \t\t\t\tWHEN 0 THEN QUOTENAME(DB_NAME())\r\n \t\t\t\tWHEN 1 THEN\r\n \t\t\t\t\tCASE\r\n \t\t\t\t\t\tWHEN @minorId = 0 THEN util.metadataGetObjectName(@majorId)\r\n"
+                },
+                {
+                    "date": 1758021849500,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,24 @@\n+/*\r\n+# Description\r\n+Універсальна функція для отримання імені будь-якого об'єкта бази даних за його ID та класом.\r\n+Дозволяє отримувати імена для різних типів об'єктів залежно від їх класу.\r\n+\r\n+# Parameters\r\n+@majorId INT - основний ідентифікатор об'єкта\r\n+@minorId INT = 0 - додатковий ідентифікатор (для колонок, індексів, параметрів)\r\n+@class NVARCHAR(128) = '1' - клас об'єкта (число або текстова назва)\r\n+\r\n+# Returns\r\n+NVARCHAR(128) - ім'я відповідного об'єкта\r\n+\r\n+# Usage\r\n+-- Отримати ім'я таблиці за object_id\r\n+SELECT util.metadataGetAnyName(OBJECT_ID('dbo.MyTable'), 0, '1');\r\n+\r\n+-- Отримати ім'я колонки\r\n+SELECT util.metadataGetAnyName(OBJECT_ID('dbo.MyTable'), 1, '1');\r\n+*/\r\n CREATE FUNCTION [util].[metadataGetAnyName](@majorId INT, @minorId INT = 0, @class NVARCHAR(128) = '1')\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n"
                 }
             ],
             "date": 1757961321821,

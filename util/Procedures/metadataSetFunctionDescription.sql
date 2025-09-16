@@ -1,3 +1,22 @@
+
+/*
+# Description
+Встановлює опис для функції через розширені властивості MS_Description.
+
+# Parameters
+@function NVARCHAR(128) - назва функції
+@description NVARCHAR(MAX) - текст опису для функції
+
+# Returns
+Нічого не повертає. Встановлює розширену властивість MS_Description для функції
+
+# Usage
+-- Встановити опис для скалярної функції
+EXEC util.metadataSetFunctionDescription @function = 'dbo.MyScalarFunction', @description = 'Функція розрахунку значення';
+
+-- Встановити опис для табличної функції
+EXEC util.metadataSetFunctionDescription @function = 'dbo.MyTableFunction', @description = 'Функція повертає набір рядків';
+*/
 CREATE PROCEDURE [util].[metadataSetFunctionDescription]
 	@function NVARCHAR(128),
 	@description NVARCHAR(MAX)

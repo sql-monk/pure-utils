@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1757953338111,
@@ -12,6 +12,10 @@
                 {
                     "date": 1757953345408,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-CREATE OR ALTER FUNCTION util.metadataGetCertificateName(@majorId INT)\r\n+CREATE FUNCTION util.metadataGetCertificateName(@majorId INT)\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n \tRETURN (SELECT QUOTENAME(name) name FROM sys.certificates(NOLOCK)WHERE certificate_id = @majorId);\r\n"
+                },
+                {
+                    "date": 1758021849501,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,18 @@\n+/*\r\n+# Description\r\n+Отримує ім'я сертифіката за його ідентифікатором з системного каталогу.\r\n+\r\n+# Parameters\r\n+@majorId INT - ідентифікатор сертифіката (certificate_id)\r\n+\r\n+# Returns\r\n+NVARCHAR(128) - ім'я сертифіката в квадратних дужках або NULL якщо не знайдено\r\n+\r\n+# Usage\r\n+-- Отримати ім'я сертифіката за ID\r\n+SELECT util.metadataGetCertificateName(1);\r\n+*/\r\n CREATE FUNCTION util.metadataGetCertificateName(@majorId INT)\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n"
                 }
             ],
             "date": 1757953338111,

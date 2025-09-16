@@ -94,6 +94,7 @@
     <None Include="util\Functions\modulesRecureSearchStartEndPositionsExtended.sql" />
     <None Include="util\Functions\modulesSplitToLines.sql" />
     <None Include="util\Functions\indexesGetScript.sql" />
+    <None Include="util\Functions\stringSplitMultiLineComment.sql" />
     <None Include="util\Functions\tablesGetScript.sql" />
     <None Include="util\Procedures\errorHandler.sql" />
     <None Include="util\Procedures\indexesSetConventionNames.sql" />
@@ -110,8 +111,10 @@
     <None Include="util\Procedures\metadataSetTriggerDescription.sql" />
     <None Include="util\Procedures\metadataSetViewDescription.sql" />
     <None Include="util\Procedures\xeErrorsToTable.sql" />
+    <None Include="util\Scripts\ШаблониКоментарів.sql" />
     <None Include="util\Tables\errorLog.sql" />
     <None Include="util\Tables\xeErrorLog.sql" />
+    <None Include="XESessions\utilsErrors.sql" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Condition="'$(NetCoreBuild)' == 'true'">

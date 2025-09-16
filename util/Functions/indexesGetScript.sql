@@ -1,3 +1,26 @@
+/*
+# Description
+Генерує DDL скрипти для створення індексів на основі існуючих індексів таблиць.
+Функція формує повні CREATE INDEX інструкції включаючи всі налаштування індексу.
+
+# Parameters
+@table NVARCHAR(128) = NULL - Назва таблиці для генерації скриптів індексів (NULL = усі таблиці)
+@index NVARCHAR(128) = NULL - Назва конкретного індексу (NULL = усі індекси)
+
+# Returns
+TABLE - Повертає таблицю з колонками:
+- SchemaName NVARCHAR(128) - Назва схеми
+- TableName NVARCHAR(128) - Назва таблиці
+- IndexName NVARCHAR(128) - Назва індексу
+- CreateScript NVARCHAR(MAX) - DDL скрипт для створення індексу
+
+# Usage
+-- Згенерувати скрипти для всіх індексів конкретної таблиці
+SELECT * FROM util.indexesGetScript('myTable', NULL);
+
+-- Згенерувати скрипт для конкретного індексу
+SELECT * FROM util.indexesGetScript('myTable', 'myIndex');
+*/
 CREATE FUNCTION util.indexesGetScript(@table NVARCHAR(128) = NULL, @index NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS

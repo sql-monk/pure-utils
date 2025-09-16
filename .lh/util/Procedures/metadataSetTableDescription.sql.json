@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Procedures/metadataSetTableDescription.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758022156623,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758024321040,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,23 @@\n-CREATE ALTER PROCEDURE [util].[metadataSetTableDescription]\r\n+/*\r\n+# Description\r\n+Встановлює опис для таблиці через розширені властивості MS_Description.\r\n+\r\n+# Parameters\r\n+@table NVARCHAR(128) - назва таблиці\r\n+@description NVARCHAR(MAX) - текст опису для таблиці\r\n+\r\n+# Returns\r\n+Нічого не повертає. Встановлює розширену властивість MS_Description для таблиці\r\n+\r\n+# Usage\r\n+-- Встановити опис для користувацької таблиці\r\n+EXEC util.metadataSetTableDescription @table = 'dbo.Customers', @description = 'Таблиця інформації про клієнтів';\r\n+\r\n+-- Встановити опис для системної таблиці\r\n+EXEC util.metadataSetTableDescription @table = 'util.ErrorLog', @description = 'Журнал помилок системи';\r\n+*/\r\n+CREATE PROCEDURE [util].[metadataSetTableDescription]\r\n \t@table NVARCHAR(128),\r\n \t@description NVARCHAR(MAX)\r\n AS\r\n BEGIN\r\n"
+                }
+            ],
+            "date": 1758022156623,
+            "name": "Commit-0",
+            "content": "CREATE ALTER PROCEDURE [util].[metadataSetTableDescription]\r\n\t@table NVARCHAR(128),\r\n\t@description NVARCHAR(MAX)\r\nAS\r\nBEGIN\r\n\tDECLARE @schema_name NVARCHAR(128);\r\n\tDECLARE @table_name NVARCHAR(128);\r\n\t\r\n\tSELECT @schema_name = SCHEMA_NAME(o.schema_id), @table_name = o.name\r\n\tFROM sys.objects o (NOLOCK)\r\n\tWHERE o.object_id = OBJECT_ID(@table);\r\n\r\n\tEXEC util.metadataSetExtendedProperty \r\n\t\t@name = 'MS_Description',\r\n\t\t@value = @description,\r\n\t\t@level0type = 'SCHEMA',\r\n\t\t@level0name = @schema_name,\r\n\t\t@level1type = 'TABLE',\r\n\t\t@level1name = @table_name;\r\nEND;\r\nGO"
+        }
+    ]
+}

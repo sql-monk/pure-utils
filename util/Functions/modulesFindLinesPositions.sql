@@ -1,6 +1,23 @@
-USE model; 
-GO
-CREATE OR ALTER     FUNCTION [util].[modulesFindLinesPositions](@objectId INT = NULL)
+/*
+# Description
+Знаходить позиції всіх рядків у модулях бази даних, включаючи перший рядок.
+Нумерує рядки та визначає їх початкові та кінцеві позиції.
+
+# Parameters
+@objectId INT = NULL - ідентифікатор об'єкта для пошуку рядків (NULL = усі об'єкти)
+
+# Returns
+TABLE - Повертає таблицю з колонками:
+- object_id INT - ідентифікатор об'єкта
+- startPosition INT - позиція початку рядка
+- endPosition INT - позиція кінця рядка
+- lineNumber INT - номер рядка
+
+# Usage
+-- Знайти всі рядки в конкретному об'єкті
+SELECT * FROM util.modulesFindLinesPositions(OBJECT_ID('myProc'));
+*/
+CREATE FUNCTION [util].[modulesFindLinesPositions](@objectId INT = NULL)
 RETURNS TABLE
 AS
 RETURN(

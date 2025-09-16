@@ -1,4 +1,21 @@
-ALTER PROCEDURE util.xeErrorsToTable
+/*
+# Description
+Процедура для перенесення даних про помилки з Extended Events до таблиці util.xeErrorLog.
+Читає дані з системних сесій XE та зберігає їх у структурованому вигляді для подальшого аналізу.
+
+# Parameters
+Без параметрів
+
+# Returns
+Нічого не повертає. Вставляє записи про помилки в таблицю util.xeErrorLog
+
+# Usage
+-- Перенести нові помилки з XE до таблиці
+EXEC util.xeErrorsToTable;
+
+-- Можна викликати по розкладу для регулярного збору помилок
+*/
+CREATE PROCEDURE util.xeErrorsToTable
 AS
 BEGIN
 	SET NOCOUNT ON;

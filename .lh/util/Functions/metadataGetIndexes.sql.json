@@ -1,0 +1,18 @@
+{
+    "sourceFile": "util/Functions/metadataGetIndexes.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1758024320960,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1758024320960,
+            "name": "Commit-0",
+            "content": "/*\r\n# Description\r\nОтримує детальну інформацію про індекси для заданих таблиць.\r\nВключає основні характеристики індексів та їх стан.\r\n\r\n# Parameters\r\n@object NVARCHAR(128) = NULL - назва таблиці для отримання індексів (NULL = всі таблиці)\r\n\r\n# Returns\r\nTABLE - Повертає таблицю з колонками:\r\n- object_id INT - ідентифікатор таблиці\r\n- index_id INT - ідентифікатор індексу\r\n- name NVARCHAR(128) - назва індексу\r\n- type_desc NVARCHAR(60) - тип індексу\r\n- is_unique BIT - чи унікальний індекс\r\n- is_primary_key BIT - чи первинний ключ\r\n\r\n# Usage\r\n-- Отримати всі індекси конкретної таблиці\r\nSELECT * FROM util.metadataGetIndexes('myTable');\r\n\r\n-- Отримати індекси всіх таблиць\r\nSELECT * FROM util.metadataGetIndexes(NULL);\r\n*/\r\nCREATE FUNCTION util.metadataGetIndexes(@object NVARCHAR(128) = NULL)\r\nRETURNS TABLE\r\nAS\r\nRETURN(\r\n\tSELECT\r\n        i.object_id objectId,\r\n        OBJECT_SCHEMA_NAME(i.object_id) schemaName,\r\n        OBJECT_NAME(i.object_id) objectName,\r\n        i.index_id indexId,\r\n        i.name indexName\r\n    FROM sys.indexes i\r\n\tWHERE i.name IS NOT NULL -- Виключаємо HEAP індекси\r\n\t\tAND i.is_hypothetical = 0 -- Виключаємо гіпотетичні індекси\r\n\t\tAND (@object IS NULL OR i.object_id = ISNULL(TRY_CONVERT(INT, @object), OBJECT_ID(@object)))\r\n);\r\n"
+        }
+    ]
+}

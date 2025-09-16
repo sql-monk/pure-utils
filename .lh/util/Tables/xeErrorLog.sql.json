@@ -1,0 +1,26 @@
+{
+    "sourceFile": "util/Tables/xeErrorLog.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1758021849477,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758022214050,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,16 +1,4 @@\n-/*\r\n-# Description\r\n-Таблиця для зберігання даних про помилки з Extended Events.\r\n-Використовується для централізованого логування помилок з системних подій.\r\n-\r\n-# Returns\r\n-Створює таблицю util.xeErrorLog для зберігання даних Extended Events про помилки\r\n-\r\n-# Usage\r\n--- Заповнюється процедурою util.xeErrorsToTable\r\n--- Перегляд: SELECT * FROM util.xeErrorLog ORDER BY EventTime DESC;\r\n-*/\r\n DROP TABLE IF EXISTS util.xeErrorLog;\r\n CREATE TABLE util.xeErrorLog (\r\n \tid BIGINT NOT NULL IDENTITY(1, 1) PRIMARY KEY,\r\n \tEventTime DATETIME2(7),\r\n"
+                },
+                {
+                    "date": 1758024321002,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,30 @@\n+/*\r\n+# Description\r\n+Таблиця для зберігання журналу помилок з Extended Events (XE). Використовується процедурою util.xeErrorsToTable\r\n+для перенесення структурованих даних про помилки з системних сесій XE для зручного аналізу.\r\n+\r\n+# Parameters\r\n+Таблиця не має параметрів\r\n+\r\n+# Returns\r\n+Структура таблиці для зберігання:\r\n+- id BIGINT IDENTITY - унікальний ідентифікатор запису\r\n+- EventTime DATETIME2(7) - точний час події\r\n+- ErrorNumber INT - номер помилки SQL Server\r\n+- Severity INT - рівень важливості помилки\r\n+- State INT - стан помилки\r\n+- Message NVARCHAR(4000) - повідомлення про помилку\r\n+- DatabaseName NVARCHAR(128) - назва бази даних\r\n+- ClientHostname NVARCHAR(128) - ім'я клієнтського хоста\r\n+- Username NVARCHAR(128) - ім'я користувача\r\n+- SessionId INT - ідентифікатор сесії\r\n+\r\n+# Usage\r\n+-- Таблиця заповнюється через util.xeErrorsToTable\r\n+-- Для перегляду помилок з XE:\r\n+SELECT * FROM util.xeErrorLog ORDER BY EventTime DESC;\r\n+*/\r\n DROP TABLE IF EXISTS util.xeErrorLog;\r\n CREATE TABLE util.xeErrorLog (\r\n \tid BIGINT NOT NULL IDENTITY(1, 1) PRIMARY KEY,\r\n \tEventTime DATETIME2(7),\r\n"
+                }
+            ],
+            "date": 1758021849477,
+            "name": "Commit-0",
+            "content": "/*\r\n# Description\r\nТаблиця для зберігання даних про помилки з Extended Events.\r\nВикористовується для централізованого логування помилок з системних подій.\r\n\r\n# Returns\r\nСтворює таблицю util.xeErrorLog для зберігання даних Extended Events про помилки\r\n\r\n# Usage\r\n-- Заповнюється процедурою util.xeErrorsToTable\r\n-- Перегляд: SELECT * FROM util.xeErrorLog ORDER BY EventTime DESC;\r\n*/\r\nDROP TABLE IF EXISTS util.xeErrorLog;\r\nCREATE TABLE util.xeErrorLog (\r\n\tid BIGINT NOT NULL IDENTITY(1, 1) PRIMARY KEY,\r\n\tEventTime DATETIME2(7),\r\n\tErrorNumber INT,\r\n\tSeverity INT,\r\n\tState INT,\r\n\tMessage NVARCHAR(4000),\r\n\tDatabaseName NVARCHAR(128),\r\n\tClientHostname NVARCHAR(128),\r\n\tClientAppName NVARCHAR(128),\r\n\tServerPrincipalName NVARCHAR(128),\r\n\tSqlText NVARCHAR(MAX),\r\n\tTsqlFrame NVARCHAR(MAX),\r\n\tTsqlStack NVARCHAR(MAX),\r\n\tFileName NVARCHAR(260),\r\n\tFileOffset BIGINT\r\n);"
+        }
+    ]
+}

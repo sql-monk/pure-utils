@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Procedures/indexesSetConventionNames.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758022078144,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758024321042,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,23 @@\n+/*\r\n+# Description\r\n+Перейменовує індекси відповідно до стандартних конвенцій найменування, генеруючи та виконуючи SQL скрипти.\r\n+\r\n+# Parameters\r\n+@table NVARCHAR(128) = NULL - назва таблиці для перейменування індексів (NULL = усі таблиці)\r\n+@index NVARCHAR(128) = NULL - назва конкретного індексу (NULL = усі індекси)\r\n+@output TINYINT = 1 - виводити результати (1) або тільки виконувати (0)\r\n+\r\n+# Returns\r\n+Виконує перейменування індексів і може виводити результати залежно від параметра @output\r\n+\r\n+# Usage\r\n+-- Перейменувати всі індекси таблиці з виведенням результатів\r\n+EXEC util.indexesSetConventionNames @table = 'myTable', @output = 1;\r\n+\r\n+-- Перейменувати конкретний індекс без виведення\r\n+EXEC util.indexesSetConventionNames @table = 'myTable', @index = 'oldIndexName', @output = 0;\r\n+*/\r\n CREATE PROCEDURE util.indexesSetConventionNames\r\n     @table NVARCHAR(128) = NULL,\r\n     @index NVARCHAR(128) = NULL,\r\n     @output TINYINT = 1\r\n"
+                }
+            ],
+            "date": 1758022078144,
+            "name": "Commit-0",
+            "content": "CREATE PROCEDURE util.indexesSetConventionNames\r\n    @table NVARCHAR(128) = NULL,\r\n    @index NVARCHAR(128) = NULL,\r\n    @output TINYINT = 1\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    DECLARE @sql NVARCHAR(MAX) = '';\r\n\r\n    -- Build concatenated SQL from all rename scripts\r\n    SELECT @sql = @sql + RenameScript + CHAR(13) + CHAR(10)\r\n    FROM util.indexesGetScriptConventionRename(@table, @index);\r\n\r\n \r\n        IF (@output & 2 = 2) PRINT @sql;\r\n        IF (@output & 4 = 4) SELECT CONVERT(XML, @sql) AS RenameScriptsXML;\r\n    END\r\n     \r\n    IF (@output & 8 = 8 AND  LEN(@sql) > 0) \r\n    BEGIN\r\n        EXEC sp_executesql @sql;\r\n    END\r\nEND;"
+        }
+    ]
+}

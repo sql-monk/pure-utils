@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Functions/metadataGetObjectName.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758021919563,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758024321006,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,22 @@\n+/*\r\n+# Description\r\n+Отримує повну назву об'єкта бази даних за його ідентифікатором.\r\n+Повертає назву у форматі \"схема.об'єкт\" в квадратних дужках.\r\n+\r\n+# Parameters\r\n+@majorId INT - ідентифікатор об'єкта (object_id)\r\n+\r\n+# Returns\r\n+NVARCHAR(128) - повну назву об'єкта у форматі \"[схема].[об'єкт]\" або NULL якщо не знайдено\r\n+\r\n+# Usage\r\n+-- Отримати назву об'єкта за його ID\r\n+SELECT util.metadataGetObjectName(OBJECT_ID('dbo.myTable'));\r\n+\r\n+-- Використовуючи числовий ID\r\n+SELECT util.metadataGetObjectName(1234567890);\r\n+*/\r\n CREATE FUNCTION [util].[metadataGetObjectName](@majorId INT)\r\n RETURNS NVARCHAR(128)\r\n AS\r\n BEGIN\r\n"
+                }
+            ],
+            "date": 1758021919563,
+            "name": "Commit-0",
+            "content": "CREATE FUNCTION [util].[metadataGetObjectName](@majorId INT)\r\nRETURNS NVARCHAR(128)\r\nAS\r\nBEGIN\r\n\tRETURN (SELECT CONCAT (QUOTENAME (SCHEMA_NAME (o.schema_id)), '.', QUOTENAME (o.name)) name FROM sys.objects o (NOLOCK) WHERE @majorId = o.object_id);\r\nEND;\r\nGO\r\n\r\n\r\n\r\n"
+        }
+    ]
+}

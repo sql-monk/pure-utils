@@ -1,6 +1,22 @@
-USE model; 
-GO
-CREATE OR ALTER PROCEDURE [util].[metadataSetProcedureDescription]
+/*
+# Description
+Встановлює опис для збереженої процедури через розширені властивості MS_Description.
+
+# Parameters
+@procedure NVARCHAR(128) - назва процедури
+@description NVARCHAR(MAX) - текст опису для процедури
+
+# Returns
+Нічого не повертає. Встановлює розширену властивість MS_Description для процедури
+
+# Usage
+-- Встановити опис для процедури
+EXEC util.metadataSetProcedureDescription @procedure = 'dbo.myProcedure', @description = 'Процедура для обробки користувацьких даних';
+
+-- Встановити опис для системної процедури
+EXEC util.metadataSetProcedureDescription @procedure = 'util.errorHandler', @description = 'Універсальний обробник помилок';
+*/
+CREATE PROCEDURE [util].[metadataSetProcedureDescription]
 	@procedure NVARCHAR(128),
 	@description NVARCHAR(MAX)
 AS

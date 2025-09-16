@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Procedures/metadataSetProcedureDescription.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758022136093,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758024321040,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,22 @@\n+/*\r\n+# Description\r\n+Встановлює опис для збереженої процедури через розширені властивості MS_Description.\r\n+\r\n+# Parameters\r\n+@procedure NVARCHAR(128) - назва процедури\r\n+@description NVARCHAR(MAX) - текст опису для процедури\r\n+\r\n+# Returns\r\n+Нічого не повертає. Встановлює розширену властивість MS_Description для процедури\r\n+\r\n+# Usage\r\n+-- Встановити опис для процедури\r\n+EXEC util.metadataSetProcedureDescription @procedure = 'dbo.myProcedure', @description = 'Процедура для обробки користувацьких даних';\r\n+\r\n+-- Встановити опис для системної процедури\r\n+EXEC util.metadataSetProcedureDescription @procedure = 'util.errorHandler', @description = 'Універсальний обробник помилок';\r\n+*/\r\n CREATE PROCEDURE [util].[metadataSetProcedureDescription]\r\n \t@procedure NVARCHAR(128),\r\n \t@description NVARCHAR(MAX)\r\n AS\r\n"
+                }
+            ],
+            "date": 1758022136093,
+            "name": "Commit-0",
+            "content": "CREATE PROCEDURE [util].[metadataSetProcedureDescription]\r\n\t@procedure NVARCHAR(128),\r\n\t@description NVARCHAR(MAX)\r\nAS\r\nBEGIN\r\n\tDECLARE @schema_name NVARCHAR(128);\r\n\tDECLARE @procedure_name NVARCHAR(128);\r\n\t\r\n\tSELECT @schema_name = SCHEMA_NAME(o.schema_id), @procedure_name = o.name\r\n\tFROM sys.objects o (NOLOCK)\r\n\tWHERE o.object_id = OBJECT_ID(@procedure);\r\n\r\n\tEXEC util.metadataSetExtendedProperty \r\n\t\t@name = 'MS_Description',\r\n\t\t@value = @description,\r\n\t\t@level0type = 'SCHEMA',\r\n\t\t@level0name = @schema_name,\r\n\t\t@level1type = 'PROCEDURE',\r\n\t\t@level1name = @procedure_name;\r\nEND;\r\nGO"
+        }
+    ]
+}

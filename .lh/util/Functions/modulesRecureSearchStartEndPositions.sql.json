@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1757955912413,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758022034882,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-CREATE OR ALTER FUNCTION [util].[modulesRecureSearchStartEndPositions](@startValue NVARCHAR(32), @endValue NVARCHAR(32))\r\n+CREATE FUNCTION [util].[modulesRecureSearchStartEndPositions](@startValue NVARCHAR(32), @endValue NVARCHAR(32))\r\n RETURNS TABLE\r\n AS\r\n RETURN(SELECT object_id, startPosition, endPosition FROM util.modulesRecureSearchStartEndPositionsExtended (@startValue, @endValue, DEFAULT, DEFAULT) );\r\n GO\r\n"
+                },
+                {
+                    "date": 1758024321015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,26 @@\n+/*\r\n+# Description\r\n+Рекурсивно шукає позиції початку та кінця блоків у модулях за заданими початковим та кінцевим значеннями.\r\n+Спрощена версія функції modulesRecureSearchStartEndPositionsExtended.\r\n+\r\n+# Parameters\r\n+@startValue NVARCHAR(32) - початкове значення для пошуку\r\n+@endValue NVARCHAR(32) - кінцеве значення для пошуку\r\n+\r\n+# Returns\r\n+TABLE - Повертає таблицю з колонками:\r\n+- object_id INT - ідентифікатор об'єкта\r\n+- startPosition INT - позиція початку блоку\r\n+- endPosition INT - позиція кінця блоку\r\n+\r\n+# Usage\r\n+-- Знайти блоки BEGIN...END\r\n+SELECT * FROM util.modulesRecureSearchStartEndPositions('BEGIN', 'END');\r\n+\r\n+-- Знайти блоки IF...END IF  \r\n+SELECT * FROM util.modulesRecureSearchStartEndPositions('IF', 'END IF');\r\n+*/\r\n CREATE FUNCTION [util].[modulesRecureSearchStartEndPositions](@startValue NVARCHAR(32), @endValue NVARCHAR(32))\r\n RETURNS TABLE\r\n AS\r\n RETURN(SELECT object_id, startPosition, endPosition FROM util.modulesRecureSearchStartEndPositionsExtended (@startValue, @endValue, DEFAULT, DEFAULT) );\r\n"
                 }
             ],
             "date": 1757955912413,

@@ -1,0 +1,22 @@
+{
+    "sourceFile": "util/Functions/metadataGetParameterId.sql",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758021927719,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758024321009,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,22 @@\n+/*\r\n+# Description\r\n+Отримує ідентифікатор параметра для вказаного об'єкта бази даних.\r\n+\r\n+# Parameters\r\n+@object NVARCHAR(128) - назва або ID об'єкта бази даних\r\n+@parameterName NVARCHAR(128) - назва параметра\r\n+\r\n+# Returns\r\n+INT - ідентифікатор параметра або NULL якщо параметр не знайдено\r\n+\r\n+# Usage\r\n+-- Отримати ID параметра процедури\r\n+SELECT util.metadataGetParameterId('myProcedure', '@param1');\r\n+\r\n+-- Використовуючи object_id\r\n+SELECT util.metadataGetParameterId('1234567890', '@param1');\r\n+*/\r\n CREATE FUNCTION util.metadataGetParameterId(@object NVARCHAR(128), @parameterName NVARCHAR(128))\r\n RETURNS INT\r\n AS\r\n BEGIN\r\n"
+                }
+            ],
+            "date": 1758021927719,
+            "name": "Commit-0",
+            "content": "CREATE FUNCTION util.metadataGetParameterId(@object NVARCHAR(128), @parameterName NVARCHAR(128))\r\nRETURNS INT\r\nAS\r\nBEGIN\r\n\tRETURN (SELECT p.parameter_id FROM sys.parameters p(NOLOCK)WHERE p.object_id = ISNULL(TRY_CONVERT(INT, @object), OBJECT_ID(@object)) AND p.name = @parameterName);\r\nEND;\r\nGO\r\n\r\n"
+        }
+    ]
+}

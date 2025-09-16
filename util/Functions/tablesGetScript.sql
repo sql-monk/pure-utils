@@ -1,3 +1,23 @@
+/*
+# Description
+Генерує повний DDL скрипт для створення таблиці, включаючи колонки, типи даних, обмеження та індекси.
+
+# Parameters
+@table NVARCHAR(128) = NULL - назва таблиці для генерації скрипта (NULL = усі таблиці)
+
+# Returns
+TABLE - Повертає таблицю з колонками:
+- SchemaName NVARCHAR(128) - назва схеми
+- TableName NVARCHAR(128) - назва таблиці
+- CreateScript NVARCHAR(MAX) - повний DDL скрипт для створення таблиці
+
+# Usage
+-- Згенерувати скрипт для конкретної таблиці
+SELECT * FROM util.tablesGetScript('myTable');
+
+-- Згенерувати скрипти для всіх таблиць
+SELECT * FROM util.tablesGetScript(NULL);
+*/
 CREATE FUNCTION util.tablesGetScript(@table NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS

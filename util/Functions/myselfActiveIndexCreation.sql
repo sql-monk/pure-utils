@@ -3,9 +3,6 @@
 Відстежує прогрес активного створення індексів поточним користувачем.
 Функція моніторить операції CREATE INDEX та показує детальну інформацію про їх виконання в реальному часі.
 
-# Parameters
-Без параметрів
-
 # Returns
 TABLE - Повертає таблицю з колонками:
 - sessionId INT - Ідентифікатор сесії
@@ -22,7 +19,7 @@ TABLE - Повертає таблицю з колонками:
 SELECT * FROM util.myselfActiveIndexCreation();
 
 */
-CREATE FUNCTION util.myselfActiveIndexCreation()
+CREATE OR ALTER FUNCTION util.myselfActiveIndexCreation()
 RETURNS TABLE
 AS
 RETURN(

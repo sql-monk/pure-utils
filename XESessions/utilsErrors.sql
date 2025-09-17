@@ -37,7 +37,7 @@ ON SERVER
 	 WHERE(
 		 package0.greater_than_int64(Severity, (10))
 		 AND sqlserver.not_equal_i_sql_unicode_string(Message, N'''Not primary hadr replica''')
-		 AND sqlserver.client_app_name <> N'''Sql MP Monitoring'''
+		 AND sqlserver.client_app_name <> N'Sql MP Monitoring'
 		 AND error_number <> (17830)
 	 )
 	)

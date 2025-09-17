@@ -19,7 +19,7 @@ BEGIN CATCH
     EXEC util.errorHandler @attachment = 'Додаткова інформація про контекст';
 END CATCH
 */
-ALTER PROCEDURE util.errorHandler
+CREATE OR ALTER PROCEDURE util.errorHandler
     @attachment NVARCHAR(MAX) = NULL
 AS
 BEGIN
@@ -31,7 +31,7 @@ BEGIN
     DECLARE @ErrorState INT = ERROR_STATE();
     DECLARE @ErrorProcedure NVARCHAR(128) = ERROR_PROCEDURE();
     DECLARE @ErrorLine INT = ERROR_LINE();
-    DECLARE @ErrorLineText NVARCHAR(max) = (SELECT line FROM util.modulesSplitToLines(@ErrorProcedure, DEFAULT) WHERE ordinal = @ErrorLine);
+    DECLARE @ErrorLineText NVARCHAR(max) = (SELECT line FROM util.modulesSplitToLines(@ErrorProcedure, DEFAULT) WHERE lineNumber = @ErrorLine);
     DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
     DECLARE @OriginalLogin NVARCHAR(128) = ORIGINAL_LOGIN();
     DECLARE @SessionId SMALLINT = @@SPID;

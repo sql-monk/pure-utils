@@ -18,7 +18,7 @@ TABLE - Повертає таблицю з колонками:
 -- Отримати описи для конкретної таблиці та її колонок
 SELECT * FROM util.metadataGetDescriptions('myTable', 'myColumn');
 */
-CREATE FUNCTION util.metadataGetDescriptions(@major NVARCHAR(128), @minor NVARCHAR(128))
+CREATE OR ALTER FUNCTION util.metadataGetDescriptions(@major NVARCHAR(128), @minor NVARCHAR(128))
 RETURNS TABLE
 AS
 RETURN(
@@ -28,13 +28,6 @@ RETURN(
 		propertyValue,
 		typeDesc
 	FROM util.metadataGetExtendedProperiesValues(@major, @minor, 'MS_Description')
-	UNION ALL
-	SELECT
-		Id,
-		name,
-		propertyValue,
-		typeDesc
-	FROM util.metadataGetExtendedProperiesValues(@major, @minor, 'Description')
 	)
 	SELECT Id, name, propertyValue description, typeDesc FROM cte
 );

@@ -40,6 +40,6 @@ BEGIN
 	FROM util.modulesGetDescriptionFromComments(@objectId) descr
 	OPTION(MAXRECURSION 32000);
 
-	IF(LEN(@cmd) > 0)PRINT(@cmd);
+	IF(LEN(@cmd) > 0) EXEC(@cmd);
 
 END;

@@ -1,23 +1,31 @@
 /*
 # Description
-Розбиває визначення модулів на окремі рядки з нумерацією для подальшого аналізу.
+Розбиває визначення модулів (процедур, функцій, тригерів) на окремі рядки з нумерацією для подальшого аналізу.
+Функція обробляє текст з sys.sql_modules, замінює табуляції на пробіли та може пропускати порожні рядки.
 
 # Parameters
-@object NVARCHAR(128) = NULL - назва об'єкта для розбиття на рядки (NULL = усі об'єкти)
-@additionalParameter NVARCHAR(128) = NULL - додатковий параметр (зарезервовано)
+@object NVARCHAR(128) - назва або ID об'єкта для розбиття на рядки (NULL = усі об'єкти)
+@skipEmpty BIT = 1 - пропускати порожні рядки (1 = так, 0 = включати порожні рядки)
 
 # Returns
 TABLE - Повертає таблицю з колонками:
-- object_id INT - ідентифікатор об'єкта
-- ordinal INT - номер рядка
-- line NVARCHAR(MAX) - текст рядка
+- objectId INT - ідентифікатор об'єкта модуля
+- line NVARCHAR(MAX) - текст рядка (з обрізаними пробілами та заміненими табуляціями)
+- lineNumber INT - номер рядка в модулі (порядковий номер)
 
 # Usage
--- Розбити модуль на рядки
-SELECT * FROM util.modulesSplitToLines('myProc', NULL);
+-- Розбити конкретний модуль на рядки (без порожніх)
+SELECT * FROM util.modulesSplitToLines('util.errorHandler', 1);
 
--- Розбити всі модулі на рядки
-SELECT * FROM util.modulesSplitToLines(NULL, NULL);
+-- Розбити модуль включаючи порожні рядки
+SELECT * FROM util.modulesSplitToLines('util.errorHandler', 0);
+
+-- Розбити всі модулі в базі даних
+SELECT * FROM util.modulesSplitToLines(NULL, 1);
+
+-- Знайти рядки з CREATE в модулі
+SELECT * FROM util.modulesSplitToLines('util.errorHandler', 1)
+WHERE line LIKE 'CREATE%';
 */
 CREATE OR ALTER FUNCTION util.modulesSplitToLines(@object NVARCHAR(128), @skipEmpty BIT = 1)
 RETURNS TABLE

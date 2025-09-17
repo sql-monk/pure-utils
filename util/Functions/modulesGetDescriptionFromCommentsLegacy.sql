@@ -28,7 +28,7 @@ RETURN(
 		TRIM(REPLACE(TRIM(REPLACE(cte.line, CHAR(9), CHAR(32))), '-- Description:', '')) description,
 		cte.lineNumber lineNumber
 	FROM util.modulesSplitToLines(DEFAULT, DEFAULT) cte
-		CROSS APPLY(SELECT lnCreate.objectId, lnCreate.lineNumber FROM util.modulesSplitToLines(cte.objectId, DEFAULT) lnCreate WHERE lnCreate.line LIKE '%CREATE%') lnCreate
+		CROSS APPLY util.modulesGetCreateLineNumber(cte.objectId) lnCreate
 	WHERE
 		cte.line LIKE '%-- Description:%' AND lnCreate.lineNumber > cte.lineNumber
 );

@@ -16,19 +16,20 @@ EXEC util.metadataSetProcedureDescription @procedure = 'dbo.myProcedure', @descr
 -- Встановити опис для системної процедури
 EXEC util.metadataSetProcedureDescription @procedure = 'util.errorHandler', @description = 'Універсальний обробник помилок';
 */
-CREATE PROCEDURE [util].[metadataSetProcedureDescription]
-	@procedure NVARCHAR(128),
+CREATE OR ALTER PROCEDURE util.metadataSetProcedureDescription @procedure NVARCHAR(128),
 	@description NVARCHAR(MAX)
 AS
 BEGIN
 	DECLARE @schema_name NVARCHAR(128);
 	DECLARE @procedure_name NVARCHAR(128);
-	
-	SELECT @schema_name = SCHEMA_NAME(o.schema_id), @procedure_name = o.name
-	FROM sys.objects o (NOLOCK)
-	WHERE o.object_id = OBJECT_ID(@procedure);
 
-	EXEC util.metadataSetExtendedProperty 
+	SELECT
+		@schema_name = SCHEMA_NAME(o.schema_id),
+		@procedure_name = o.name
+	FROM sys.objects o(NOLOCK)
+	WHERE o.object_id = ISNULL(TRY_CONVERT(INT, @procedure), OBJECT_ID(@procedure));
+
+	EXEC util.metadataSetExtendedProperty
 		@name = 'MS_Description',
 		@value = @description,
 		@level0type = 'SCHEMA',

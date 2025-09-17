@@ -1,3 +1,26 @@
+/*
+# Description
+Витягує опис з коментарів модулів (функцій, процедур, тригерів) та форматує його для встановлення 
+як розширену властивість. Функція аналізує багаторядкові коментарі що знаходяться перед оператором CREATE
+та витягує з них структурований опис.
+
+# Parameters
+@objectId INT = NULL - ідентифікатор об'єкта модуля (NULL для всіх об'єктів)
+
+# Returns
+TABLE:
+- objectId INT - ідентифікатор об'єкта
+- objectType NVARCHAR(128) - тип об'єкта (FUNCTION, PROCEDURE, TRIGGER)
+- minor INT - мінорний ідентифікатор (завжди 0 для модулів)
+- description NVARCHAR(MAX) - відформатований опис з коментарів
+
+# Usage
+-- Отримати опис для всіх модулів
+SELECT * FROM util.modulesGetDescriptionFromComments(DEFAULT)
+
+-- Отримати опис для конкретного модуля
+SELECT * FROM util.modulesGetDescriptionFromComments(OBJECT_ID('util.errorHandler'))
+*/
 CREATE OR ALTER FUNCTION util.modulesGetDescriptionFromComments(@objectId INT = NULL)
 RETURNS TABLE
 AS
@@ -32,7 +55,8 @@ RETURN(
 					CONCAT(
 					mlc.description,
 					CHAR(13) + CHAR(10) + '# Returns' + CHAR(13) + CHAR(10) + mlc.returns,
-					CHAR(13) + CHAR(10) + '# Usage' + CHAR(13) + CHAR(10) + mlc.usage
+					CHAR(13) + CHAR(10) + '# Usage' + CHAR(13) + CHAR(10) + 
+					 + CHAR(13) + CHAR(10) + '```sql' + CHAR(13) + CHAR(10) + mlc.usage + CHAR(13) + CHAR(10) + '```' + CHAR(13) + CHAR(10)
 					),
 					'''',
 					''''''

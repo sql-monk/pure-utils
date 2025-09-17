@@ -1,3 +1,22 @@
+/*
+# Description
+Процедура для автоматичного встановлення описів об'єктів на основі коментарів у коді модулів.
+Використовує функцію modulesGetDescriptionFromComments для витягання описів з коментарів
+та генерує команди для встановлення розширених властивостей.
+
+# Parameters
+@object NVARCHAR(128) - назва або ID об'єкта модуля для обробки
+
+# Returns
+Виводить на екран згенеровані команди EXEC для встановлення описів
+
+# Usage
+-- Встановити опис для конкретного об'єкта
+EXEC util.modulesSetDescriptionFromComments 'util.errorHandler'
+
+-- Встановити опис для об'єкта за ID
+EXEC util.modulesSetDescriptionFromComments '123456789'
+*/
 CREATE OR ALTER PROCEDURE util.modulesSetDescriptionFromComments @object NVARCHAR(128)
 AS
 BEGIN

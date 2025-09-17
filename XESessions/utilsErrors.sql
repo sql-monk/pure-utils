@@ -1,3 +1,27 @@
+/*
+# Description
+Створює сесію розширених подій (Extended Events) для моніторингу та захоплення помилок
+високого рівня важливості. Сесія відстежує помилки з severity > 10 та зберігає їх у файл.
+
+# Parameters
+Сесія не має параметрів
+
+# Returns
+Створює сесію XE utilsErrors з конфігурацією:
+- Відстежує події sqlserver.error_reported
+- Фільтрує помилки з severity > 10
+- Виключає специфічні помилки (17830, "Not primary hadr replica")
+- Зберігає результати у файл utilsErrors
+- Максимальний розмір файлу 8MB, 1 файл для ротації
+- Початковий стан: OFF
+
+# Usage
+-- Запустити сесію моніторингу помилок
+ALTER EVENT SESSION utilsErrors ON SERVER STATE = START;
+
+-- Зупинити сесію
+ALTER EVENT SESSION utilsErrors ON SERVER STATE = STOP;
+*/
 CREATE EVENT SESSION utilsErrors
 ON SERVER
 	ADD EVENT sqlserver.error_reported

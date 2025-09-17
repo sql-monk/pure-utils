@@ -73,3 +73,5 @@ RETURN(
 	UNION ALL
 	SELECT cteMinor.name minor, cteMinor.description, NULL, NULL FROM cteMinor
 );
+GO
+EXEC util.modulesSetDescriptionFromComments @object = N'util.stringSplitMultiLineComment'; -- nvarchar(128)

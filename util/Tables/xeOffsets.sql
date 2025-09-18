@@ -1,0 +1,7 @@
+CREATE TABLE util.xeOffsets (
+	sessionName NVARCHAR(128) NOT NULL PRIMARY KEY,
+	LastEventTime DATETIME2 NOT NULL,
+	LastFileName NVARCHAR(260) NOT NULL,
+	LastOffset BIGINT NOT NULL
+		DEFAULT(0)
+) ON util;

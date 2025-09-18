@@ -1,3 +1,13 @@
+/*
+# Description
+Таблиця для зберігання даних Extended Events.
+
+# Returns
+Структура таблиці для зберігання даних
+
+# Usage
+Використовується для зберігання та запиту даних
+*/
 CREATE TABLE util.xeOffsets (
 	sessionName NVARCHAR(128) NOT NULL PRIMARY KEY,
 	LastEventTime DATETIME2 NOT NULL,

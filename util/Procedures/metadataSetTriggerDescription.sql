@@ -16,7 +16,7 @@ EXEC util.metadataSetTriggerDescription @trigger = 'dbo.tr_Customers_Insert', @d
 -- Встановити опис для тригера UPDATE
 EXEC util.metadataSetTriggerDescription @trigger = 'dbo.tr_Orders_Update', @description = 'Тригер для перевірки бізнес-правил при оновленні замовлень';
 */
-CREATE PROCEDURE [util].[metadataSetTriggerDescription]
+CREATE OR ALTER PROCEDURE [util].[metadataSetTriggerDescription]
 	@trigger NVARCHAR(128),
 	@description NVARCHAR(MAX)
 AS

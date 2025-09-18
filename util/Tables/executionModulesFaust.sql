@@ -1,3 +1,16 @@
+/*
+# Description
+Таблиця для зберігання даних Extended Events.
+
+# Parameters
+Таблиця не має параметрів
+
+# Returns
+Структура таблиці для зберігання даних
+
+# Usage
+Використовується для зберігання та запиту даних
+*/
 CREATE TABLE util.xeModulesFaust (
 	xeId INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	EventName NVARCHAR(50) NOT NULL,

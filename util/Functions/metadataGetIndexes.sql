@@ -22,7 +22,7 @@ SELECT * FROM util.metadataGetIndexes('myTable');
 -- Отримати індекси всіх таблиць
 SELECT * FROM util.metadataGetIndexes(NULL);
 */
-CREATE FUNCTION util.metadataGetIndexes(@object NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.metadataGetIndexes(@object NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

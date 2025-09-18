@@ -23,7 +23,7 @@ SELECT * FROM util.stringFindInlineCommentsPositions(@sqlCode, 1);
 
 -- Аналіз коду з різними типами коментарів
 DECLARE @codeWithComments NVARCHAR(MAX) = '
-CREATE PROCEDURE dbo.TestProc -- Створення процедури
+CREATE OR ALTER PROCEDURE dbo.TestProc -- Створення процедури
 AS
 BEGIN
     -- Початок логіки процедури

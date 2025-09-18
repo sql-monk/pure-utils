@@ -1,3 +1,24 @@
+/*
+# Description
+Функція для роботи з Extended Events. Читає та обробляє дані модулів з файлів XE сесії, 
+повертаючи інформацію про виконані модулі з деталями про події.
+
+# Parameters
+@scope NVARCHAR(100) - назва області (scope) для визначення XE сесії
+@minEventTime DATETIME2 = NULL - мінімальний час події (NULL для останнього збереженого часу)
+
+# Returns
+TABLE - Повертає таблицю з колонками:
+- EventName, EventTime, ObjectName, Statement, Duration та інші деталі XE подій
+- FileName, FileOffset для відстеження позиції читання
+
+# Usage
+-- Отримати модулі для області 'Users'
+SELECT * FROM util.xeGetModules('Users', DEFAULT);
+
+-- Отримати модулі після конкретного часу
+SELECT * FROM util.xeGetModules('SSIS', '2023-01-01');
+*/
 CREATE OR ALTER FUNCTION util.xeGetModules(@scope NVARCHAR(100), @minEventTime DATETIME2 = NULL)
 RETURNS TABLE
 AS

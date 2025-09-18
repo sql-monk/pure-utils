@@ -22,7 +22,7 @@ SELECT * FROM util.modulesRecureSearchStartEndPositionsExtended('/*', '*/', 1, N
 -- Знайти блоки в конкретному об'єкті
 SELECT * FROM util.modulesRecureSearchStartEndPositionsExtended('BEGIN', 'END', 0, OBJECT_ID('myProc'));
 */
-CREATE FUNCTION util.modulesRecureSearchStartEndPositionsExtended(@startValue NVARCHAR(32), @endValue NVARCHAR(32), @replaceCRwithLF BIT = 0, @objectID INT = NULL)
+CREATE OR ALTER FUNCTION util.modulesRecureSearchStartEndPositionsExtended(@startValue NVARCHAR(32), @endValue NVARCHAR(32), @replaceCRwithLF BIT = 0, @objectID INT = NULL)
 RETURNS TABLE
 AS
 RETURN

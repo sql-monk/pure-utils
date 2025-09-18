@@ -29,7 +29,7 @@ SELECT PermissionReason, COUNT(*) AS ObjectCount
 FROM util.metadataGetRequiredPermission('util.myselfGetHistory')
 GROUP BY PermissionReason;
 */
-CREATE FUNCTION util.metadataGetRequiredPermission(@object NVARCHAR(128))
+CREATE OR ALTER FUNCTION util.metadataGetRequiredPermission(@object NVARCHAR(128))
 RETURNS TABLE
 AS
 RETURN(

@@ -13,7 +13,7 @@ NVARCHAR(128) - ім'я стовпця в квадратних дужках аб
 SELECT util.metadataGetColumnName('dbo.MyTable', 1);
 -- Отримати ім'я стовпця за його column_id
 */
-CREATE FUNCTION [util].[metadataGetColumnName](@major NVARCHAR(128), @columnId INT)
+CREATE OR ALTER FUNCTION [util].[metadataGetColumnName](@major NVARCHAR(128), @columnId INT)
 RETURNS NVARCHAR(128)
 AS
 BEGIN

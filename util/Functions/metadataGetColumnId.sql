@@ -14,7 +14,7 @@ INT - ідентифікатор стовпця (column_id) або NULL якщо
 SELECT util.metadataGetColumnId('dbo.MyTable', 'MyColumn');
 -- Отримати column_id для стовпця MyColumn в таблиці dbo.MyTable
 */
-CREATE FUNCTION util.metadataGetColumnId(@major NVARCHAR(128), @column NVARCHAR(128))
+CREATE OR ALTER FUNCTION util.metadataGetColumnId(@major NVARCHAR(128), @column NVARCHAR(128))
 RETURNS INT
 AS
 BEGIN

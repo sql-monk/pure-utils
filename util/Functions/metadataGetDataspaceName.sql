@@ -16,7 +16,7 @@ SELECT util.metadataGetDataspaceName(1);
 -- Отримати назву схеми розділення за ID
 SELECT util.metadataGetDataspaceName(65537);
 */
-CREATE FUNCTION util.metadataGetDataspaceName(@dataSpaceId INT)
+CREATE OR ALTER FUNCTION util.metadataGetDataspaceName(@dataSpaceId INT)
 RETURNS NVARCHAR(128)
 AS
 BEGIN

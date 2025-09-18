@@ -14,7 +14,7 @@ NVARCHAR(128) - текстова назва класу або NULL для нев
 SELECT util.metadataGetClassName(1); -- OBJECT_OR_COLUMN
 SELECT util.metadataGetClassName(3); -- SCHEMA
 */
-CREATE FUNCTION util.metadataGetClassName(@class TINYINT)
+CREATE OR ALTER FUNCTION util.metadataGetClassName(@class TINYINT)
 RETURNS NVARCHAR(128)
 AS
 BEGIN

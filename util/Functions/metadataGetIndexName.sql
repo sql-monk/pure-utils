@@ -16,7 +16,7 @@ SELECT util.metadataGetIndexName('myTable', 2);
 -- Використовуючи object_id таблиці
 SELECT util.metadataGetIndexName('1234567890', 2);
 */
-CREATE FUNCTION [util].[metadataGetIndexName](@major NVARCHAR(128), @indexId INT)
+CREATE OR ALTER FUNCTION [util].[metadataGetIndexName](@major NVARCHAR(128), @indexId INT)
 RETURNS NVARCHAR(128)
 AS
 BEGIN

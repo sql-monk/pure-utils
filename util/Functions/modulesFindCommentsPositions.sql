@@ -19,7 +19,7 @@ SELECT * FROM util.modulesFindCommentsPositions(OBJECT_ID('myProc'));
 -- Знайти всі коментарі в усіх об'єктах
 SELECT * FROM util.modulesFindCommentsPositions(NULL);
 */
-CREATE FUNCTION util.modulesFindCommentsPositions(@objectId INT = NULL)
+CREATE OR ALTER FUNCTION util.modulesFindCommentsPositions(@objectId INT = NULL)
 RETURNS TABLE
 AS
 RETURN(

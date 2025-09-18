@@ -41,7 +41,7 @@ FROM util.tablesGetIndexedColumns('MyTable')
 GROUP BY SchemaName, TableName, ColumnName
 ORDER BY IndexCount DESC;
 */
-CREATE FUNCTION util.tablesGetIndexedColumns(@object NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.tablesGetIndexedColumns(@object NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

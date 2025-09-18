@@ -18,7 +18,7 @@ SELECT * FROM util.indexesGetScriptConventionRename('myTable', NULL);
 -- Згенерувати скрипт перейменування для конкретного індексу
 SELECT * FROM util.indexesGetScriptConventionRename('myTable', 'myIndex');
 */
-CREATE FUNCTION util.indexesGetScriptConventionRename(@table NVARCHAR(128) = NULL, @index NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.indexesGetScriptConventionRename(@table NVARCHAR(128) = NULL, @index NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

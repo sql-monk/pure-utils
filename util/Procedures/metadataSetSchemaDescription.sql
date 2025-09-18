@@ -16,7 +16,7 @@ EXEC util.metadataSetSchemaDescription @schema = 'sales', @description = 'Схе
 -- Встановити опис для службової схеми
 EXEC util.metadataSetSchemaDescription @schema = 'util', @description = 'Схема утилітарних функцій та процедур';
 */
-CREATE PROCEDURE [util].[metadataSetSchemaDescription]
+CREATE OR ALTER PROCEDURE [util].[metadataSetSchemaDescription]
 	@schema NVARCHAR(128),
 	@description NVARCHAR(MAX)
 AS

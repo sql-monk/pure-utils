@@ -23,7 +23,7 @@ SELECT * FROM util.metadataGetExtendedProperiesValues('myTable', NULL, NULL);
 -- Отримати значення конкретної властивості
 SELECT * FROM util.metadataGetExtendedProperiesValues('myTable', 'myColumn', 'MS_Description');
 */
-CREATE FUNCTION util.metadataGetExtendedProperiesValues(@major NVARCHAR(128) = NULL, @minor NVARCHAR(128) = NULL, @property NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.metadataGetExtendedProperiesValues(@major NVARCHAR(128) = NULL, @minor NVARCHAR(128) = NULL, @property NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

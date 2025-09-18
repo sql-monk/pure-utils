@@ -22,7 +22,7 @@ SELECT * FROM util.indexesGetConventionNames('myTable', NULL);
 -- Отримати рекомендовану назву для конкретного індексу
 SELECT * FROM util.indexesGetConventionNames('myTable', 'myIndex');
 */
-CREATE FUNCTION util.indexesGetConventionNames(@object NVARCHAR(128) = NULL, @index NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.indexesGetConventionNames(@object NVARCHAR(128) = NULL, @index NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

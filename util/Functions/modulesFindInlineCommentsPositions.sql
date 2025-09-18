@@ -15,7 +15,7 @@ TABLE - Повертає таблицю з колонками:
 -- Знайти однорядкові коментарі в конкретному об'єкті
 SELECT * FROM util.modulesFindInlineCommentsPositions(OBJECT_ID('myProc'));
 */
-CREATE FUNCTION [util].[modulesFindInlineCommentsPositions](@objectId INT = NULL)
+CREATE OR ALTER FUNCTION [util].[modulesFindInlineCommentsPositions](@objectId INT = NULL)
 RETURNS TABLE
 AS
 RETURN(SELECT object_id, startPosition, endPosition FROM util.modulesRecureSearchStartEndPositionsExtended ('--', CHAR (10), 1, @objectId) );

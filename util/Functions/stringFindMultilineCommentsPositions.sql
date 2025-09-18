@@ -25,7 +25,7 @@ SELECT * FROM util.stringFindMultilineCommentsPositions(@sqlCode, 1);
 
 -- Аналіз складного коду з вкладеними коментарями
 DECLARE @complexCode NVARCHAR(MAX) = '
-CREATE PROCEDURE dbo.TestProc
+CREATE OR ALTER PROCEDURE dbo.TestProc
 AS
 BEGIN
     /* Початок процедури

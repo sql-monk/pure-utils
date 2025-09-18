@@ -18,7 +18,7 @@ SELECT util.metadataGetAnyId('dbo.MyTable', 'OBJECT');
 -- Отримати column_id колонки
 SELECT util.metadataGetAnyId('dbo.MyTable', 'OBJECT', 'MyColumn');
 */
-CREATE FUNCTION util.metadataGetAnyId(@object NVARCHAR(128), @class NVARCHAR(128) = 1, @minorName NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.metadataGetAnyId(@object NVARCHAR(128), @class NVARCHAR(128) = 1, @minorName NVARCHAR(128) = NULL)
 RETURNS INT
 AS
 BEGIN

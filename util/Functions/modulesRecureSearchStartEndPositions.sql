@@ -20,7 +20,7 @@ SELECT * FROM util.modulesRecureSearchStartEndPositions('BEGIN', 'END');
 -- Знайти блоки IF...END IF  
 SELECT * FROM util.modulesRecureSearchStartEndPositions('IF', 'END IF');
 */
-CREATE FUNCTION [util].[modulesRecureSearchStartEndPositions](@startValue NVARCHAR(32), @endValue NVARCHAR(32))
+CREATE OR ALTER FUNCTION [util].[modulesRecureSearchStartEndPositions](@startValue NVARCHAR(32), @endValue NVARCHAR(32))
 RETURNS TABLE
 AS
 RETURN(SELECT object_id, startPosition, endPosition FROM util.modulesRecureSearchStartEndPositionsExtended (@startValue, @endValue, DEFAULT, DEFAULT) );

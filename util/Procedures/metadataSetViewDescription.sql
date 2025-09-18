@@ -16,7 +16,7 @@ EXEC util.metadataSetViewDescription @view = 'dbo.vw_ActiveCustomers', @descript
 -- Встановити опис для складного представлення
 EXEC util.metadataSetViewDescription @view = 'dbo.vw_SalesReport', @description = 'Звіт продажів з агрегованими даними по періодах';
 */
-CREATE PROCEDURE [util].[metadataSetViewDescription]
+CREATE OR ALTER PROCEDURE [util].[metadataSetViewDescription]
 	@view NVARCHAR(128),
 	@description NVARCHAR(MAX)
 AS

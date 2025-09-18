@@ -16,7 +16,7 @@ SELECT util.metadataGetDataspaceId('PRIMARY');
 -- Отримати ID схеми розділення
 SELECT util.metadataGetDataspaceId('MyPartitionScheme');
 */
-CREATE FUNCTION util.metadataGetDataspaceId(@dataSpace NVARCHAR(128))
+CREATE OR ALTER FUNCTION util.metadataGetDataspaceId(@dataSpace NVARCHAR(128))
 RETURNS INT
 AS
 BEGIN

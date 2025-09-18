@@ -16,7 +16,7 @@ SELECT util.metadataGetIndexId('myTable', 'IX_myTable_Column1');
 -- Використовуючи object_id таблиці
 SELECT util.metadataGetIndexId('1234567890', 'IX_myTable_Column1');
 */
-CREATE FUNCTION util.metadataGetIndexId(@object NVARCHAR(128), @indexName NVARCHAR(128))
+CREATE OR ALTER FUNCTION util.metadataGetIndexId(@object NVARCHAR(128), @indexName NVARCHAR(128))
 RETURNS INT
 AS
 BEGIN

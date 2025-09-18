@@ -12,7 +12,7 @@ INT - ідентифікатор функції розділення або NULL
 -- Отримати ID функції розділення
 SELECT util.metadataGetPartitionFunctionId('myPartitionFunction');
 */
-CREATE FUNCTION util.metadataGetPartitionFunctionId(@function NVARCHAR(128))
+CREATE OR ALTER FUNCTION util.metadataGetPartitionFunctionId(@function NVARCHAR(128))
 RETURNS INT
 AS
 BEGIN

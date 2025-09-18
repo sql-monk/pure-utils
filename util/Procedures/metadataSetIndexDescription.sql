@@ -17,7 +17,7 @@ EXEC util.metadataSetIndexDescription @major = 'dbo.myTable', @index = 'IX_myTab
 -- Встановити опис для первинного ключа
 EXEC util.metadataSetIndexDescription @major = 'dbo.myTable', @index = 'PK_myTable', @description = 'Первинний ключ таблиці';
 */
-CREATE PROCEDURE [util].[metadataSetIndexDescription]
+CREATE OR ALTER PROCEDURE [util].[metadataSetIndexDescription]
 	@major NVARCHAR(128),
 	@index NVARCHAR(128),
 	@description NVARCHAR(MAX)

@@ -14,7 +14,7 @@ TINYINT - числовий код класу (0-База даних, 1-Об'єк
 SELECT util.metadataGetClassByName('OBJECT_OR_COLUMN');
 SELECT util.metadataGetClassByName('INDEX');
 */
-CREATE FUNCTION util.metadataGetClassByName(@className NVARCHAR(128))
+CREATE OR ALTER FUNCTION util.metadataGetClassByName(@className NVARCHAR(128))
 RETURNS TINYINT
 AS
 BEGIN

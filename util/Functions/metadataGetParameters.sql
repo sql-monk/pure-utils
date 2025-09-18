@@ -22,7 +22,7 @@ SELECT * FROM util.metadataGetParameters('util.errorHandler');
 -- Отримати параметри всіх об'єктів
 SELECT * FROM util.metadataGetParameters(DEFAULT);
 */
-CREATE FUNCTION util.metadataGetParameters(@object NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.metadataGetParameters(@object NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

@@ -12,7 +12,7 @@
 SELECT * FROM util.metadataGetColumns('dbo.MyTable');
 -- Отримати інформацію про всі стовпці таблиці
 */
-CREATE FUNCTION util.metadataGetColumns(@object NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.metadataGetColumns(@object NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

@@ -16,7 +16,7 @@ EXEC util.metadataSetDataspaceDescription @dataspace = 'PRIMARY', @description =
 -- Встановити опис для схеми розділення
 EXEC util.metadataSetDataspaceDescription @dataspace = 'MyPartitionScheme', @description = 'Схема розділення по датах';
 */
-CREATE PROCEDURE [util].[metadataSetDataspaceDescription]
+CREATE OR ALTER PROCEDURE [util].[metadataSetDataspaceDescription]
 	@dataspace NVARCHAR(128),
 	@description NVARCHAR(MAX)
 AS

@@ -11,8 +11,6 @@
 # Usage
 Використовується для зберігання та запиту даних
 */
-
-GO
 CREATE TABLE util.xeModulesUsers (
 	xeId INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	EventName NVARCHAR(50) NOT NULL,
@@ -39,3 +37,4 @@ CREATE TABLE util.xeModulesUsers (
 	TaskTime BIGINT NULL
 ) ON util
 WITH (DATA_COMPRESSION = PAGE);
+GO

@@ -37,3 +37,4 @@ CREATE TABLE util.xeModulesSSIS (
 	TaskTime BIGINT NULL
 ) ON util
 WITH (DATA_COMPRESSION = PAGE);
+GO

@@ -148,7 +148,7 @@ SELECT
 	PlanHandle,
 	TaskTime
 FROM #xEvents xe
-WHERE NOT EXISTS (SELECT * FROM util.xeModulesUsers u WHERE u.EventTime = xe.EventTime AND u.EventName = xe.EventName AND u.hb = xe.hb);';
+WHERE NOT EXISTS (SELECT * FROM util.xeModules' + @scope + N' u WHERE u.EventTime = xe.EventTime AND u.EventName = xe.EventName AND u.hb = xe.hb);';
 
 	EXEC sys.sp_executesql @cmd;
 END;

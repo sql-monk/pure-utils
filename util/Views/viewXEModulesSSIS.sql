@@ -1,3 +1,17 @@
+/*
+# Description
+Представлення для читання даних Extended Events.
+
+# Parameters
+Представлення не має параметрів
+
+# Returns
+VIEW - набір рядків з даними
+
+# Usage
+-- Приклад використання
+SELECT * FROM util.viewXEModulesSSIS;
+*/
 CREATE VIEW util.viewXEModulesSSIS
 AS
 SELECT

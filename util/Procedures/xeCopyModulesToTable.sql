@@ -1,3 +1,21 @@
+/*
+# Description
+Процедура для роботи з Extended Events. Копіює дані модулів з XE файлів до відповідних таблиць,
+оновлює позиції читання та зберігає SQL тексти для подальшого аналізу.
+
+# Parameters
+@scope NVARCHAR(128) - назва області (Users, SSIS, Faust) для визначення цільової таблиці
+
+# Returns
+Нічого не повертає. Копіює дані до util.xeModules[Scope], util.xeSqlText та util.xeOffsets.
+
+# Usage
+-- Копіювати модулі користувачів
+EXEC util.xeCopyModulesToTable 'Users';
+
+-- Копіювати модулі SSIS пакетів  
+EXEC util.xeCopyModulesToTable 'SSIS';
+*/
 CREATE OR ALTER PROCEDURE util.xeCopyModulesToTable @scope NVARCHAR(128)
 AS
 BEGIN

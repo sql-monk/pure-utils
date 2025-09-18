@@ -1,3 +1,16 @@
+/*
+# Description
+Таблиця для зберігання даних Extended Events.
+
+# Parameters
+Таблиця не має параметрів
+
+# Returns
+Структура таблиці для зберігання даних
+
+# Usage
+Використовується для зберігання та запиту даних
+*/
 
 GO
 CREATE TABLE util.xeModulesUsers (

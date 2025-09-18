@@ -1,3 +1,17 @@
+/*
+# Description
+Функція для роботи з Extended Events. Обробляє дані сесій XE.
+
+# Parameters
+@sessionName NVARCHAR(128 - параметр
+
+# Returns
+NVARCHAR - результат функції
+
+# Usage
+-- Приклад використання
+SELECT * FROM util.xeGetLogsPath(параметри);
+*/
 SET QUOTED_IDENTIFIER ON;
 SET ANSI_NULLS ON;
 GO

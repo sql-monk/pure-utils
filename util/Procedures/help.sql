@@ -1,3 +1,21 @@
+/*
+# Description
+Процедура довідки, яка виводить інформацію про доступні об'єкти в схемі util.
+Показує список процедур, функцій та їх описи з розширених властивостей.
+
+# Parameters
+@keyword sysname = NULL - ключове слово для фільтрації результатів (NULL = всі об'єкти)
+
+# Returns
+Нічого не повертає. Виводить довідкову інформацію через PRINT та SELECT.
+
+# Usage
+-- Показати всю довідку
+EXEC util.help;
+
+-- Показати довідку за ключовим словом
+EXEC util.help 'metadata';
+*/
 CREATE OR ALTER PROCEDURE util.help @keyword sysname = NULL
 AS
 BEGIN

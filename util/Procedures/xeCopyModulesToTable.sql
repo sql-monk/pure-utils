@@ -1,3 +1,21 @@
+/*
+# Description
+Процедура для копіювання модулів з Extended Events у таблицю для подальшого аналізу та зберігання.
+Читає дані з XE файлів, обробляє їх та записує в таблиці виконання модулів з відповідним скоупом.
+
+# Parameters
+@scope NVARCHAR(128) - скоуп або тип модулів для копіювання
+
+# Returns
+Нічого не повертає. Записує дані в таблиці util.executionModules та оновлює зміщення в util.xeOffsets
+
+# Usage
+-- Копіювати модулі для SSIS
+EXEC util.xeCopyModulesToTable 'SSIS';
+
+-- Копіювати модулі для користувачів
+EXEC util.xeCopyModulesToTable 'Users'; 
+*/
 CREATE OR ALTER PROCEDURE util.xeCopyModulesToTable @scope NVARCHAR(128)
 AS
 BEGIN
@@ -34,7 +52,7 @@ BEGIN
 		FileOffset BIGINT NOT NULL
 	)
 	WITH (DATA_COMPRESSION = PAGE);
-
+	
 	CREATE INDEX ix_eventTime ON #xEvents(EventTime DESC)INCLUDE(FileName, FileOffset)WITH(DATA_COMPRESSION = PAGE);
 
 	INSERT
@@ -64,27 +82,25 @@ BEGIN
 		TaskTime,
 		FileName,
 		FileOffset
-	FROM util.xeGetModules(@scope, DEFAULT);
+	FROM util.xeReadFileModules(@scope, DEFAULT);
 
 	INSERT
-		util.xeSqlText
+		util.executionSqlText
 	SELECT
 		st.SqlTextHash,
 		st.sqlText
-	FROM(SELECT SqlTextHash, sqlText FROM #xEvents WHERE sqlText IS NOT NULL UNION SELECT StatementHash, Statement FROM #xEvents WHERE sqlText IS NOT NULL) st
+	FROM(SELECT SqlTextHash, sqlText FROM #xEvents WHERE sqlText IS NOT NULL UNION SELECT StatementHash, Statement FROM #xEvents WHERE Statement IS NOT NULL) st
 	WHERE NOT EXISTS (
-		SELECT * FROM util.xeSqlText st WHERE st.sqlHash = st.sqlHash
+		SELECT * FROM util.executionSqlText t WHERE t.sqlHash = st.SqlTextHash
 	);
 
 	DELETE FROM util.xeOffsets WHERE sessionName = 'utilsModules' + @scope;
-
+	
 	INSERT
 		util.xeOffsets(sessionName, LastEventTime, LastFileName, LastOffset)
 	SELECT TOP(1)'utilsModules' + @scope, EventTime, FileName, FileOffset FROM #xEvents ORDER BY EventTime DESC;
 
-	DECLARE @cmd NVARCHAR(MAX)
-		= N'INSERT INTO util.xeModules' + @scope
-			+ N'(EventName,
+	DECLARE @cmd NVARCHAR(MAX) = N'INSERT INTO util.executionModules' + @scope 	+ N'(EventName,
 	EventTime,
 	hb,
 	ObjectName,
@@ -130,7 +146,7 @@ SELECT
 	PlanHandle,
 	TaskTime
 FROM #xEvents xe
-WHERE NOT EXISTS (SELECT * FROM util.xeModulesUsers u WHERE u.EventTime = xe.EventTime AND u.EventName = xe.EventName AND u.hb = xe.hb);';
+WHERE NOT EXISTS (SELECT * FROM util.executionModules' + @scope + ' u WHERE u.EventTime = xe.EventTime AND u.EventName = xe.EventName AND u.hb = xe.hb);';
 
 	EXEC sys.sp_executesql @cmd;
 END;

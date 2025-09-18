@@ -24,3 +24,16 @@ CREATE TABLE util.xeModulesSSIS (
 	TaskTime BIGINT NULL
 ) ON util
 WITH (DATA_COMPRESSION = PAGE);
+
+
+CREATE NONCLUSTERED INDEX ix_EventTime_EventName_hb
+ON util.xeModulesSSIS(EventTime ASC, EventName ASC, hb ASC)
+WITH(ONLINE = ON, SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE)
+ON util;
+
+
+CREATE NONCLUSTERED INDEX ix_ObjectName_DatabaseName
+ON util.xeModulesSSIS(ObjectName ASC, DatabaseName ASC)
+INCLUDE(EventTime, Duration, ModuleRowCount)
+WITH(ONLINE = ON, SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE)
+ON util;

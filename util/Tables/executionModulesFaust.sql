@@ -1,6 +1,4 @@
-
-GO
-CREATE TABLE util.xeModulesUsers (
+CREATE TABLE util.xeModulesFaust (
 	xeId INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	EventName NVARCHAR(50) NOT NULL,
 	EventTime DATETIME2(7) NOT NULL,
@@ -26,3 +24,17 @@ CREATE TABLE util.xeModulesUsers (
 	TaskTime BIGINT NULL
 ) ON util
 WITH (DATA_COMPRESSION = PAGE);
+GO
+
+
+CREATE NONCLUSTERED INDEX ix_EventTime_EventName_hb
+ON util.xeModulesFaust(EventTime ASC, EventName ASC, hb ASC)
+WITH(ONLINE = ON, SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE)
+ON util;
+
+
+CREATE NONCLUSTERED INDEX ix_objectName_hostname
+ON util.xeModulesFaust(ObjectName ASC, ClientHostname ASC)
+INCLUDE(EventTime, Duration, ModuleRowCount)
+WITH(ONLINE = ON, SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE)
+ON util;

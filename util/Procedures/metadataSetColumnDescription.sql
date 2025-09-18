@@ -18,7 +18,7 @@ EXEC util.metadataSetColumnDescription @object = 'myTable', @column = 'myColumn'
 -- Встановити опис для колонки представлення
 EXEC util.metadataSetColumnDescription @object = 'myView', @column = 'calculatedColumn', @description = 'Розрахункова колонка';
 */
-CREATE PROCEDURE util.metadataSetColumnDescription 
+CREATE OR ALTER PROCEDURE util.metadataSetColumnDescription 
 	@object NVARCHAR(128),
 	@column NVARCHAR(128),
 	@description NVARCHAR(MAX)

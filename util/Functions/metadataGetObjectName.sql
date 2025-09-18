@@ -16,7 +16,7 @@ SELECT util.metadataGetObjectName(OBJECT_ID('dbo.myTable'));
 -- Використовуючи числовий ID
 SELECT util.metadataGetObjectName(1234567890);
 */
-CREATE FUNCTION [util].[metadataGetObjectName](@majorId INT)
+CREATE OR ALTER FUNCTION [util].[metadataGetObjectName](@majorId INT)
 RETURNS NVARCHAR(128)
 AS
 BEGIN

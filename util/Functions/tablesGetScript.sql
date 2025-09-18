@@ -18,7 +18,7 @@ SELECT * FROM util.tablesGetScript('myTable');
 -- Згенерувати скрипти для всіх таблиць
 SELECT * FROM util.tablesGetScript(NULL);
 */
-CREATE FUNCTION util.tablesGetScript(@table NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.tablesGetScript(@table NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

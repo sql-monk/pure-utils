@@ -21,7 +21,7 @@ SELECT * FROM util.indexesGetScript('myTable', NULL);
 -- Згенерувати скрипт для конкретного індексу
 SELECT * FROM util.indexesGetScript('myTable', 'myIndex');
 */
-CREATE FUNCTION util.indexesGetScript(@table NVARCHAR(128) = NULL, @index NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.indexesGetScript(@table NVARCHAR(128) = NULL, @index NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(

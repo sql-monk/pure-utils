@@ -18,7 +18,7 @@ SELECT util.metadataGetAnyName(OBJECT_ID('dbo.MyTable'), 0, '1');
 -- Отримати ім'я колонки
 SELECT util.metadataGetAnyName(OBJECT_ID('dbo.MyTable'), 1, '1');
 */
-CREATE FUNCTION util.metadataGetAnyName(@majorId INT, @minorId INT = 0, @class NVARCHAR(128) = '1')
+CREATE OR ALTER FUNCTION util.metadataGetAnyName(@majorId INT, @minorId INT = 0, @class NVARCHAR(128) = '1')
 RETURNS NVARCHAR(128)
 AS
 BEGIN

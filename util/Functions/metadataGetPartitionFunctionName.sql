@@ -12,7 +12,7 @@ NVARCHAR(128) - назва функції розділення в квадрат
 -- Отримати назву функції розділення за ID
 SELECT util.metadataGetPartitionFunctionName(1);
 */
-CREATE FUNCTION util.metadataGetPartitionFunctionName(@functionId INT)
+CREATE OR ALTER FUNCTION util.metadataGetPartitionFunctionName(@functionId INT)
 RETURNS NVARCHAR(128)
 AS
 BEGIN

@@ -16,7 +16,7 @@ SELECT util.metadataGetParameterId('myProcedure', '@param1');
 -- Використовуючи object_id
 SELECT util.metadataGetParameterId('1234567890', '@param1');
 */
-CREATE FUNCTION util.metadataGetParameterId(@object NVARCHAR(128), @parameterName NVARCHAR(128))
+CREATE OR ALTER FUNCTION util.metadataGetParameterId(@object NVARCHAR(128), @parameterName NVARCHAR(128))
 RETURNS INT
 AS
 BEGIN

@@ -1,7 +1,21 @@
+/*
+# Description
+Функція для роботи з Extended Events. Обробляє дані сесій XE.
+
+# Parameters
+@xeSession NVARCHAR(128 - параметр
+
+# Returns
+TABLE - результат функції
+
+# Usage
+-- Приклад використання
+SELECT * FROM util.xeGetTargetFile(параметри);
+*/
 SET QUOTED_IDENTIFIER ON;
 SET ANSI_NULLS ON;
 GO
-ALTER FUNCTION util.xeGetTargetFile(@xeSession NVARCHAR(128))
+CREATE OR ALTER FUNCTION util.xeGetTargetFile(@xeSession NVARCHAR(128))
 RETURNS TABLE
 AS
 RETURN(

@@ -16,7 +16,7 @@ EXEC util.metadataSetTableDescription @table = 'dbo.Customers', @description = '
 -- Встановити опис для системної таблиці
 EXEC util.metadataSetTableDescription @table = 'util.ErrorLog', @description = 'Журнал помилок системи';
 */
-CREATE PROCEDURE [util].[metadataSetTableDescription]
+CREATE OR ALTER PROCEDURE [util].[metadataSetTableDescription]
 	@table NVARCHAR(128),
 	@description NVARCHAR(MAX)
 AS

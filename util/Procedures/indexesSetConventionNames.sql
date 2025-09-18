@@ -17,7 +17,7 @@ EXEC util.indexesSetConventionNames @table = 'myTable', @output = 1;
 -- Перейменувати конкретний індекс без виведення
 EXEC util.indexesSetConventionNames @table = 'myTable', @index = 'oldIndexName', @output = 0;
 */
-CREATE PROCEDURE util.indexesSetConventionNames @table NVARCHAR(128) = NULL,
+CREATE OR ALTER PROCEDURE util.indexesSetConventionNames @table NVARCHAR(128) = NULL,
 	@index NVARCHAR(128) = NULL,
 	@output TINYINT = 1
 AS

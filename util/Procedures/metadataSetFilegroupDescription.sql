@@ -16,7 +16,7 @@ EXEC util.metadataSetFilegroupDescription @filegroup = 'PRIMARY', @description =
 -- Встановити опис для додаткової файлової групи
 EXEC util.metadataSetFilegroupDescription @filegroup = 'DATA_FG', @description = 'Файлова група для користувацьких даних';
 */
-CREATE PROCEDURE [util].[metadataSetFilegroupDescription]
+CREATE OR ALTER PROCEDURE [util].[metadataSetFilegroupDescription]
 	@filegroup NVARCHAR(128),
 	@description NVARCHAR(MAX)
 AS

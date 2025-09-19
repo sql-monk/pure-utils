@@ -7,9 +7,6 @@
 # Parameters
 @object NVARCHAR(128) - назва або ID об'єкта модуля для обробки
 
-# Returns
-Виводить на екран згенеровані команди EXEC для встановлення описів
-
 # Usage
 -- Встановити опис для конкретного об'єкта
 EXEC util.modulesSetDescriptionFromComments 'util.errorHandler'

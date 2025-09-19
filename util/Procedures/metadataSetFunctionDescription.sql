@@ -7,9 +7,6 @@
 @function NVARCHAR(128) - назва функції
 @description NVARCHAR(MAX) - текст опису для функції
 
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для функції
-
 # Usage
 -- Встановити опис для скалярної функції
 EXEC util.metadataSetFunctionDescription @function = 'dbo.MyScalarFunction', @description = 'Функція розрахунку значення';

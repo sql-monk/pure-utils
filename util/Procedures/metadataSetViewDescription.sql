@@ -6,9 +6,6 @@
 @view NVARCHAR(128) - назва представлення
 @description NVARCHAR(MAX) - текст опису для представлення
 
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для представлення
-
 # Usage
 -- Встановити опис для представлення
 EXEC util.metadataSetViewDescription @view = 'dbo.vw_ActiveCustomers', @description = 'Представлення активних клієнтів з основною інформацією';

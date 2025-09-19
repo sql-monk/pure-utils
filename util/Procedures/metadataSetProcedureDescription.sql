@@ -6,9 +6,6 @@
 @procedure NVARCHAR(128) - назва процедури
 @description NVARCHAR(MAX) - текст опису для процедури
 
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для процедури
-
 # Usage
 -- Встановити опис для процедури
 EXEC util.metadataSetProcedureDescription @procedure = 'dbo.myProcedure', @description = 'Процедура для обробки користувацьких даних';

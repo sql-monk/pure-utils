@@ -6,9 +6,6 @@
 @table NVARCHAR(128) - назва таблиці
 @description NVARCHAR(MAX) - текст опису для таблиці
 
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для таблиці
-
 # Usage
 -- Встановити опис для користувацької таблиці
 EXEC util.metadataSetTableDescription @table = 'dbo.Customers', @description = 'Таблиця інформації про клієнтів';

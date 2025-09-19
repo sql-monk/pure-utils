@@ -8,15 +8,12 @@
 @object NVARCHAR(128) - назва об'єкта для обробки
 @OnlyEmpty BIT = 1 - встановлювати описи тільки для об'єктів без існуючих описів (1) або для всіх (0)
 
-# Returns
-Нічого не повертає. Встановлює розширені властивості MS_Description на основі коментарів
-
 # Usage
 -- Встановити описи з коментарів для конкретного об'єкта
 EXEC util.modulesSetDescriptionFromComments @object = 'myProcedure', @OnlyEmpty = 1;
 
 -- Оновити описи для всіх об'єктів навіть якщо вони вже існують
-EXEC util.modulesSetDescriptionFromComments @object = 'myFunction', @OnlyEmpty = 0;
+EXEC util.modulesSetDescriptionFromComments @object = 'myFunction', @OnляEmpty = 0;
 */
 CREATE OR ALTER PROCEDURE util.modulesSetDescriptionFromCommentsLegacy @object NVARCHAR(128),
 	@OnlyEmpty BIT = 1

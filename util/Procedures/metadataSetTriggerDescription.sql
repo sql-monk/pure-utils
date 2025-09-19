@@ -6,9 +6,6 @@
 @trigger NVARCHAR(128) - назва тригера
 @description NVARCHAR(MAX) - текст опису для тригера
 
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для тригера
-
 # Usage
 -- Встановити опис для тригера INSERT
 EXEC util.metadataSetTriggerDescription @trigger = 'dbo.tr_Customers_Insert', @description = 'Тригер для логування додавання нових клієнтів';

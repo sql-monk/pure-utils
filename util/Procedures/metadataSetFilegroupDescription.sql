@@ -6,9 +6,6 @@
 @filegroup NVARCHAR(128) - назва файлової групи
 @description NVARCHAR(MAX) - текст опису для файлової групи
 
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для файлової групи
-
 # Usage
 -- Встановити опис для файлової групи
 EXEC util.metadataSetFilegroupDescription @filegroup = 'PRIMARY', @description = 'Основна файлова група системи';

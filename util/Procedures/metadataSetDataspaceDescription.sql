@@ -6,9 +6,6 @@
 @dataspace NVARCHAR(128) - назва простору даних
 @description NVARCHAR(MAX) - текст опису для простору даних
 
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для простору даних
-
 # Usage
 -- Встановити опис для файлової групи
 EXEC util.metadataSetDataspaceDescription @dataspace = 'PRIMARY', @description = 'Основна файлова група';

@@ -14,9 +14,6 @@
 @level2type NVARCHAR(128) = NULL - тип об'єкта рівня 2 (наприклад, 'COLUMN')
 @level2name NVARCHAR(128) = NULL - назва об'єкта рівня 2
 
-# Returns
-Нічого не повертає. Встановлює або оновлює розширену властивість
-
 # Usage
 -- Встановити властивість для таблиці
 EXEC util.metadataSetExtendedProperty @name = 'MS_Description', @value = 'Опис таблиці',

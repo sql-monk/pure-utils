@@ -10,3 +10,5 @@
 /obj
 /utils.sln
 /utils.sqlproj
+
+.vscode/settings.json

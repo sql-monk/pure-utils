@@ -1,15 +1,32 @@
 /*
 # Description
-Таблиця для зберігання даних Extended Events.
+Таблиця для зберігання подій виконання модулів із XE сесії Faust.
+Містить детальну інформацію про виконання процедур та функцій в базі даних.
 
-# Parameters
-Таблиця не має параметрів
-
-# Returns
-Структура таблиці для зберігання даних
-
-# Usage
-Використовується для зберігання та запиту даних
+# Columns
+- xeId INT IDENTITY - унікальний ідентифікатор запису
+- EventName NVARCHAR(50) - назва XE події
+- EventTime DATETIME2(7) - час події
+- hb VARBINARY(32) - hash bucket
+- ObjectName NVARCHAR(128) - назва об'єкта
+- LineNumber INT - номер рядка в модулі
+- DatabaseName NVARCHAR(128) - назва бази даних
+- DatabaseId SMALLINT - ідентифікатор бази даних
+- SessionId INT - ідентифікатор сесії
+- ClientHostname NVARCHAR(128) - ім'я хоста клієнта
+- ClientAppName NVARCHAR(256) - назва клієнтської програми
+- ServerPrincipalName NVARCHAR(128) - ім'я користувача сервера
+- StatementHash VARBINARY(32) - хеш інструкції
+- Duration BIGINT - тривалість виконання
+- SourceDatabaseId INT - ідентифікатор вихідної бази даних
+- ObjectId BIGINT - ідентифікатор об'єкта
+- Offset INT - початковий зсув в тексті
+- OffsetEnd INT - кінцевий зсув в тексті
+- ObjectType NVARCHAR(10) - тип об'єкта
+- ModuleRowCount BIGINT - кількість рядків модуля
+- SqlTextHash VARBINARY(32) - хеш SQL тексту
+- PlanHandle VARBINARY(64) - дескриптор плану виконання
+- TaskTime BIGINT - час виконання задачі
 */
 CREATE TABLE util.xeModulesFaust (
 	xeId INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,

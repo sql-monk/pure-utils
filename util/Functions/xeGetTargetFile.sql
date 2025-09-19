@@ -1,3 +1,25 @@
+/*
+# Description
+Отримує інформацію про цільовий файл Extended Events сесії для відстеження останньої позиції читання.
+Функція визначає поточний файл сесії та останню оброблену позицію для продовження читання з правильного місця.
+
+# Parameters
+@xeSession NVARCHAR(128) - назва Extended Events сесії
+
+# Returns
+TABLE - Повертає таблицю з колонками:
+- lastEventTime DATETIME - час останньої обробленої події (по замовчуванню -7 днів від поточної дати)
+- lastOffset BIGINT - останній оброблений зсув у файлі (0 якщо файл змінився)
+- currentFile NVARCHAR(260) - шлях до поточного файлу сесії (NULL якщо файл змінився)
+
+# Usage
+-- Отримати інформацію про цільовий файл для сесії utilsErrors
+SELECT * FROM util.xeGetTargetFile('utilsErrors');
+
+-- Перевірити останню позицію читання для конкретної сесії
+SELECT lastEventTime, lastOffset, currentFile 
+FROM util.xeGetTargetFile('mySession');
+*/
 CREATE OR ALTER FUNCTION util.xeGetTargetFile(@xeSession NVARCHAR(128))
 RETURNS TABLE
 AS

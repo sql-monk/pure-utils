@@ -1,15 +1,32 @@
 /*
 # Description
-Таблиця для зберігання даних Extended Events.
+Таблиця для зберігання подій виконання модулів SSIS із XE сесій.
+Містить інформацію про виконання пакетів, задач та компонентів SQL Server Integration Services.
 
-# Parameters
-Таблиця не має параметрів
-
-# Returns
-Структура таблиці для зберігання даних
-
-# Usage
-Використовується для зберігання та запиту даних
+# Columns
+- xeId INT IDENTITY - унікальний ідентифікатор запису
+- EventName NVARCHAR(50) - назва XE події
+- EventTime DATETIME2(7) - час події
+- hb VARBINARY(32) - hash bucket
+- ObjectName NVARCHAR(128) - назва об'єкта SSIS
+- LineNumber INT - номер рядка в модулі (якщо застосовно)
+- DatabaseName NVARCHAR(128) - назва бази даних
+- DatabaseId SMALLINT - ідентифікатор бази даних
+- SessionId INT - ідентифікатор сесії
+- ClientHostname NVARCHAR(128) - ім'я хоста клієнта
+- ClientAppName NVARCHAR(256) - назва SSIS програми
+- ServerPrincipalName NVARCHAR(128) - ім'я користувача сервера
+- StatementHash VARBINARY(32) - хеш інструкції
+- Duration BIGINT - тривалість виконання
+- SourceDatabaseId INT - ідентифікатор вихідної бази даних
+- ObjectId BIGINT - ідентифікатор об'єкта
+- Offset INT - початковий зсув
+- OffsetEnd INT - кінцевий зсув
+- ObjectType NVARCHAR(10) - тип об'єкта SSIS
+- ModuleRowCount BIGINT - кількість рядків модуля
+- SqlTextHash VARBINARY(32) - хеш SQL тексту
+- PlanHandle VARBINARY(64) - дескриптор плану виконання
+- TaskTime BIGINT - час виконання задачі
 */
 CREATE TABLE util.xeModulesSSIS (
 	xeId INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,

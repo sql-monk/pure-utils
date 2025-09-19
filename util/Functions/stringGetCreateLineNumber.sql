@@ -1,16 +1,27 @@
 /*
 # Description
-Функція для роботи з рядками. Виконує обробку текстових даних.
+Знаходить номер рядка де розташована перша інструкція CREATE у переданому тексті.
+Функція корисна для аналізу SQL скриптів та визначення початку створення об'єктів.
 
 # Parameters
-@string NVARCHAR(MAX - параметр
+@string NVARCHAR(MAX) - текст для аналізу (SQL скрипт або код)
+@skipEmpty BIT = 1 - пропускати порожні рядки при нумерації (1 = пропускати, 0 = не пропускати)
 
 # Returns
-TABLE - результат функції
+TABLE - Повертає таблицю з колонкою:
+- lineNumber INT - номер рядка де знайдена перша інструкція CREATE
 
 # Usage
--- Приклад використання
-SELECT * FROM util.stringGetCreateLineNumber(параметри);
+-- Знайти рядок з CREATE в SQL коді
+DECLARE @sql NVARCHAR(MAX) = 'GO
+-- Коментар
+CREATE OR ALTER PROCEDURE dbo.Test
+AS BEGIN
+  SELECT 1
+END'
+SELECT * FROM util.stringGetCreateLineNumber(@sql, 1);
+
+-- Результат: lineNumber = 3 (якщо пропускаємо порожні рядки)
 */
 
 CREATE OR ALTER FUNCTION util.stringGetCreateLineNumber(@string NVARCHAR(MAX), @skipEmpty BIT = 1)

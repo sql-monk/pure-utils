@@ -7,9 +7,6 @@
 @index NVARCHAR(128) - назва індексу
 @description NVARCHAR(MAX) - текст опису для індексу
 
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для індексу
-
 # Usage
 -- Встановити опис для індексу
 EXEC util.metadataSetIndexDescription @major = 'dbo.myTable', @index = 'IX_myTable_Column1', @description = 'Індекс для швидкого пошуку по Column1';

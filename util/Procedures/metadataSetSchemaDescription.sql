@@ -6,9 +6,6 @@
 @schema NVARCHAR(128) - назва схеми
 @description NVARCHAR(MAX) - текст опису для схеми
 
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для схеми
-
 # Usage
 -- Встановити опис для користувацької схеми
 EXEC util.metadataSetSchemaDescription @schema = 'sales', @description = 'Схема даних продажів';

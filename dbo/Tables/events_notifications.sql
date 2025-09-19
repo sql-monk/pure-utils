@@ -3,11 +3,7 @@
 Таблиця для зберігання повідомлень про системні події (DDL) в базі даних.
 Використовується для моніторингу та аудиту змін структури бази даних.
 
-# Parameters
-Таблиця не має параметрів
-
-# Returns
-Структура таблиці для зберігання:
+# Columns
 - event_type NVARCHAR(36) - тип події (CREATE, ALTER, DROP та інші)
 - post_time DATETIME - час виникнення події
 - spid INT - ідентифікатор процесу
@@ -25,9 +21,6 @@
 - tsql NVARCHAR(MAX) - текст SQL команди
 - client_app_name NVARCHAR(128) - назва клієнтського додатка
 - client_host_name NVARCHAR(128) - ім'я клієнтського хоста
-
-# Usage
-Використовується DDL тригерами для запису системних подій
 */
 CREATE TABLE [dbo].[events_notifications] (
  [event_type] NVARCHAR (36) DEFAULT ('') NULL,

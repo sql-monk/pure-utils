@@ -1,22 +1,18 @@
-
 /*
 # Description
-Встановлює опис для колонки таблиці чи представлення через розширені властивості MS_Description.
+Р’СЃС‚Р°РЅРѕРІР»СЋС” РѕРїРёСЃ РґР»СЏ РєРѕР»РѕРЅРєРё С‚Р°Р±Р»РёС†С– Р°Р±Рѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ С‡РµСЂРµР· СЂРѕР·С€РёСЂРµРЅС– РІР»Р°СЃС‚РёРІРѕСЃС‚С– MS_Description.
+РџСЂРѕС†РµРґСѓСЂР° Р°РІС‚РѕРјР°С‚РёС‡РЅРѕ РІРёР·РЅР°С‡Р°С” СЃС…РµРјСѓ С‚Р° С‚РёРї РѕР±'С”РєС‚Р°, Р° РїРѕС‚С–Рј РІСЃС‚Р°РЅРѕРІР»СЋС” РѕРїРёСЃ РґР»СЏ РІРєР°Р·Р°РЅРѕС— РєРѕР»РѕРЅРєРё.
 
 # Parameters
-@object NVARCHAR(128) - назва таблиці або представлення
-@column NVARCHAR(128) - назва колонки
-@description NVARCHAR(MAX) - текст опису для колонки
-
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для колонки
+- @object NVARCHAR(128) - РќР°Р·РІР° Р°Р±Рѕ ID РѕР±'С”РєС‚Р° (С‚Р°Р±Р»РёС†С–/РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ)
+- @column NVARCHAR(128) - РќР°Р·РІР° РєРѕР»РѕРЅРєРё РґР»СЏ РІСЃС‚Р°РЅРѕРІР»РµРЅРЅСЏ РѕРїРёСЃСѓ
+- @description NVARCHAR(MAX) - РўРµРєСЃС‚ РѕРїРёСЃСѓ РєРѕР»РѕРЅРєРё
 
 # Usage
--- Встановити опис для колонки таблиці
-EXEC util.metadataSetColumnDescription @object = 'myTable', @column = 'myColumn', @description = 'Опис колонки';
-
--- Встановити опис для колонки представлення
-EXEC util.metadataSetColumnDescription @object = 'myView', @column = 'calculatedColumn', @description = 'Розрахункова колонка';
+```sql
+EXEC util.metadataSetColumnDescription 'myTable', 'myColumn', 'РћРїРёСЃ РєРѕР»РѕРЅРєРё';
+EXEC util.metadataSetColumnDescription 'dbo.users', 'user_id', 'РЈРЅС–РєР°Р»СЊРЅРёР№ С–РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ РєРѕСЂРёСЃС‚СѓРІР°С‡Р°';
+```
 */
 CREATE OR ALTER PROCEDURE util.metadataSetColumnDescription 
 	@object NVARCHAR(128),

@@ -1,3 +1,13 @@
+/*
+# Description
+Додаткові індекси для оптимізації запитів до таблиць модулів XE.
+Покращують продуктивність пошуку за часом, користувачем та об'єктами.
+
+# Indexes
+- ix_EventTime_EventName_hb - пошук за часом та типом події
+- ix_sessionid - швидкий пошук за ідентифікатором сесії  
+- ix_ServerPrincipalName_ObjectName - пошук за користувачем та об'єктом з додатковими колонками
+*/
 CREATE NONCLUSTERED INDEX ix_EventTime_EventName_hb
 ON util.xeModulesUsers(EventTime ASC, EventName ASC, hb ASC)
 WITH(ONLINE = ON, SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE)

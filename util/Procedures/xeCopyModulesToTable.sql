@@ -6,9 +6,6 @@
 # Parameters
 @scope NVARCHAR(128) - скоуп або тип модулів для копіювання
 
-# Returns
-Нічого не повертає. Записує дані в таблиці util.executionModules та оновлює зміщення в util.xeOffsets
-
 # Usage
 -- Копіювати модулі для SSIS
 EXEC util.xeCopyModulesToTable 'SSIS';

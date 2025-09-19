@@ -7,9 +7,6 @@
 @parameter NVARCHAR(128) - назва параметра
 @description NVARCHAR(MAX) - текст опису для параметра
 
-# Returns
-Нічого не повертає. Встановлює розширену властивість MS_Description для параметра
-
 # Usage
 -- Встановити опис для параметра процедури
 EXEC util.metadataSetParameterDescription @major = 'dbo.myProcedure', @parameter = '@inputParam', @description = 'Вхідний параметр для фільтрації';

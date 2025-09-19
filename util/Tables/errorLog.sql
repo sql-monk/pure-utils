@@ -3,11 +3,7 @@
 Таблиця для зберігання журналу помилок системи. Використовується процедурою util.errorHandler
 для запису детальної інформації про помилки що виникають під час виконання коду.
 
-# Parameters
-Таблиця не має параметрів
-
-# Returns
-Структура таблиці для зберігання:
+# Columns
 - ErrorId BIGINT IDENTITY - унікальний ідентифікатор помилки
 - ErrorDateTime DATETIME2(3) - дата та час виникнення помилки
 - ErrorNumber INT - номер помилки SQL Server
@@ -18,11 +14,6 @@
 - ErrorLineText NVARCHAR(MAX) - текст рядка коду
 - ErrorMessage NVARCHAR(MAX) - повідомлення про помилку
 - ErrorAdditionalInfo NVARCHAR(MAX) - додаткова інформація
-
-# Usage
--- Таблиця автоматично заповнюється через util.errorHandler
--- Для перегляду помилок:
-SELECT * FROM util.errorLog ORDER BY ErrorDateTime DESC;
 */
 DROP TABLE IF EXISTS util.ErrorLog;
 CREATE TABLE util.errorLog (

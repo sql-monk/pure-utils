@@ -6,9 +6,6 @@
 # Parameters
 @keyword sysname = NULL - ключове слово для фільтрації результатів (NULL = всі об'єкти)
 
-# Returns
-Нічого не повертає. Виводить довідкову інформацію через PRINT та SELECT.
-
 # Usage
 -- Показати всю довідку
 EXEC util.help;

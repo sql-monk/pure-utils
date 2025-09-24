@@ -1,17 +1,17 @@
 /*
 # Description
-Встановлює опис для представлення (view) через розширені властивості MS_Description.
+Р’СЃС‚Р°РЅРѕРІР»СЋС” РѕРїРёСЃ РґР»СЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ (view) С‡РµСЂРµР· СЂРѕР·С€РёСЂРµРЅС– РІР»Р°СЃС‚РёРІРѕСЃС‚С– MS_Description.
 
 # Parameters
-@view NVARCHAR(128) - назва представлення
-@description NVARCHAR(MAX) - текст опису для представлення
+@view NVARCHAR(128) - РЅР°Р·РІР° РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ
+@description NVARCHAR(MAX) - С‚РµРєСЃС‚ РѕРїРёСЃСѓ РґР»СЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ
 
 # Usage
--- Встановити опис для представлення
-EXEC util.metadataSetViewDescription @view = 'dbo.vw_ActiveCustomers', @description = 'Представлення активних клієнтів з основною інформацією';
+-- Р’СЃС‚Р°РЅРѕРІРёС‚Рё РѕРїРёСЃ РґР»СЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ
+EXEC util.metadataSetViewDescription @view = 'dbo.vw_ActiveCustomers', @description = 'РџСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ Р°РєС‚РёРІРЅРёС… РєР»С–С”РЅС‚С–РІ Р· РѕСЃРЅРѕРІРЅРѕСЋ С–РЅС„РѕСЂРјР°С†С–С”СЋ';
 
--- Встановити опис для складного представлення
-EXEC util.metadataSetViewDescription @view = 'dbo.vw_SalesReport', @description = 'Звіт продажів з агрегованими даними по періодах';
+-- Р’СЃС‚Р°РЅРѕРІРёС‚Рё РѕРїРёСЃ РґР»СЏ СЃРєР»Р°РґРЅРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ
+EXEC util.metadataSetViewDescription @view = 'dbo.vw_SalesReport', @description = 'Р—РІС–С‚ РїСЂРѕРґР°Р¶С–РІ Р· Р°РіСЂРµРіРѕРІР°РЅРёРјРё РґР°РЅРёРјРё РїРѕ РїРµСЂС–РѕРґР°С…';
 */
 CREATE OR ALTER PROCEDURE [util].[metadataSetViewDescription]
 	@view NVARCHAR(128),

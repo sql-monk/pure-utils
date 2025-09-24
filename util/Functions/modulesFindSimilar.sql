@@ -1,20 +1,20 @@
 /*
 # Description
-Знаходить схожі SQL модулі в базі даних на основі аналізу їх коду.
-Використовує алгоритм нормалізації тексту, токенізації та хешування для порівняння подібності між модулями.
+Р—РЅР°С…РѕРґРёС‚СЊ СЃС…РѕР¶С– SQL РјРѕРґСѓР»С– РІ Р±Р°Р·С– РґР°РЅРёС… РЅР° РѕСЃРЅРѕРІС– Р°РЅР°Р»С–Р·Сѓ С—С… РєРѕРґСѓ.
+Р’РёРєРѕСЂРёСЃС‚РѕРІСѓС” Р°Р»РіРѕСЂРёС‚Рј РЅРѕСЂРјР°Р»С–Р·Р°С†С–С— С‚РµРєСЃС‚Сѓ, С‚РѕРєРµРЅС–Р·Р°С†С–С— С‚Р° С…РµС€СѓРІР°РЅРЅСЏ РґР»СЏ РїРѕСЂС–РІРЅСЏРЅРЅСЏ РїРѕРґС–Р±РЅРѕСЃС‚С– РјС–Р¶ РјРѕРґСѓР»СЏРјРё.
 
 # Parameters
-@objectId INT = NULL - ідентифікатор об'єкта для порівняння
+@objectId INT = NULL - С–РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ РѕР±'С”РєС‚Р° РґР»СЏ РїРѕСЂС–РІРЅСЏРЅРЅСЏ
 
 # Returns
-TABLE - Повертає таблицю з колонками:
-- objectId INT - ідентифікатор оригінального об'єкта
-- similarObjectId INT - ідентифікатор схожого об'єкта  
-- similarityPercent FLOAT - відсоток схожості між об'єктами
+TABLE - РџРѕРІРµСЂС‚Р°С” С‚Р°Р±Р»РёС†СЋ Р· РєРѕР»РѕРЅРєР°РјРё:
+- objectId INT - С–РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ РѕСЂРёРіС–РЅР°Р»СЊРЅРѕРіРѕ РѕР±'С”РєС‚Р°
+- similarObjectId INT - С–РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ СЃС…РѕР¶РѕРіРѕ РѕР±'С”РєС‚Р°  
+- similarityPercent FLOAT - РІС–РґСЃРѕС‚РѕРє СЃС…РѕР¶РѕСЃС‚С– РјС–Р¶ РѕР±'С”РєС‚Р°РјРё
 
 # Usage
 SELECT * FROM util.modulesFindSimilar(NULL);
--- Знайти всі схожі модулі в базі даних
+-- Р—РЅР°Р№С‚Рё РІСЃС– СЃС…РѕР¶С– РјРѕРґСѓР»С– РІ Р±Р°Р·С– РґР°РЅРёС…
 */
 CREATE FUNCTION util.modulesFindSimilar(@objectId INT = NULL)
 RETURNS TABLE
@@ -23,7 +23,7 @@ RETURN(
 	WITH cteNormalizedModules AS (
 		SELECT
 			m.object_id objectId,
-			-- Нормалізуємо текст: замінюємо всі спецсимволи на пробіли
+			-- РќРѕСЂРјР°Р»С–Р·СѓС”РјРѕ С‚РµРєСЃС‚: Р·Р°РјС–РЅСЋС”РјРѕ РІСЃС– СЃРїРµС†СЃРёРјРІРѕР»Рё РЅР° РїСЂРѕР±С–Р»Рё
 			REPLACE(
 				REPLACE(
 					REPLACE(
@@ -56,7 +56,7 @@ RETURN(
 				),
 				'  ',
 				' '
-			) -- Приводимо множинні пробіли до одинарних
+			) -- РџСЂРёРІРѕРґРёРјРѕ РјРЅРѕР¶РёРЅРЅС– РїСЂРѕР±С–Р»Рё РґРѕ РѕРґРёРЅР°СЂРЅРёС…
 			normalizedText
 		FROM sys.sql_modules m
 		WHERE m.definition IS NOT NULL
@@ -64,7 +64,7 @@ RETURN(
 	cteTokenizedModules AS (
 		SELECT
 			cteNormalizedModules.objectId,
-			-- Розбиваємо нормалізований текст на слова, виключаємо порожні
+			-- Р РѕР·Р±РёРІР°С”РјРѕ РЅРѕСЂРјР°Р»С–Р·РѕРІР°РЅРёР№ С‚РµРєСЃС‚ РЅР° СЃР»РѕРІР°, РІРёРєР»СЋС‡Р°С”РјРѕ РїРѕСЂРѕР¶РЅС–
 			TRIM(value) token,
 			ROW_NUMBER() OVER (PARTITION BY cteNormalizedModules.objectId ORDER BY(SELECT NULL)) tokenPosition
 		FROM cteNormalizedModules
@@ -74,15 +74,15 @@ RETURN(
 	cteTokenGroups AS (
 		SELECT
 			cteTokenizedModules.objectId,
-			-- Групуємо по 7 токенів
+			-- Р“СЂСѓРїСѓС”РјРѕ РїРѕ 7 С‚РѕРєРµРЅС–РІ
 			STRING_AGG(cteTokenizedModules.token, ' ') WITHIN GROUP(ORDER BY cteTokenizedModules.tokenPosition) tokenGroup
 		FROM cteTokenizedModules
 		GROUP BY cteTokenizedModules.objectId,
 			(cteTokenizedModules.tokenPosition - 1) / 7
-	--HAVING COUNT(*) = 7 -- Беремо тільки повні групи з 7 токенів
+	--HAVING COUNT(*) = 7 -- Р‘РµСЂРµРјРѕ С‚С–Р»СЊРєРё РїРѕРІРЅС– РіСЂСѓРїРё Р· 7 С‚РѕРєРµРЅС–РІ
 	),
 	cteHash AS (
-		SELECT с.objectId, HASHBYTES('SHA1', с.tokenGroup) hb, COUNT(*) OVER (PARTITION BY с.objectId) / 100.0 p FROM cteTokenGroups с
+		SELECT СЃ.objectId, HASHBYTES('SHA1', СЃ.tokenGroup) hb, COUNT(*) OVER (PARTITION BY СЃ.objectId) / 100.0 p FROM cteTokenGroups СЃ
 	)
 	SELECT
 		a.objectId objectId,

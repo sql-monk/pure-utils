@@ -32,6 +32,7 @@ SELECT COUNT(*) FROM orders;';
 SELECT * FROM util.stringSplitToLines(@sql, 1)
 WHERE line LIKE '%SELECT%';
 */
+
 CREATE OR ALTER FUNCTION util.stringSplitToLines(@string NVARCHAR(MAX), @skipEmpty BIT = 1)
 RETURNS TABLE
 AS

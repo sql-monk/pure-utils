@@ -1,48 +1,21 @@
 /*
 # Description
-Inline table-valued Ñ„ÑƒÐ½ÐºÑ†Ñ–Ñ Ð´Ð»Ñ Ð°Ð½Ð°Ð»Ñ–Ð·Ñƒ SQL Ð·Ð°Ð¿Ð¸Ñ‚Ñƒ Ñ‚Ð° Ð³ÐµÐ½ÐµÑ€Ð°Ñ†Ñ–Ñ— Ð²Ñ–Ð´Ð¿Ð¾Ð²Ñ–Ð´Ð½Ð¾Ð³Ð¾ CREATE TABLE DDL.
-Ð’Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÑ” sys.dm_exec_describe_first_result_set Ð· Ð¿Ñ–Ð´Ñ‚Ñ€Ð¸Ð¼ÐºÐ¾ÑŽ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¸Ð·Ð¾Ð²Ð°Ð½Ð¸Ñ… Ð·Ð°Ð¿Ð¸Ñ‚Ñ–Ð².
-ÐÐ²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡Ð½Ð¾ Ð²Ð¸Ð·Ð½Ð°Ñ‡Ð°Ñ” Ñ‚Ð¸Ð¿Ð¸ Ð´Ð°Ð½Ð¸Ñ…, nullable constraints Ñ‚Ð° Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ÑƒÑ” Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚ÑƒÑŽÑ‡Ð¸Ð¹ ÑÐºÑ€Ð¸Ð¿Ñ‚.
+Inline table-valued ôóíêö³ÿ äëÿ àíàë³çó SQL çàïèòó òà ãåíåðàö³¿ â³äïîâ³äíîãî CREATE TABLE DDL.
+Âèêîðèñòîâóº sys.dm_exec_describe_first_result_set ç ï³äòðèìêîþ ïàðàìåòðèçîâàíèõ çàïèò³â.
+Àâòîìàòè÷íî âèçíà÷àº òèïè äàíèõ, nullable constraints òà ôîðìàòóº ðåçóëüòóþ÷èé ñêðèïò.
 
 # Parameters
-@query NVARCHAR(MAX) - SQL Ð·Ð°Ð¿Ð¸Ñ‚ Ð´Ð»Ñ Ð°Ð½Ð°Ð»Ñ–Ð·Ñƒ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð¸ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚ÑƒÑŽÑ‡Ð¾Ð³Ð¾ Ð½Ð°Ð±Ð¾Ñ€Ñƒ
-@tablename NVARCHAR(128) = NULL - Ð½Ð°Ð·Ð²Ð° ÑÑ‚Ð²Ð¾Ñ€ÑŽÐ²Ð°Ð½Ð¾Ñ— Ñ‚Ð¸Ð¼Ñ‡Ð°ÑÐ¾Ð²Ð¾Ñ— Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ– (default: #temp)
-@params NVARCHAR(MAX) = NULL - Ñ€ÑÐ´Ð¾Ðº Ð´ÐµÐºÐ»Ð°Ñ€Ð°Ñ†Ñ–Ñ— Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ–Ð² Ñƒ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ñ– sp_executesql
+@query NVARCHAR(MAX) - SQL çàïèò äëÿ àíàë³çó ñòðóêòóðè ðåçóëüòóþ÷îãî íàáîðó
+@tablename NVARCHAR(128) = NULL - íàçâà ñòâîðþâàíî¿ òèì÷àñîâî¿ òàáëèö³ (default: #temp)
+@params NVARCHAR(MAX) = NULL - ðÿäîê äåêëàðàö³¿ ïàðàìåòð³â ó ôîðìàò³ sp_executesql
 
 # Returns
-TABLE - Ñ‚Ð°Ð±Ð»Ð¸Ñ‡Ð½Ð¸Ð¹ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ Ð· Ñ”Ð´Ð¸Ð½Ð¾ÑŽ ÐºÐ¾Ð»Ð¾Ð½ÐºÐ¾ÑŽ:
-- createScript NVARCHAR(MAX) - Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ð¾Ð²Ð°Ð½Ð¸Ð¹ CREATE TABLE ÑÐºÑ€Ð¸Ð¿Ñ‚ Ð· Ð¿ÐµÑ€ÐµÐ½Ð¾ÑÐ°Ð¼Ð¸ Ñ€ÑÐ´ÐºÑ–Ð²
+TABLE - òàáëè÷íèé ðåçóëüòàò ç ºäèíîþ êîëîíêîþ:
+- createScript NVARCHAR(MAX) - ôîðìàòîâàíèé CREATE TABLE ñêðèïò ç ïåðåíîñàìè ðÿäê³â
 
 # Usage
--- ÐŸÑ€Ð¾ÑÑ‚Ð¸Ð¹ SELECT Ð°Ð½Ð°Ð»Ñ–Ð·
-SELECT createScript FROM util.stringGetCreateTempScriptInline(
-    'SELECT UserID, UserName, CreateDate FROM Users'
-);
-
--- Ð— ÐºÐ°ÑÑ‚Ð¾Ð¼Ð½Ð¾ÑŽ Ð½Ð°Ð·Ð²Ð¾ÑŽ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ–
-SELECT createScript FROM util.stringGetCreateTempScriptInline(
-    'SELECT OrderID, Total, OrderDate FROM Orders', 
-    '#MyOrders'
-);
-
--- Ð¡ÐºÐ»Ð°Ð´Ð½Ð¸Ð¹ Ð·Ð°Ð¿Ð¸Ñ‚ Ð· Ð°Ð³Ñ€ÐµÐ³Ð°Ñ†Ñ–Ñ”ÑŽ
-SELECT createScript FROM util.stringGetCreateTempScriptInline('
-    SELECT CategoryID, COUNT(*) as ProductCount, AVG(Price) as AvgPrice
-    FROM Products 
-    WHERE Active = 1
-    GROUP BY CategoryID
-', '#CategoryStats');
-
--- ÐŸÐ°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¸Ð·Ð¾Ð²Ð°Ð½Ð¸Ð¹ Ð·Ð°Ð¿Ð¸Ñ‚
-SELECT createScript FROM util.stringGetCreateTempScriptInline(
-    'SELECT * FROM Orders WHERE CustomerID = @CustID AND OrderDate >= @FromDate',
-    '#CustomerOrders',
-    '@CustID INT, @FromDate DATETIME'
-);
-
--- Ð”Ð¸Ð½Ð°Ð¼Ñ–Ñ‡Ð½Ð¸Ð¹ SQL
-DECLARE @dynamicQuery NVARCHAR(MAX) = 'SELECT TOP 100 * FROM Products WHERE Price > 100';
-SELECT createScript FROM util.stringGetCreateTempScriptInline(@dynamicQuery, DEFAULT);
+SELECT * FROM util.stringGetCreateTempScriptInline('SELECT * FROM util.indexesGetMissing(DEFAULT)',DEFAULT,DEFAULT)
+ 
 */
 CREATE OR ALTER FUNCTION [util].[stringGetCreateTempScriptInline](
     @query NVARCHAR(MAX), 

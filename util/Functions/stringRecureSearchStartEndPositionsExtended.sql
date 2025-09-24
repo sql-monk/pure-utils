@@ -9,23 +9,6 @@
 @endValue NVARCHAR(32) - кінцеве значення для пошуку
 @replaceCRwithLF BIT = 0 - замінити CR на LF (1) або залишити як є (0)
 
-# Returns
-TABLE - Повертає таблицю з колонками:
-- startPosition INT - позиція початку блоку
-- endPosition INT - позиція кінця блоку
-
-# Usage
--- Знайти коментарі в SQL тексті з нормалізацією переносів рядків
-DECLARE @sql NVARCHAR(MAX) = '/* Comment 1 */ SELECT * FROM table; /* Comment 2 */';
-SELECT * FROM util.stringRecureSearchStartEndPositionsExtended(@sql, '/*', '*/', 1);
-
--- Знайти блоки BEGIN/END в тексті
-DECLARE @code NVARCHAR(MAX) = 'BEGIN SELECT 1; BEGIN SELECT 2; END; END;';
-SELECT * FROM util.stringRecureSearchStartEndPositionsExtended(@code, 'BEGIN', 'END', 0);
-
--- Знайти HTML теги
-DECLARE @html NVARCHAR(MAX) = '<div>Content <span>inner</span> more</div>';
-SELECT * FROM util.stringRecureSearchStartEndPositionsExtended(@html, '<', '>', 0);
 */
 CREATE OR ALTER FUNCTION util.stringRecureSearchStartEndPositionsExtended(@string NVARCHAR(MAX), @startValue NVARCHAR(32), @endValue NVARCHAR(32), @replaceCRwithLF BIT = 0)
 RETURNS TABLE

@@ -1,17 +1,17 @@
 /*
 # Description
-Inline table-valued функція для аналізу SQL запиту та генерації відповідного CREATE TABLE DDL.
-Використовує sys.dm_exec_describe_first_result_set з підтримкою параметризованих запитів.
-Автоматично визначає типи даних, nullable constraints та форматує результуючий скрипт.
+Inline table-valued С„СѓРЅРєС†С–СЏ РґР»СЏ Р°РЅР°Р»С–Р·Сѓ SQL Р·Р°РїРёС‚Сѓ С‚Р° РіРµРЅРµСЂР°С†С–С— РІС–РґРїРѕРІС–РґРЅРѕРіРѕ CREATE TABLE DDL.
+Р’РёРєРѕСЂРёСЃС‚РѕРІСѓС” sys.dm_exec_describe_first_result_set Р· РїС–РґС‚СЂРёРјРєРѕСЋ РїР°СЂР°РјРµС‚СЂРёР·РѕРІР°РЅРёС… Р·Р°РїРёС‚С–РІ.
+РђРІС‚РѕРјР°С‚РёС‡РЅРѕ РІРёР·РЅР°С‡Р°С” С‚РёРїРё РґР°РЅРёС…, nullable constraints С‚Р° С„РѕСЂРјР°С‚СѓС” СЂРµР·СѓР»СЊС‚СѓСЋС‡РёР№ СЃРєСЂРёРїС‚.
 
 # Parameters
-@query NVARCHAR(MAX) - SQL запит для аналізу структури результуючого набору
-@tablename NVARCHAR(128) = NULL - назва створюваної тимчасової таблиці (default: #temp)
-@params NVARCHAR(MAX) = NULL - рядок декларації параметрів у форматі sp_executesql
+@query NVARCHAR(MAX) - SQL Р·Р°РїРёС‚ РґР»СЏ Р°РЅР°Р»С–Р·Сѓ СЃС‚СЂСѓРєС‚СѓСЂРё СЂРµР·СѓР»СЊС‚СѓСЋС‡РѕРіРѕ РЅР°Р±РѕСЂСѓ
+@tablename NVARCHAR(128) = NULL - РЅР°Р·РІР° СЃС‚РІРѕСЂСЋРІР°РЅРѕС— С‚РёРјС‡Р°СЃРѕРІРѕС— С‚Р°Р±Р»РёС†С– (default: #temp)
+@params NVARCHAR(MAX) = NULL - СЂСЏРґРѕРє РґРµРєР»Р°СЂР°С†С–С— РїР°СЂР°РјРµС‚СЂС–РІ Сѓ С„РѕСЂРјР°С‚С– sp_executesql
 
 # Returns
-TABLE - табличний результат з єдиною колонкою:
-- createScript NVARCHAR(MAX) - форматований CREATE TABLE скрипт з переносами рядків
+TABLE - С‚Р°Р±Р»РёС‡РЅРёР№ СЂРµР·СѓР»СЊС‚Р°С‚ Р· С”РґРёРЅРѕСЋ РєРѕР»РѕРЅРєРѕСЋ:
+- createScript NVARCHAR(MAX) - С„РѕСЂРјР°С‚РѕРІР°РЅРёР№ CREATE TABLE СЃРєСЂРёРїС‚ Р· РїРµСЂРµРЅРѕСЃР°РјРё СЂСЏРґРєС–РІ
 
 # Usage
 SELECT * FROM util.stringGetCreateTempScriptInline('SELECT * FROM util.indexesGetMissing(DEFAULT)',DEFAULT,DEFAULT)

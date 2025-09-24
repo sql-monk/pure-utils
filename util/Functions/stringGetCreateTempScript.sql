@@ -1,16 +1,16 @@
 /*
 # Description
-Scalar функція-обгортка для генерації DDL скрипту на основі аналізу SQL запиту.
-Викликає inline функцію util.stringGetCreateTempScriptInline і повертає результат як скалярне значення.
-Підтримує параметризовані запити через декларацію @params.
+Scalar С„СѓРЅРєС†С–СЏ-РѕР±РіРѕСЂС‚РєР° РґР»СЏ РіРµРЅРµСЂР°С†С–С— DDL СЃРєСЂРёРїС‚Сѓ РЅР° РѕСЃРЅРѕРІС– Р°РЅР°Р»С–Р·Сѓ SQL Р·Р°РїРёС‚Сѓ.
+Р’РёРєР»РёРєР°С” inline С„СѓРЅРєС†С–СЋ util.stringGetCreateTempScriptInline С– РїРѕРІРµСЂС‚Р°С” СЂРµР·СѓР»СЊС‚Р°С‚ СЏРє СЃРєР°Р»СЏСЂРЅРµ Р·РЅР°С‡РµРЅРЅСЏ.
+РџС–РґС‚СЂРёРјСѓС” РїР°СЂР°РјРµС‚СЂРёР·РѕРІР°РЅС– Р·Р°РїРёС‚Рё С‡РµСЂРµР· РґРµРєР»Р°СЂР°С†С–СЋ @params.
 
 # Parameters
-@query NVARCHAR(MAX) - SQL запит для аналізу структури результуючого набору
-@tablename NVARCHAR(128) = NULL - ім'я створюваної таблиці (default: #temp)  
-@params NVARCHAR(MAX) = NULL - декларація параметрів запиту у форматі sp_executesql
+@query NVARCHAR(MAX) - SQL Р·Р°РїРёС‚ РґР»СЏ Р°РЅР°Р»С–Р·Сѓ СЃС‚СЂСѓРєС‚СѓСЂРё СЂРµР·СѓР»СЊС‚СѓСЋС‡РѕРіРѕ РЅР°Р±РѕСЂСѓ
+@tablename NVARCHAR(128) = NULL - С–Рј'СЏ СЃС‚РІРѕСЂСЋРІР°РЅРѕС— С‚Р°Р±Р»РёС†С– (default: #temp)  
+@params NVARCHAR(MAX) = NULL - РґРµРєР»Р°СЂР°С†С–СЏ РїР°СЂР°РјРµС‚СЂС–РІ Р·Р°РїРёС‚Сѓ Сѓ С„РѕСЂРјР°С‚С– sp_executesql
 
 # Returns
-NVARCHAR(MAX) - готовий до виконання CREATE TABLE скрипт
+NVARCHAR(MAX) - РіРѕС‚РѕРІРёР№ РґРѕ РІРёРєРѕРЅР°РЅРЅСЏ CREATE TABLE СЃРєСЂРёРїС‚
 
 # Usage
 SELECT util.stringGetCreateTempScript('SELECT * FROM util.indexesGetMissing(DEFAULT)',DEFAULT,DEFAULT)

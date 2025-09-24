@@ -1,18 +1,13 @@
 /*
+
 # Description
 Встановлює опис для колонки таблиці або представлення через розширені властивості MS_Description.
-Процедура автоматично визначає схему та тип об'єкта, а потім встановлює опис для вказаної колонки.
+Процедура автоматично визначає схему та тип об єкта, а потім встановлює опис для вказаної колонки.
 
 # Parameters
-- @object NVARCHAR(128) - Назва або ID об'єкта (таблиці/представлення)
+- @object NVARCHAR(128) - Назва або ID обєкта (таблиці/представлення)
 - @column NVARCHAR(128) - Назва колонки для встановлення опису
 - @description NVARCHAR(MAX) - Текст опису колонки
-
-# Usage
-```sql
-EXEC util.metadataSetColumnDescription 'myTable', 'myColumn', 'Опис колонки';
-EXEC util.metadataSetColumnDescription 'dbo.users', 'user_id', 'Унікальний ідентифікатор користувача';
-```
 */
 CREATE OR ALTER PROCEDURE util.metadataSetColumnDescription 
 	@object NVARCHAR(128),

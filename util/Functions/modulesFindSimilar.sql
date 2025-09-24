@@ -1,26 +1,20 @@
-п»ї/*
+/*
 # Description
-Р—РЅР°С…РѕРґРёС‚СЊ СЃС…РѕР¶С– SQL РјРѕРґСѓР»С– РІ Р±Р°Р·С– РґР°РЅРёС… РЅР° РѕСЃРЅРѕРІС– Р°РЅР°Р»С–Р·Сѓ С—С… РєРѕРґСѓ.
-Р’РёРєРѕСЂРёСЃС‚РѕРІСѓС” Р°Р»РіРѕСЂРёС‚Рј РЅРѕСЂРјР°Р»С–Р·Р°С†С–С— С‚РµРєСЃС‚Сѓ, С‚РѕРєРµРЅС–Р·Р°С†С–С— С‚Р° С…РµС€СѓРІР°РЅРЅСЏ РґР»СЏ РїРѕСЂС–РІРЅСЏРЅРЅСЏ РїРѕРґС–Р±РЅРѕСЃС‚С– РјС–Р¶ РјРѕРґСѓР»СЏРјРё.
+Знаходить схожі SQL модулі в базі даних на основі аналізу їх коду.
+Використовує алгоритм нормалізації тексту, токенізації та хешування для порівняння подібності між модулями.
 
 # Parameters
-@objectId INT = NULL - С–РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ РѕР±'С”РєС‚Р° РґР»СЏ РїРѕСЂС–РІРЅСЏРЅРЅСЏ (РїР°СЂР°РјРµС‚СЂ РЅРµ РІРёРєРѕСЂРёСЃС‚РѕРІСѓС”С‚СЊСЃСЏ РІ РїРѕС‚РѕС‡РЅС–Р№ РІРµСЂСЃС–С—)
+@objectId INT = NULL - ідентифікатор об'єкта для порівняння
 
 # Returns
-TABLE - РџРѕРІРµСЂС‚Р°С” С‚Р°Р±Р»РёС†СЋ Р· РєРѕР»РѕРЅРєР°РјРё:
-- objectId INT - С–РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ РѕСЂРёРіС–РЅР°Р»СЊРЅРѕРіРѕ РѕР±'С”РєС‚Р°
-- similarObjectId INT - С–РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ СЃС…РѕР¶РѕРіРѕ РѕР±'С”РєС‚Р°  
-- similarityPercent FLOAT - РІС–РґСЃРѕС‚РѕРє СЃС…РѕР¶РѕСЃС‚С– РјС–Р¶ РѕР±'С”РєС‚Р°РјРё
-
-# Algorithm
-1. РќРѕСЂРјР°Р»С–Р·СѓС” С‚РµРєСЃС‚ РјРѕРґСѓР»С–РІ (Р·Р°РјС–РЅР° СЃРїРµС†СЃРёРјРІРѕР»С–РІ РЅР° РїСЂРѕР±С–Р»Рё)
-2. Р РѕР·Р±РёРІР°С” С‚РµРєСЃС‚ РЅР° С‚РѕРєРµРЅРё (СЃР»РѕРІР°)
-3. Р“СЂСѓРїСѓС” С‚РѕРєРµРЅРё РїРѕ 7 С€С‚СѓРє С‚Р° СЃС‚РІРѕСЂСЋС” С…РµС€ РґР»СЏ РєРѕР¶РЅРѕС— РіСЂСѓРїРё
-4. РџРѕСЂС–РІРЅСЋС” С…РµС€С– РјС–Р¶ СЂС–Р·РЅРёРјРё РјРѕРґСѓР»СЏРјРё РґР»СЏ РІРёР·РЅР°С‡РµРЅРЅСЏ СЃС…РѕР¶РѕСЃС‚С–
+TABLE - Повертає таблицю з колонками:
+- objectId INT - ідентифікатор оригінального об'єкта
+- similarObjectId INT - ідентифікатор схожого об'єкта  
+- similarityPercent FLOAT - відсоток схожості між об'єктами
 
 # Usage
 SELECT * FROM util.modulesFindSimilar(NULL);
--- Р—РЅР°Р№С‚Рё РІСЃС– СЃС…РѕР¶С– РјРѕРґСѓР»С– РІ Р±Р°Р·С– РґР°РЅРёС…
+-- Знайти всі схожі модулі в базі даних
 */
 CREATE FUNCTION util.modulesFindSimilar(@objectId INT = NULL)
 RETURNS TABLE
@@ -29,7 +23,7 @@ RETURN(
 	WITH cteNormalizedModules AS (
 		SELECT
 			m.object_id objectId,
-			-- РќРѕСЂРјР°Р»С–Р·СѓС”РјРѕ С‚РµРєСЃС‚: Р·Р°РјС–РЅСЋС”РјРѕ РІСЃС– СЃРїРµС†СЃРёРјРІРѕР»Рё РЅР° РїСЂРѕР±С–Р»Рё
+			-- Нормалізуємо текст: замінюємо всі спецсимволи на пробіли
 			REPLACE(
 				REPLACE(
 					REPLACE(
@@ -62,7 +56,7 @@ RETURN(
 				),
 				'  ',
 				' '
-			) -- РџСЂРёРІРѕРґРёРјРѕ РјРЅРѕР¶РёРЅРЅС– РїСЂРѕР±С–Р»Рё РґРѕ РѕРґРёРЅР°СЂРЅРёС…
+			) -- Приводимо множинні пробіли до одинарних
 			normalizedText
 		FROM sys.sql_modules m
 		WHERE m.definition IS NOT NULL
@@ -70,7 +64,7 @@ RETURN(
 	cteTokenizedModules AS (
 		SELECT
 			cteNormalizedModules.objectId,
-			-- Р РѕР·Р±РёРІР°С”РјРѕ РЅРѕСЂРјР°Р»С–Р·РѕРІР°РЅРёР№ С‚РµРєСЃС‚ РЅР° СЃР»РѕРІР°, РІРёРєР»СЋС‡Р°С”РјРѕ РїРѕСЂРѕР¶РЅС–
+			-- Розбиваємо нормалізований текст на слова, виключаємо порожні
 			TRIM(value) token,
 			ROW_NUMBER() OVER (PARTITION BY cteNormalizedModules.objectId ORDER BY(SELECT NULL)) tokenPosition
 		FROM cteNormalizedModules
@@ -80,15 +74,15 @@ RETURN(
 	cteTokenGroups AS (
 		SELECT
 			cteTokenizedModules.objectId,
-			-- Р“СЂСѓРїСѓС”РјРѕ РїРѕ 7 С‚РѕРєРµРЅС–РІ
+			-- Групуємо по 7 токенів
 			STRING_AGG(cteTokenizedModules.token, ' ') WITHIN GROUP(ORDER BY cteTokenizedModules.tokenPosition) tokenGroup
 		FROM cteTokenizedModules
 		GROUP BY cteTokenizedModules.objectId,
 			(cteTokenizedModules.tokenPosition - 1) / 7
-	--HAVING COUNT(*) = 7 -- Р‘РµСЂРµРјРѕ С‚С–Р»СЊРєРё РїРѕРІРЅС– РіСЂСѓРїРё Р· 7 С‚РѕРєРµРЅС–РІ
+	--HAVING COUNT(*) = 7 -- Беремо тільки повні групи з 7 токенів
 	),
 	cteHash AS (
-		SELECT СЃ.objectId, HASHBYTES('SHA1', СЃ.tokenGroup) hb, COUNT(*) OVER (PARTITION BY СЃ.objectId) / 100.0 p FROM cteTokenGroups СЃ
+		SELECT с.objectId, HASHBYTES('SHA1', с.tokenGroup) hb, COUNT(*) OVER (PARTITION BY с.objectId) / 100.0 p FROM cteTokenGroups с
 	)
 	SELECT
 		a.objectId objectId,
@@ -96,6 +90,7 @@ RETURN(
 		COUNT_BIG(DISTINCT a.hb) / a.p similarityPercent
 	FROM cteHash a
 		JOIN cteHash b ON b.objectId <> a.objectId AND b.p <= a.p AND b.hb = a.hb
+	WHERE (@objectId IS NULL OR a.objectId = @objectId)
 	GROUP BY a.objectId,
 		a.p,
 		b.objectId

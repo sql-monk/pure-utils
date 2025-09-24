@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>overview.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/*
+ * Visual Studio 2015 dark style
+ * Author: Nicolas LLOBERA <nllobera@gmail.com>
+ */
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #1E1E1E;
+  color: #DCDCDC;
+}
+
+.hljs-keyword,
+.hljs-literal,
+.hljs-symbol,
+.hljs-name {
+  color: #569CD6;
+}
+.hljs-link {
+  color: #569CD6;
+  text-decoration: underline;
+}
+
+.hljs-built_in,
+.hljs-type {
+  color: #4EC9B0;
+}
+
+.hljs-number,
+.hljs-class {
+  color: #B8D7A3;
+}
+
+.hljs-string,
+.hljs-meta-string {
+  color: #D69D85;
+}
+
+.hljs-regexp,
+.hljs-template-tag {
+  color: #9A5334;
+}
+
+.hljs-subst,
+.hljs-function,
+.hljs-title,
+.hljs-params,
+.hljs-formula {
+  color: #DCDCDC;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #57A64A;
+  font-style: italic;
+}
+
+.hljs-doctag {
+  color: #608B4E;
+}
+
+.hljs-meta,
+.hljs-meta-keyword,
+.hljs-tag {
+  color: #9B9B9B;
+}
+
+.hljs-variable,
+.hljs-template-variable {
+  color: #BD63C5;
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-builtin-name {
+  color: #9CDCFE;
+}
+
+.hljs-section {
+  color: gold;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+/*.hljs-code {
+  font-family:'Monospace';
+}*/
+
+.hljs-bullet,
+.hljs-selector-tag,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #D7BA7D;
+}
+
+.hljs-addition {
+  background-color: #144212;
+  display: inline-block;
+  width: 100%;
+}
+
+.hljs-deletion {
+  background-color: #600;
+  display: inline-block;
+  width: 100%;
+}
+
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///c%3A//Users//ol.khrustovskyi//OneDrive//Workspace//codespace//.styles//dark.css" type="text/css"><link rel="stylesheet" href="file:///c%3A//Users//ol.khrustovskyi//OneDrive//Workspace//codespace//.styles//vs.css" type="text/css"><link rel="stylesheet" href="file:///c%3A//Users//ol.khrustovskyi//OneDrive//Workspace//codespace//.styles//default.css" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="pure-utils---detailed-comprehensive-overview">Pure Utils - Detailed Comprehensive Overview</h1>
+<p>Комплексна бібліотека утилітарних функцій та процедур для SQL Server, розроблена для спрощення роботи з метаданими, моніторингу, аналізу продуктивності та автоматизації рутинних завдань DBA.</p>
+<h2 id="%D0%B7%D0%BC%D1%96%D1%81%D1%82">ЗМІСТ</h2>
+<h3 id="%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%96-%D1%80%D0%BE%D0%B7%D0%B4%D1%96%D0%BB%D0%B8">Основні розділи</h3>
+<ol>
+<li><a href="#description--ms_description">DESCRIPTION &amp; MS_DESCRIPTION</a> - 15 функцій/процедур</li>
+<li><a href="#objects--metadata">OBJECTS &amp; METADATA</a> - 25 функцій</li>
+<li><a href="#parameters">PARAMETERS</a> - 6 функцій</li>
+<li><a href="#columns">COLUMNS</a> - 8 функцій</li>
+<li><a href="#string--text-processing">STRING &amp; TEXT PROCESSING</a> - 12 функцій</li>
+<li><a href="#script-generation">SCRIPT GENERATION</a> - 8 функцій</li>
+<li><a href="#temp-tables">TEMP TABLES</a> - 4 функції</li>
+<li><a href="#modules--code-analysis">MODULES &amp; CODE ANALYSIS</a> - 18 функцій</li>
+<li><a href="#error-handling">ERROR HANDLING</a> - 2 функції/процедури + 1 таблиця</li>
+<li><a href="#extended-events-xe">EXTENDED EVENTS (XE)</a> - 8 функцій/процедур</li>
+<li><a href="#?extended-properties">EXTENDED PROPERTIES</a> - 12 процедур</li>
+<li><a href="#indexes">INDEXES</a> - 10 функцій/процедур</li>
+<li><a href="#tables">TABLES</a> - 4 функції</li>
+<li><a href="#logs--events">LOGS &amp; EVENTS</a> - 6 представлень + таблиці</li>
+<li><a href="#execution-monitoring">EXECUTION MONITORING</a> - 8 функцій/представлень</li>
+<li><a href="#permissions">PERMISSIONS</a> - 2 функції</li>
+<li><a href="#history">HISTORY</a> - 3 функції</li>
+</ol>
+<hr>
+<h2 id="description--msdescription">DESCRIPTION &amp; MS_DESCRIPTION</h2>
+<h3 id="%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B5-%D0%B2%D0%B8%D1%82%D1%8F%D0%B3%D0%BD%D0%B5%D0%BD%D0%BD%D1%8F-%D0%BE%D0%BF%D0%B8%D1%81%D1%96%D0%B2-%D0%B7-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%B2">Автоматичне витягнення описів з коментарів</h3>
+<p><strong>Функції для парсингу коментарів:</strong></p>
+<ul>
+<li><code>modulesGetDescriptionFromComments</code> - витягує описи з багаторядкових коментарів</li>
+<li><code>modulesGetDescriptionFromCommentsLegacy</code> - витягує описи зі старого формату коментарів</li>
+<li><code>stringSplitMultiLineComment</code> - парсить структуровані коментарі</li>
+</ul>
+<p><strong>Процедури для встановлення описів:</strong></p>
+<ul>
+<li><code>modulesSetDescriptionFromComments</code> - автоматично встановлює описи з коментарів</li>
+<li><code>modulesSetDescriptionFromCommentsLegacy</code> - для старого формату</li>
+</ul>
+<h3 id="%D1%80%D1%83%D1%87%D0%BD%D0%B5-%D0%B2%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F-%D0%BE%D0%BF%D0%B8%D1%81%D1%96%D0%B2">Ручне встановлення описів</h3>
+<p><strong>Процедури для різних типів об'єктів (12 штук):</strong></p>
+<ul>
+<li><code>metadataSetTableDescription</code> - описи таблиць</li>
+<li><code>metadataSetColumnDescription</code> - описи колонок</li>
+<li><code>metadataSetProcedureDescription</code> - описи процедур</li>
+<li><code>metadataSetFunctionDescription</code> - описи функцій</li>
+<li><code>metadataSetViewDescription</code> - описи представлень</li>
+<li><code>metadataSetTriggerDescription</code> - описи тригерів</li>
+<li><code>metadataSetParameterDescription</code> - описи параметрів</li>
+<li><code>metadataSetIndexDescription</code> - описи індексів</li>
+<li><code>metadataSetSchemaDescription</code> - описи схем</li>
+<li><code>metadataSetDataspaceDescription</code> - описи просторів даних</li>
+<li><code>metadataSetFilegroupDescription</code> - описи файлових груп</li>
+<li><code>metadataSetExtendedProperty</code> - універсальна процедура</li>
+</ul>
+<h3 id="%D0%BE%D1%82%D1%80%D0%B8%D0%BC%D0%B0%D0%BD%D0%BD%D1%8F-%D0%BE%D0%BF%D0%B8%D1%81%D1%96%D0%B2">Отримання описів</h3>
+<p><strong>Функції для читання:</strong></p>
+<ul>
+<li><code>metadataGetDescriptions</code> - отримання описів об'єктів</li>
+<li><code>metadataGetExtendedProperiesValues</code> - читання розширених властивостей</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Автоматичне встановлення описів з коментарів</span>
+EXEC util.modulesSetDescriptionFromComments 'dbo.MyProcedure';
+
+<span class="hljs-comment">-- Ручне встановлення описів</span>
+EXEC util.metadataSetTableDescription @table = 'dbo.Users', @description = 'Таблиця користувачів системи';
+EXEC util.metadataSetColumnDescription @object = 'dbo.Users', @column = 'Email', @description = 'Email адреса користувача';
+
+<span class="hljs-comment">-- Отримання всіх описів</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetDescriptions(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetExtendedProperiesValues(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-string">'MS_Description'</span>);
+</div></code></pre>
+<hr>
+<h2 id="objects--metadata">OBJECTS &amp; METADATA</h2>
+<h3 id="%D1%83%D0%BD%D0%B8%D0%B2%D0%B5%D1%80%D1%81%D0%B0%D0%BB%D1%8C%D0%BD%D1%96-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D0%B4%D0%BB%D1%8F-%D0%BE%D0%B1%D1%94%D0%BA%D1%82%D1%96%D0%B2-25-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D0%B9">Универсальні функції для об'єктів (25 функцій)</h3>
+<p><strong>Основні функції:</strong></p>
+<ul>
+<li><code>metadataGetObjectName</code> - отримання назви об'єкта за ID</li>
+<li><code>metadataGetObjectType</code> - тип об'єкта за назвою</li>
+<li><code>metadataGetObjectsType</code> - типи кількох об'єктів</li>
+<li><code>metadataGetAnyId</code> - універсальне отримання ID будь-якого об'єкта</li>
+<li><code>metadataGetAnyName</code> - універсальне отримання назви будь-якого об'єкта</li>
+</ul>
+<p><strong>Класифікація об'єктів:</strong></p>
+<ul>
+<li><code>metadataGetClassByName</code> - код класу за назвою</li>
+<li><code>metadataGetClassName</code> - назва класу за кодом</li>
+</ul>
+<p><strong>Спеціалізовані функції:</strong></p>
+<ul>
+<li><code>metadataGetCertificateName</code> - імена сертифікатів</li>
+<li><code>metadataGetDataspaceId</code> / <code>metadataGetDataspaceName</code> - простори даних</li>
+<li><code>metadataGetPartitionFunctionId</code> / <code>metadataGetPartitionFunctionName</code> - функції розділення</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Основна робота з об'єктами</span>
+<span class="hljs-keyword">SELECT</span> util.metadataGetObjectName(OBJECT_ID(<span class="hljs-string">'dbo.Users'</span>)); <span class="hljs-comment">-- [dbo].[Users]</span>
+<span class="hljs-keyword">SELECT</span> util.metadataGetObjectType(<span class="hljs-string">'dbo.Users'</span>); <span class="hljs-comment">-- 'U' (User Table)</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetObjectsType(<span class="hljs-string">'dbo.Users,dbo.Orders,dbo.GetUserData'</span>);
+
+<span class="hljs-comment">-- Універсальні функції</span>
+<span class="hljs-keyword">SELECT</span> util.metadataGetAnyId(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-string">'OBJECT'</span>); <span class="hljs-comment">-- object_id</span>
+<span class="hljs-keyword">SELECT</span> util.metadataGetAnyId(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-string">'OBJECT'</span>, <span class="hljs-string">'Email'</span>); <span class="hljs-comment">-- column_id</span>
+<span class="hljs-keyword">SELECT</span> util.metadataGetAnyName(OBJECT_ID(<span class="hljs-string">'dbo.Users'</span>), <span class="hljs-number">0</span>, <span class="hljs-string">'1'</span>); <span class="hljs-comment">-- [dbo].[Users]</span>
+
+<span class="hljs-comment">-- Класифікація</span>
+<span class="hljs-keyword">SELECT</span> util.metadataGetClassByName(<span class="hljs-string">'OBJECT_OR_COLUMN'</span>); <span class="hljs-comment">-- 1</span>
+<span class="hljs-keyword">SELECT</span> util.metadataGetClassName(<span class="hljs-number">1</span>); <span class="hljs-comment">-- 'OBJECT_OR_COLUMN'</span>
+</div></code></pre>
+<hr>
+<h2 id="parameters">PARAMETERS</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D0%B4%D0%BB%D1%8F-%D1%80%D0%BE%D0%B1%D0%BE%D1%82%D0%B8-%D0%B7-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D0%B0%D0%BC%D0%B8-6-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D0%B9">Функції для роботи з параметрами (6 функцій)</h3>
+<ul>
+<li><code>metadataGetParameters</code> - детальна інформація про параметри процедур/функцій</li>
+<li><code>metadataGetParameterId</code> - ID параметра за назвою</li>
+<li><code>metadataGetParameterName</code> - назва параметра за ID</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Отримання всіх параметрів процедури</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetParameters(<span class="hljs-string">'util.errorHandler'</span>);
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetParameters(<span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- всі параметри всіх об'єктів</span>
+
+<span class="hljs-comment">-- Робота з конкретними параметрами</span>
+<span class="hljs-keyword">SELECT</span> util.metadataGetParameterId(<span class="hljs-string">'dbo.MyProc'</span>, <span class="hljs-string">'@userId'</span>);
+<span class="hljs-keyword">SELECT</span> util.metadataGetParameterName(OBJECT_ID(<span class="hljs-string">'dbo.MyProc'</span>), <span class="hljs-number">1</span>);
+</div></code></pre>
+<hr>
+<h2 id="columns">COLUMNS</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D0%B4%D0%BB%D1%8F-%D1%80%D0%BE%D0%B1%D0%BE%D1%82%D0%B8-%D0%B7-%D0%BA%D0%BE%D0%BB%D0%BE%D0%BD%D0%BA%D0%B0%D0%BC%D0%B8-8-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D0%B9">Функції для роботи з колонками (8 функцій)</h3>
+<ul>
+<li><code>metadataGetColumns</code> - детальна інформація про колонки</li>
+<li><code>metadataGetColumnId</code> - ID колонки за назвою</li>
+<li><code>metadataGetColumnName</code> - назва колонки за ID</li>
+<li><code>tablesGetIndexedColumns</code> - аналіз індексованих колонок</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Детальна інформація про колонки</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetColumns(<span class="hljs-string">'dbo.Users'</span>);
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetColumns(<span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- всі колонки всіх таблиць</span>
+
+<span class="hljs-comment">-- Робота з конкретними колонками</span>
+<span class="hljs-keyword">SELECT</span> util.metadataGetColumnId(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-string">'Email'</span>);
+<span class="hljs-keyword">SELECT</span> util.metadataGetColumnName(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-number">1</span>);
+
+<span class="hljs-comment">-- Аналіз індексованих колонок</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.tablesGetIndexedColumns(<span class="hljs-string">'dbo.Users'</span>);
+<span class="hljs-comment">-- Показує: IndexName, KeyOrdinal, IsIncludedColumn, IsUnique, IsPrimaryKey</span>
+</div></code></pre>
+<hr>
+<h2 id="string--text-processing">STRING &amp; TEXT PROCESSING</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D0%B4%D0%BB%D1%8F-%D0%BE%D0%B1%D1%80%D0%BE%D0%B1%D0%BA%D0%B8-%D1%82%D0%B5%D0%BA%D1%81%D1%82%D1%83-12-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D0%B9">Функції для обробки тексту (12 функцій)</h3>
+<p><strong>Розбиття тексту:</strong></p>
+<ul>
+<li><code>stringSplitToLines</code> - розбиття тексту на рядки</li>
+<li><code>modulesSplitToLines</code> - розбиття коду модулів на рядки</li>
+<li><code>stringSplitMultiLineComment</code> - парсинг багаторядкових коментарів</li>
+</ul>
+<p><strong>Пошук позицій:</strong></p>
+<ul>
+<li><code>stringFindCommentsPositions</code> - всі коментарі в тексті</li>
+<li><code>stringFindInlineCommentsPositions</code> - однорядкові коментарі</li>
+<li><code>stringFindLinesPositions</code> - позиції всіх рядків</li>
+<li><code>stringFindMultilineCommentsPositions</code> - багаторядкові коментарі</li>
+<li><code>stringGetCreateLineNumber</code> - рядок з CREATE</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Розбиття тексту на рядки</span>
+<span class="hljs-keyword">DECLARE</span> @code <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-keyword">MAX</span>) = <span class="hljs-string">'CREATE PROCEDURE test AS
+SELECT * FROM users;
+-- коментар
+SELECT COUNT(*) FROM orders;'</span>;
+
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.stringSplitToLines(@code, <span class="hljs-number">1</span>); <span class="hljs-comment">-- без порожніх рядків</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.stringGetCreateLineNumber(@code, <span class="hljs-number">1</span>); <span class="hljs-comment">-- номер рядка з CREATE</span>
+
+<span class="hljs-comment">-- Пошук коментарів</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.stringFindCommentsPositions(@code, <span class="hljs-number">1</span>);
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.stringFindInlineCommentsPositions(@code, <span class="hljs-number">1</span>);
+
+<span class="hljs-comment">-- Парсинг структурованих коментарів</span>
+<span class="hljs-keyword">DECLARE</span> @<span class="hljs-keyword">comment</span> <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-keyword">MAX</span>) = <span class="hljs-string">'/*
+# Description
+Test function
+# Parameters
+@id INT - identifier
+*/'</span>;
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.stringSplitMultiLineComment(@<span class="hljs-keyword">comment</span>);
+</div></code></pre>
+<hr>
+<h2 id="script-generation">SCRIPT GENERATION</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D0%B4%D0%BB%D1%8F-%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%86%D1%96%D1%97-ddl-%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D1%96%D0%B2-8-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D0%B9">Функції для генерації DDL скриптів (8 функцій)</h3>
+<p><strong>Скрипти індексів:</strong></p>
+<ul>
+<li><code>indexesGetScript</code> - DDL для створення індексів</li>
+<li><code>indexesGetScriptConventionRename</code> - скрипти перейменування індексів</li>
+<li><code>indexesGetConventionNames</code> - рекомендовані назви індексів</li>
+</ul>
+<p><strong>Скрипти таблиць:</strong></p>
+<ul>
+<li><code>tablesGetScript</code> - повний DDL таблиці</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Генерація скриптів індексів</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetScript(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- всі індекси таблиці</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetScript(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-string">'IX_Users_Email'</span>); <span class="hljs-comment">-- конкретний індекс</span>
+
+<span class="hljs-comment">-- Скрипти перейменування за конвенціями</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetConventionNames(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- рекомендації</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetScriptConventionRename(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- скрипти</span>
+
+<span class="hljs-comment">-- Повний DDL таблиці</span>
+<span class="hljs-keyword">SELECT</span> createScript <span class="hljs-keyword">FROM</span> util.tablesGetScript(<span class="hljs-string">'dbo.Users'</span>);
+</div></code></pre>
+<hr>
+<h2 id="temp-tables">TEMP TABLES</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D0%B4%D0%BB%D1%8F-%D1%81%D1%82%D0%B2%D0%BE%D1%80%D0%B5%D0%BD%D0%BD%D1%8F-%D1%82%D0%B8%D0%BC%D1%87%D0%B0%D1%81%D0%BE%D0%B2%D0%B8%D1%85-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%8C-4-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97">Функції для створення тимчасових таблиць (4 функції)</h3>
+<p><strong>Inline функції (повертають TABLE):</strong></p>
+<ul>
+<li><code>stringGetCreateTempScriptInline</code> - на основі SQL запиту</li>
+<li><code>objectGetCreateTempScriptInline</code> - на основі об'єкта БД</li>
+</ul>
+<p><strong>Scalar функції (повертають NVARCHAR(MAX)):</strong></p>
+<ul>
+<li><code>stringGetCreateTempScript</code> - на основі SQL запиту</li>
+<li><code>objectGetCreateTempScript</code> - на основі об'єкта БД</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Inline функції</span>
+<span class="hljs-keyword">SELECT</span> createScript <span class="hljs-keyword">FROM</span> util.stringGetCreateTempScriptInline(<span class="hljs-string">'SELECT * FROM dbo.Users'</span>, <span class="hljs-string">'#UsersCopy'</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">SELECT</span> createScript <span class="hljs-keyword">FROM</span> util.objectGetCreateTempScriptInline(<span class="hljs-string">'dbo.GetUserStats'</span>, <span class="hljs-string">'#UserStats'</span>, <span class="hljs-literal">NULL</span>);
+
+<span class="hljs-comment">-- Scalar функції для виконання</span>
+<span class="hljs-keyword">DECLARE</span> @script <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-keyword">MAX</span>) = util.stringGetCreateTempScript(<span class="hljs-string">'SELECT ID, Name, Email FROM dbo.Users'</span>, <span class="hljs-string">'#ActiveUsers'</span>, <span class="hljs-literal">NULL</span>);
+EXEC sp_executesql @script;
+<span class="hljs-comment">-- Тепер можна використовувати #ActiveUsers</span>
+
+<span class="hljs-keyword">DECLARE</span> @procScript <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-keyword">MAX</span>) = util.objectGetCreateTempScript(<span class="hljs-string">'dbo.GetUserData'</span>, <span class="hljs-string">'#UserData'</span>, <span class="hljs-literal">NULL</span>);  
+EXEC sp_executesql @procScript;
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-comment">#UserData EXEC dbo.GetUserData @userId = 123;</span>
+
+<span class="hljs-comment">-- Параметризовані запити</span>
+<span class="hljs-keyword">DECLARE</span> @params <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-keyword">MAX</span>) = <span class="hljs-string">'@startDate DATETIME, @endDate DATETIME'</span>;
+<span class="hljs-keyword">DECLARE</span> @<span class="hljs-keyword">query</span> <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-keyword">MAX</span>) = <span class="hljs-string">'SELECT * FROM dbo.Orders WHERE OrderDate BETWEEN @startDate AND @endDate'</span>;
+<span class="hljs-keyword">SELECT</span> createScript <span class="hljs-keyword">FROM</span> util.stringGetCreateTempScriptInline(@<span class="hljs-keyword">query</span>, <span class="hljs-string">'#OrdersTemp'</span>, @params);
+</div></code></pre>
+<hr>
+<h2 id="modules--code-analysis">MODULES &amp; CODE ANALYSIS</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D0%B4%D0%BB%D1%8F-%D0%B0%D0%BD%D0%B0%D0%BB%D1%96%D0%B7%D1%83-%D0%BA%D0%BE%D0%B4%D1%83-%D0%BC%D0%BE%D0%B4%D1%83%D0%BB%D1%96%D0%B2-18-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D0%B9">Функції для аналізу коду модулів (18 функцій)</h3>
+<p><strong>Розбиття та аналіз коду:</strong></p>
+<ul>
+<li><code>modulesSplitToLines</code> - розбиття модулів на рядки</li>
+<li><code>modulesGetCreateLineNumber</code> - номер рядка з CREATE</li>
+</ul>
+<p><strong>Пошук коментарів:</strong></p>
+<ul>
+<li><code>modulesFindCommentsPositions</code> - всі коментарі (inline + multiline)</li>
+<li><code>modulesFindInlineCommentsPositions</code> - однорядкові коментарі (--)</li>
+<li><code>modulesFindMultilineCommentsPositions</code> - багаторядкові коментарі (/* */)</li>
+<li><code>modulesFindLinesPositions</code> - позиції всіх рядків</li>
+</ul>
+<p><strong>Пошук входжень:</strong></p>
+<ul>
+<li><code>modulesRecureSearchForOccurrences</code> - рекурсивний пошук входжень</li>
+<li><code>modulesRecureSearchStartEndPositions</code> - пошук блоків початок/кінець</li>
+<li><code>modulesRecureSearchStartEndPositionsExtended</code> - розширений пошук блоків</li>
+</ul>
+<p><strong>Аналіз описів:</strong></p>
+<ul>
+<li><code>modulesGetDescriptionFromComments</code> - витягання описів з коментарів</li>
+<li><code>modulesGetDescriptionFromCommentsLegacy</code> - для старого формату</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Розбиття коду на рядки</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesSplitToLines(<span class="hljs-string">'dbo.MyProcedure'</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">-- без порожніх рядків</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesSplitToLines(<span class="hljs-literal">NULL</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">-- всі модулі в БД</span>
+
+<span class="hljs-comment">-- Знаходження CREATE</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesGetCreateLineNumber(OBJECT_ID(<span class="hljs-string">'dbo.MyProc'</span>));
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesGetCreateLineNumber(<span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- для всіх об'єктів</span>
+
+<span class="hljs-comment">-- Аналіз коментарів</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesFindCommentsPositions(OBJECT_ID(<span class="hljs-string">'dbo.MyProc'</span>));
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesFindInlineCommentsPositions(<span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- всі однорядкові коментарі</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesFindMultilineCommentsPositions(OBJECT_ID(<span class="hljs-string">'dbo.MyProc'</span>));
+
+<span class="hljs-comment">-- Пошук входжень</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesRecureSearchForOccurrences(<span class="hljs-string">'SELECT'</span>, <span class="hljs-number">6</span>); <span class="hljs-comment">-- з опціями</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesRecureSearchForOccurrences(<span class="hljs-string">'util.'</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">-- пропускати перед крапкою</span>
+
+<span class="hljs-comment">-- Пошук блоків коду</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesRecureSearchStartEndPositions(<span class="hljs-string">'BEGIN'</span>, <span class="hljs-string">'END'</span>);
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesRecureSearchStartEndPositions(<span class="hljs-string">'TRY'</span>, <span class="hljs-string">'CATCH'</span>);
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesRecureSearchStartEndPositionsExtended(<span class="hljs-string">'/*'</span>, <span class="hljs-string">'*/'</span>, <span class="hljs-number">1</span>, <span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- з нормалізацією CR/LF</span>
+
+<span class="hljs-comment">-- Витягання описів з коментарів</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesGetDescriptionFromComments(OBJECT_ID(<span class="hljs-string">'util.errorHandler'</span>));
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.modulesGetDescriptionFromComments(<span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- для всіх модулів</span>
+</div></code></pre>
+<hr>
+<h2 id="error-handling">ERROR HANDLING</h2>
+<h3 id="%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%BE%D0%B1%D1%80%D0%BE%D0%B1%D0%BA%D0%B8-%D0%BF%D0%BE%D0%BC%D0%B8%D0%BB%D0%BE%D0%BA">Компоненти системи обробки помилок</h3>
+<p><strong>Процедура:</strong></p>
+<ul>
+<li><code>errorHandler</code> - універсальна обробка помилок</li>
+</ul>
+<p><strong>Таблиця:</strong></p>
+<ul>
+<li><code>errorLog</code> - журнал помилок з повною контекстною інформацією</li>
+</ul>
+<p><strong>Функція:</strong></p>
+<ul>
+<li><code>help</code> - довідкова система</li>
+</ul>
+<h3 id="%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%96-errorlog">Структура таблиці errorLog:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Основна інформація про помилку</span>
+ErrorNumber INT, ErrorSeverity INT, ErrorState INT, ErrorMessage NVARCHAR(4000)
+<span class="hljs-comment">-- Контекстна інформація  </span>
+ErrorProcedure NVARCHAR(128), ErrorLine INT, ErrorLineText NVARCHAR(MAX)
+<span class="hljs-comment">-- Сесійна інформація</span>
+OriginalLogin NVARCHAR(128), SessionId SMALLINT, HostName NVARCHAR(128)
+ProgramName NVARCHAR(128), DatabaseName NVARCHAR(128), UserName NVARCHAR(128)
+<span class="hljs-comment">-- Додткові дані</span>
+Attachment NVARCHAR(MAX), SessionInfo XML
+</div></code></pre>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Стандартна обробка помилок</span>
+<span class="hljs-keyword">BEGIN</span> TRY
+    <span class="hljs-comment">-- Небезпечний код</span>
+    EXEC dbo.SomeRiskyProcedure @param = <span class="hljs-string">'value'</span>;
+    <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> dbo.ImportantTable <span class="hljs-keyword">WHERE</span> SomeCondition = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">END</span> TRY  
+<span class="hljs-keyword">BEGIN</span> CATCH
+    <span class="hljs-comment">-- Детальне логування з контекстом</span>
+    EXEC util.errorHandler @attachment = <span class="hljs-string">'Контекст: обробка замовлення #12345'</span>;
+    
+    <span class="hljs-comment">-- Повторне викидання помилки якщо потрібно</span>
+    THROW;
+<span class="hljs-keyword">END</span> CATCH
+
+<span class="hljs-comment">-- Перегляд журналу помилок</span>
+<span class="hljs-keyword">SELECT</span> TOP <span class="hljs-number">10</span> * <span class="hljs-keyword">FROM</span> util.errorLog <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ErrorDateTime <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Аналіз помилок за період</span>
+<span class="hljs-keyword">SELECT</span> 
+    ErrorNumber,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> ErrorCount,
+    <span class="hljs-keyword">MAX</span>(ErrorDateTime) <span class="hljs-keyword">as</span> LastOccurrence,
+    ErrorMessage
+<span class="hljs-keyword">FROM</span> util.errorLog 
+<span class="hljs-keyword">WHERE</span> ErrorDateTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-7</span>, <span class="hljs-keyword">GETDATE</span>())
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ErrorNumber, ErrorMessage
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ErrorCount <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Довідка по системі</span>
+EXEC util.help; <span class="hljs-comment">-- вся довідка</span>
+EXEC util.help <span class="hljs-string">'metadata'</span>; <span class="hljs-comment">-- фільтрація за ключовим словом</span>
+</div></code></pre>
+<hr>
+<h2 id="extended-events-xe">EXTENDED EVENTS (XE)</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D1%82%D0%B0-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%B4%D1%83%D1%80%D0%B8-%D0%B4%D0%BB%D1%8F-xe-8-%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%96%D0%B2">Функції та процедури для XE (8 компонентів)</h3>
+<p><strong>Функції для читання XE:</strong></p>
+<ul>
+<li><code>xeGetErrors</code> - отримання помилок з XE файлів</li>
+<li><code>xeGetTargetFile</code> - інформація про поточний файл сесії</li>
+<li><code>xeGetLogsPath</code> - шлях до директорії логів XE</li>
+</ul>
+<p><strong>Процедури для роботи з XE:</strong></p>
+<ul>
+<li><code>xeCopyModulesToTable</code> - копіювання модулів з XE у таблиці</li>
+</ul>
+<p><strong>Сесії XE:</strong></p>
+<ul>
+<li><code>utilsErrors</code> - моніторинг помилок</li>
+<li><code>utilsModulesUsers</code> - моніторинг виконання модулів користувачами</li>
+<li><code>utilsModulesFaust</code> - моніторинг модулів Faust користувачів</li>
+<li><code>utilsModulesSSIS</code> - моніторинг SSIS пакетів</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Отримання помилок з XE</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.xeGetErrors(<span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- всі помилки</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.xeGetErrors(<span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">hour</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>())); <span class="hljs-comment">-- за останню годину</span>
+
+<span class="hljs-comment">-- Аналіз критичних помилок</span>
+<span class="hljs-keyword">SELECT</span> EventTime, ErrorNumber, Severity, Message, DatabaseName, SqlText
+<span class="hljs-keyword">FROM</span> util.xeGetErrors(<span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>()))  
+<span class="hljs-keyword">WHERE</span> Severity &gt;= <span class="hljs-number">16</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> EventTime <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Топ помилок за частотою</span>
+<span class="hljs-keyword">SELECT</span> ErrorNumber, <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> ErrorCount, <span class="hljs-keyword">MAX</span>(EventTime) <span class="hljs-keyword">as</span> LastOccurrence  
+<span class="hljs-keyword">FROM</span> util.xeGetErrors(<span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-7</span>, <span class="hljs-keyword">GETDATE</span>()))
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ErrorNumber
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ErrorCount <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Управління XE файлами</span>
+<span class="hljs-keyword">SELECT</span> util.xeGetLogsPath(<span class="hljs-string">'utilsErrors'</span>); <span class="hljs-comment">-- шлях до логів</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.xeGetTargetFile(<span class="hljs-string">'utilsErrors'</span>); <span class="hljs-comment">-- поточний файл</span>
+
+<span class="hljs-comment">-- Копіювання модулів з XE</span>
+EXEC util.xeCopyModulesToTable 'Users'; <span class="hljs-comment">-- користувачі</span>
+EXEC util.xeCopyModulesToTable 'Faust'; <span class="hljs-comment">-- Faust користувачі</span>
+EXEC util.xeCopyModulesToTable 'SSIS';  <span class="hljs-comment">-- SSIS пакети</span>
+</div></code></pre>
+<hr>
+<h2 id="extended-properties">EXTENDED PROPERTIES</h2>
+<h3 id="%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%B4%D1%83%D1%80%D0%B8-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D1%96%D0%BD%D0%BD%D1%8F-%D1%80%D0%BE%D0%B7%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%BC%D0%B8-%D0%B2%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-12-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%B4%D1%83%D1%80">Процедури для управління розширеними властивостями (12 процедур)</h3>
+<p><strong>Універсальна процедура:</strong></p>
+<ul>
+<li><code>metadataSetExtendedProperty</code> - встановлення будь-якої розширеної властивості</li>
+</ul>
+<p><strong>Спеціалізовані процедури для MS_Description:</strong></p>
+<ul>
+<li><code>metadataSetTableDescription</code> - таблиці</li>
+<li><code>metadataSetColumnDescription</code> - колонки</li>
+<li><code>metadataSetProcedureDescription</code> - процедури</li>
+<li><code>metadataSetFunctionDescription</code> - функції</li>
+<li><code>metadataSetViewDescription</code> - представлення</li>
+<li><code>metadataSetTriggerDescription</code> - тригери</li>
+<li><code>metadataSetParameterDescription</code> - параметри</li>
+<li><code>metadataSetIndexDescription</code> - індекси</li>
+<li><code>metadataSetSchemaDescription</code> - схеми</li>
+<li><code>metadataSetDataspaceDescription</code> - простори даних</li>
+<li><code>metadataSetFilegroupDescription</code> - файлові групи</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлення описів для різних об'єктів</span>
+EXEC util.metadataSetTableDescription @table = 'dbo.Users', @description = 'Таблиця користувачів системи';
+EXEC util.metadataSetColumnDescription @object = 'dbo.Users', @column = 'Email', @description = 'Email адреса користувача';
+EXEC util.metadataSetProcedureDescription @procedure = 'dbo.GetUserData', @description = 'Отримання даних користувача за ID';
+EXEC util.metadataSetFunctionDescription @function = 'dbo.CalculateDiscount', @description = 'Розрахунок знижки клієнта';
+EXEC util.metadataSetParameterDescription @major = 'dbo.GetUserData', @parameter = '@userId', @description = 'Унікальний ідентифікатор користувача';
+
+<span class="hljs-comment">-- Встановлення індивідуальних властивостей</span>
+EXEC util.metadataSetExtendedProperty 
+    @name = 'Author', @value = 'John Doe',
+    @level0type = 'SCHEMA', @level0name = 'dbo', 
+    @level1type = 'TABLE', @level1name = 'Users';
+
+EXEC util.metadataSetExtendedProperty
+    @name = 'Version', @value = '2.1.0',
+    @level0type = 'SCHEMA', @level0name = 'dbo',
+    @level1type = 'PROCEDURE', @level1name = 'GetUserData';
+
+<span class="hljs-comment">-- Встановлення описів для інфраструктурних об'єктів</span>
+EXEC util.metadataSetSchemaDescription @schema = 'sales', @description = 'Схема для модулів продажів';
+EXEC util.metadataSetFilegroupDescription @filegroup = 'SALES_DATA', @description = 'Файлова група для даних продажів';
+</div></code></pre>
+<hr>
+<h2 id="indexes">INDEXES</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D1%82%D0%B0-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%B4%D1%83%D1%80%D0%B8-%D0%B4%D0%BB%D1%8F-%D1%80%D0%BE%D0%B1%D0%BE%D1%82%D0%B8-%D0%B7-%D1%96%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%D0%B0%D0%BC%D0%B8-10-%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%96%D0%B2">Функції та процедури для роботи з індексами (10 компонентів)</h3>
+<p><strong>Аналіз індексів:</strong></p>
+<ul>
+<li><code>indexesGetUnused</code> - невикористовувані індекси</li>
+<li><code>indexesGetMissing</code> - відсутні індекси (рекомендації SQL Server)</li>
+<li><code>indexesGetSpaceUsed</code> - використання дискового простору (агреговане)</li>
+<li><code>indexesGetSpaceUsedDetailed</code> - використання простору (по партиціях)</li>
+</ul>
+<p><strong>Генерація скриптів:</strong></p>
+<ul>
+<li><code>indexesGetScript</code> - DDL для створення індексів</li>
+<li><code>indexesGetConventionNames</code> - рекомендовані назви за стандартами</li>
+<li><code>indexesGetScriptConventionRename</code> - скрипти перейменування</li>
+</ul>
+<p><strong>Управління індексами:</strong></p>
+<ul>
+<li><code>indexesSetConventionNames</code> - автоматичне перейменування індексів</li>
+</ul>
+<p><strong>Моніторинг:</strong></p>
+<ul>
+<li><code>myselfActiveIndexCreation</code> - відстеження прогресу створення індексів</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Аналіз проблемних індексів  </span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetUnused(<span class="hljs-string">'dbo.Orders'</span>); <span class="hljs-comment">-- невикористовувані</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetMissing(<span class="hljs-string">'dbo.Orders'</span>) <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> IndexAdvantage <span class="hljs-keyword">DESC</span>; <span class="hljs-comment">-- відсутні</span>
+
+<span class="hljs-comment">-- Аналіз використання простору</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetSpaceUsed(<span class="hljs-string">'dbo.Orders'</span>); <span class="hljs-comment">-- загальна статистика</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetSpaceUsedDetailed(<span class="hljs-string">'dbo.Orders'</span>); <span class="hljs-comment">-- по партиціях</span>
+
+<span class="hljs-comment">-- Топ найбільших індексів в БД</span>
+<span class="hljs-keyword">SELECT</span> TOP <span class="hljs-number">10</span> SchemaName, TableName, IndexName, TotalSizeMB  
+<span class="hljs-keyword">FROM</span> util.indexesGetSpaceUsed(<span class="hljs-literal">NULL</span>)
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> TotalSizeMB <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Генерація DDL скриптів</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetScript(<span class="hljs-string">'dbo.Orders'</span>, <span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- всі індекси таблиці</span>
+<span class="hljs-keyword">SELECT</span> createScript <span class="hljs-keyword">FROM</span> util.indexesGetScript(<span class="hljs-string">'dbo.Orders'</span>, <span class="hljs-string">'IX_Orders_CustomerID'</span>);
+
+<span class="hljs-comment">-- Конвенції найменування</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetConventionNames(<span class="hljs-string">'dbo.Orders'</span>, <span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- рекомендації</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetScriptConventionRename(<span class="hljs-string">'dbo.Orders'</span>, <span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- скрипти перейменування</span>
+
+<span class="hljs-comment">-- Автоматичне перейменування</span>
+EXEC util.indexesSetConventionNames @table = 'dbo.Orders', @output = 1; <span class="hljs-comment">-- показати скрипти</span>
+EXEC util.indexesSetConventionNames @table = 'dbo.Orders', @output = 8; <span class="hljs-comment">-- виконати перейменування</span>
+
+<span class="hljs-comment">-- Моніторинг створення індексів  </span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.myselfActiveIndexCreation(); <span class="hljs-comment">-- поточний прогрес</span>
+</div></code></pre>
+<hr>
+<h2 id="tables">TABLES</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D0%B4%D0%BB%D1%8F-%D1%80%D0%BE%D0%B1%D0%BE%D1%82%D0%B8-%D0%B7-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%8F%D0%BC%D0%B8-4-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97">Функції для роботи з таблицями (4 функції)</h3>
+<p><strong>Аналіз структури:</strong></p>
+<ul>
+<li><code>tablesGetScript</code> - повний DDL скрипт таблиці</li>
+<li><code>tablesGetIndexedColumns</code> - аналіз індексованих колонок</li>
+</ul>
+<p><strong>Інфраструктурні:</strong></p>
+<ul>
+<li><code>metadataGetIndexes</code> - інформація про індекси таблиць</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Повний DDL таблиці</span>
+<span class="hljs-keyword">SELECT</span> createScript <span class="hljs-keyword">FROM</span> util.tablesGetScript(<span class="hljs-string">'dbo.Orders'</span>);
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.tablesGetScript(<span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- всі таблиці</span>
+
+<span class="hljs-comment">-- Аналіз індексованих колонок  </span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.tablesGetIndexedColumns(<span class="hljs-string">'dbo.Orders'</span>);
+<span class="hljs-comment">-- Показує: ColumnName, IndexName, KeyOrdinal, IsIncludedColumn, IsUnique, IsPrimaryKey</span>
+
+<span class="hljs-comment">-- Колонки які є першими в індексах</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> SchemaName, TableName, ColumnName
+<span class="hljs-keyword">FROM</span> util.tablesGetIndexedColumns(<span class="hljs-string">'dbo.Orders'</span>)  
+<span class="hljs-keyword">WHERE</span> KeyOrdinal = <span class="hljs-number">1</span>;
+
+<span class="hljs-comment">-- Статистика покриття колонок індексами</span>
+<span class="hljs-keyword">SELECT</span> SchemaName, TableName, ColumnName, <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> IndexCount
+<span class="hljs-keyword">FROM</span> util.tablesGetIndexedColumns(<span class="hljs-string">'dbo.Orders'</span>)
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> SchemaName, TableName, ColumnName
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> IndexCount <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Інформація про індекси</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetIndexes(<span class="hljs-string">'dbo.Orders'</span>);
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetIndexes(<span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- всі індекси в БД</span>
+</div></code></pre>
+<hr>
+<h2 id="logs--events">LOGS &amp; EVENTS</h2>
+<h3 id="%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%96-%D0%B4%D0%BB%D1%8F-%D0%B7%D0%B1%D0%B5%D1%80%D1%96%D0%B3%D0%B0%D0%BD%D0%BD%D1%8F-%D0%BB%D0%BE%D0%B3%D1%96%D0%B2-6-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%8C">Таблиці для зберігання логів (6 таблиць)</h3>
+<p><strong>Журнали помилок:</strong></p>
+<ul>
+<li><code>errorLog</code> - централізований журнал помилок з повним контекстом</li>
+</ul>
+<p><strong>Журнали виконання модулів:</strong></p>
+<ul>
+<li><code>executionModulesFaust</code> - логи виконання модулів (Faust користувачі)</li>
+<li><code>executionModulesUsers</code> - логи виконання модулів (звичайні користувачі)</li>
+<li><code>executionModulesSSIS</code> - логи виконання SSIS пакетів</li>
+<li><code>executionSqlText</code> - кеш SQL текстів з хешуванням</li>
+</ul>
+<p><strong>Інфраструктурні:</strong></p>
+<ul>
+<li><code>xeOffsets</code> - позиції читання XE файлів для продовження обробки</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F-%D0%B4%D0%BB%D1%8F-%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D1%83-%D0%B4%D0%BE-%D0%B4%D0%B0%D0%BD%D0%B8%D1%85-3-%D0%BF%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F">Представлення для доступу до даних (3 представлення)</h3>
+<p><strong>Представлення з приєднаними SQL текстами:</strong></p>
+<ul>
+<li><code>viewExecutionModulesFaust</code> - виконання модулів Faust з SQL кодом</li>
+<li><code>viewExecutionModulesUsers</code> - виконання модулів користувачів з SQL кодом</li>
+<li><code>viewExecutionModulesSSIS</code> - виконання SSIS з SQL кодом</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Аналіз помилок</span>
+<span class="hljs-keyword">SELECT</span> TOP <span class="hljs-number">20</span> ErrorDateTime, ErrorNumber, ErrorMessage, ErrorProcedure, HostName  
+<span class="hljs-keyword">FROM</span> util.errorLog 
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ErrorDateTime <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Топ помилок за частотою</span>
+<span class="hljs-keyword">SELECT</span> ErrorNumber, <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> <span class="hljs-keyword">Count</span>, <span class="hljs-keyword">MAX</span>(ErrorDateTime) <span class="hljs-keyword">as</span> LastSeen
+<span class="hljs-keyword">FROM</span> util.errorLog
+<span class="hljs-keyword">WHERE</span> ErrorDateTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-30</span>, <span class="hljs-keyword">GETDATE</span>())
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ErrorNumber  
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">Count</span> <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Моніторинг виконання модулів</span>
+<span class="hljs-keyword">SELECT</span> TOP <span class="hljs-number">100</span> EventTime, ObjectName, <span class="hljs-keyword">Duration</span>, ClientHostname, ServerPrincipalName
+<span class="hljs-keyword">FROM</span> util.viewExecutionModulesUsers
+<span class="hljs-keyword">WHERE</span> EventTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">hour</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>())
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">Duration</span> <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Повільні процедури за останню добу  </span>
+<span class="hljs-keyword">SELECT</span> 
+    ObjectName,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> ExecutionCount,
+    <span class="hljs-keyword">AVG</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> AvgDurationMs,
+    <span class="hljs-keyword">MAX</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> MaxDurationMs,
+    <span class="hljs-keyword">MIN</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> MinDurationMs
+<span class="hljs-keyword">FROM</span> util.viewExecutionModulesUsers
+<span class="hljs-keyword">WHERE</span> EventTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>())
+    <span class="hljs-keyword">AND</span> <span class="hljs-keyword">Duration</span> &gt; <span class="hljs-number">1000000</span> <span class="hljs-comment">-- &gt; 1 сек</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ObjectName
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> AvgDurationMs <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Аналіз SSIS пакетів</span>
+<span class="hljs-keyword">SELECT</span> ObjectName, <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> RunCount, <span class="hljs-keyword">AVG</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> AvgDuration
+<span class="hljs-keyword">FROM</span> util.viewExecutionModulesSSIS
+<span class="hljs-keyword">WHERE</span> EventTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-7</span>, <span class="hljs-keyword">GETDATE</span>())
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ObjectName
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> RunCount <span class="hljs-keyword">DESC</span>;
+</div></code></pre>
+<hr>
+<h2 id="execution-monitoring">EXECUTION MONITORING</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D1%82%D0%B0-%D0%BF%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F-%D0%B4%D0%BB%D1%8F-%D0%BC%D0%BE%D0%BD%D1%96%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B3%D1%83-8-%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%96%D0%B2">Функції та представлення для моніторингу (8 компонентів)</h3>
+<p><strong>Представлення для аналізу виконання:</strong></p>
+<ul>
+<li><code>viewExecutionModulesFaust</code> - виконання модулів (Faust користувачі)</li>
+<li><code>viewExecutionModulesUsers</code> - виконання модулів (звичайні користувачі)</li>
+<li><code>viewExecutionModulesSSIS</code> - виконання SSIS пакетів</li>
+</ul>
+<p><strong>Функції моніторингу:</strong></p>
+<ul>
+<li><code>myselfActiveIndexCreation</code> - прогрес створення індексів</li>
+<li><code>executionGetModulesFaust</code> - отримання модулів Faust</li>
+</ul>
+<p><strong>Таблиці логування:</strong></p>
+<ul>
+<li><code>executionModulesFaust</code>, <code>executionModulesUsers</code>, <code>executionModulesSSIS</code></li>
+<li><code>executionSqlText</code> - кеш SQL текстів</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Моніторинг поточної активності</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.myselfActiveIndexCreation(); <span class="hljs-comment">-- прогрес створення індексів</span>
+
+<span class="hljs-comment">-- Топ повільних процедур за добу</span>
+<span class="hljs-keyword">SELECT</span> 
+    ObjectName,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> ExecutionCount,
+    <span class="hljs-keyword">AVG</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> AvgDurationMs,
+    <span class="hljs-keyword">MAX</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> MaxDurationMs,
+    <span class="hljs-keyword">MIN</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> MinDurationMs
+<span class="hljs-keyword">FROM</span> util.viewExecutionModulesUsers
+<span class="hljs-keyword">WHERE</span> EventTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>())
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ObjectName
+<span class="hljs-keyword">HAVING</span> <span class="hljs-keyword">COUNT</span>(*) &gt; <span class="hljs-number">1</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> AvgDurationMs <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Аналіз активності по користувачах</span>
+<span class="hljs-keyword">SELECT</span> 
+    ServerPrincipalName,
+    ClientHostname, 
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> ExecutionCount,
+    <span class="hljs-keyword">COUNT</span>(<span class="hljs-keyword">DISTINCT</span> ObjectName) <span class="hljs-keyword">as</span> UniqueObjects,
+    <span class="hljs-keyword">AVG</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> AvgDuration
+<span class="hljs-keyword">FROM</span> util.viewExecutionModulesFaust  
+<span class="hljs-keyword">WHERE</span> EventTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>())
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ServerPrincipalName, ClientHostname
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ExecutionCount <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Моніторинг SSIS пакетів</span>
+<span class="hljs-keyword">SELECT</span> 
+    ObjectName,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> RunCount,
+    <span class="hljs-keyword">AVG</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> AvgDuration,
+    <span class="hljs-keyword">MAX</span>(EventTime) <span class="hljs-keyword">as</span> LastRun,
+    <span class="hljs-keyword">COUNT</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">Duration</span> &gt; <span class="hljs-number">300000000</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">END</span>) <span class="hljs-keyword">as</span> LongRunsCount <span class="hljs-comment">-- &gt; 30 сек</span>
+<span class="hljs-keyword">FROM</span> util.viewExecutionModulesSSIS
+<span class="hljs-keyword">WHERE</span> EventTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-7</span>, <span class="hljs-keyword">GETDATE</span>())
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ObjectName
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> LongRunsCount <span class="hljs-keyword">DESC</span>, AvgDuration <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Аналіз SQL текстів</span>
+<span class="hljs-keyword">SELECT</span> 
+    <span class="hljs-keyword">LEFT</span>(sqlText, <span class="hljs-number">100</span>) <span class="hljs-keyword">as</span> SqlPreview,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> UsageCount
+<span class="hljs-keyword">FROM</span> util.executionSqlText est
+<span class="hljs-keyword">JOIN</span> util.executionModulesUsers emu <span class="hljs-keyword">ON</span> est.sqlHash = emu.SqlTextHash
+<span class="hljs-keyword">WHERE</span> emu.EventTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>())
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> est.sqlHash, <span class="hljs-keyword">LEFT</span>(sqlText, <span class="hljs-number">100</span>)
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> UsageCount <span class="hljs-keyword">DESC</span>;
+</div></code></pre>
+<hr>
+<h2 id="permissions">PERMISSIONS</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D0%B4%D0%BB%D1%8F-%D0%B0%D0%BD%D0%B0%D0%BB%D1%96%D0%B7%D1%83-%D0%BF%D1%80%D0%B0%D0%B2-%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D1%83-2-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97">Функції для аналізу прав доступу (2 функції)</h3>
+<p><strong>Аналіз залежностей:</strong></p>
+<ul>
+<li><code>metadataGetRequiredPermission</code> - визначення потрібних прав для об'єкта</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Аналіз прав доступу для процедури</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetRequiredPermission(<span class="hljs-string">'dbo.ComplexProcedure'</span>);
+<span class="hljs-comment">-- Показує об'єкти які потребують додаткових прав:</span>
+<span class="hljs-comment">-- - з інших БД (завжди потребують прав)  </span>
+<span class="hljs-comment">-- - з різними власниками схем</span>
+
+<span class="hljs-comment">-- Групування по причинам</span>
+<span class="hljs-keyword">SELECT</span> 
+    PermissionReason,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> ObjectCount,
+    STRING_AGG(ObjectName, <span class="hljs-string">'; '</span>) <span class="hljs-keyword">as</span> Objects
+<span class="hljs-keyword">FROM</span> util.metadataGetRequiredPermission(<span class="hljs-string">'dbo.ComplexProcedure'</span>)
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> PermissionReason;
+
+<span class="hljs-comment">-- Аналіз всіх процедур схеми на права</span>
+<span class="hljs-keyword">SELECT</span> 
+    o.name <span class="hljs-keyword">as</span> ProcedureName,
+    perm.ObjectName,
+    perm.PermissionReason  
+<span class="hljs-keyword">FROM</span> sys.objects o
+<span class="hljs-keyword">CROSS</span> <span class="hljs-keyword">APPLY</span> util.metadataGetRequiredPermission(SCHEMA_NAME(o.schema_id) + <span class="hljs-string">'.'</span> + o.name) perm
+<span class="hljs-keyword">WHERE</span> o.schema_id = SCHEMA_ID(<span class="hljs-string">'dbo'</span>) <span class="hljs-keyword">AND</span> o.type = <span class="hljs-string">'P'</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> o.name, perm.PermissionReason;
+</div></code></pre>
+<hr>
+<h2 id="history">HISTORY</h2>
+<h3 id="%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97-%D0%B4%D0%BB%D1%8F-%D0%BE%D1%82%D1%80%D0%B8%D0%BC%D0%B0%D0%BD%D0%BD%D1%8F-%D1%96%D1%81%D1%82%D0%BE%D1%80%D1%96%D1%97-3-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%97">Функції для отримання історії (3 функції)</h3>
+<p><strong>Історія користувача:</strong></p>
+<ul>
+<li><code>myselfGetHistory</code> - історія подій для поточного користувача</li>
+</ul>
+<p><strong>Історія об'єктів:</strong></p>
+<ul>
+<li><code>objectGetHistory</code> - історія змін конкретного об'єкта</li>
+</ul>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Приклади використання:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Історія поточного користувача</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.myselfGetHistory(<span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- вся історія</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.myselfGetHistory(<span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-7</span>, <span class="hljs-keyword">GETDATE</span>())); <span class="hljs-comment">-- за тиждень</span>
+
+<span class="hljs-comment">-- Історія конкретного об'єкта  </span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.objectGetHistory(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- вся історія таблиці</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.objectGetHistory(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>())); <span class="hljs-comment">-- за добу</span>
+
+<span class="hljs-comment">-- Аналіз активності за період</span>
+<span class="hljs-keyword">SELECT</span> 
+    eventType,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> EventCount,
+    <span class="hljs-keyword">COUNT</span>(<span class="hljs-keyword">DISTINCT</span> objectName) <span class="hljs-keyword">as</span> UniqueObjects,
+    <span class="hljs-keyword">MIN</span>(postTime) <span class="hljs-keyword">as</span> FirstEvent,
+    <span class="hljs-keyword">MAX</span>(postTime) <span class="hljs-keyword">as</span> LastEvent
+<span class="hljs-keyword">FROM</span> util.myselfGetHistory(<span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">week</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>()))
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> eventType
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> EventCount <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Топ найактивніших об'єктів</span>
+<span class="hljs-keyword">SELECT</span> 
+    objectName,
+    objectType, 
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> ChangeCount,
+    <span class="hljs-keyword">MAX</span>(postTime) <span class="hljs-keyword">as</span> LastChange
+<span class="hljs-keyword">FROM</span> util.myselfGetHistory(<span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">month</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>()))
+<span class="hljs-keyword">WHERE</span> objectName <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> objectName, objectType  
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ChangeCount <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- DDL зміни за період</span>
+<span class="hljs-keyword">SELECT</span> postTime, eventType, objectName, objectType, tsql_command
+<span class="hljs-keyword">FROM</span> util.objectGetHistory(<span class="hljs-string">'dbo.ImportantTable'</span>, <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">month</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>()))  
+<span class="hljs-keyword">WHERE</span> eventType <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%DDL%'</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> postTime <span class="hljs-keyword">DESC</span>;
+</div></code></pre>
+<hr>
+<h2 id="practical-scenarios">PRACTICAL SCENARIOS</h2>
+<h3 id="%D0%BA%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%D0%BD%D0%B8%D0%B9-%D0%B0%D1%83%D0%B4%D0%B8%D1%82-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%96">Комплексний аудит таблиці</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">DECLARE</span> @tableName <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">128</span>) = <span class="hljs-string">'dbo.Orders'</span>;
+
+<span class="hljs-comment">-- 1. Основна інформація</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-string">'Колонки таблиці'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Section</span>;
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetColumns(@tableName);
+
+<span class="hljs-keyword">SELECT</span> <span class="hljs-string">'Індекси таблиці'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Section</span>;  
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetIndexes(@tableName);
+
+<span class="hljs-comment">-- 2. Аналіз продуктивності індексів</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-string">'Використання дискового простору'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Section</span>;
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetSpaceUsed(@tableName);
+
+<span class="hljs-keyword">SELECT</span> <span class="hljs-string">'Невикористовувані індекси'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Section</span>;
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetUnused(@tableName);
+
+<span class="hljs-keyword">SELECT</span> <span class="hljs-string">'Рекомендовані індекси'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Section</span>; 
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.indexesGetMissing(@tableName) <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> IndexAdvantage <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- 3. Історія змін</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-string">'Історія змін за місяць'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Section</span>;
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.objectGetHistory(@tableName, <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">month</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>()));
+
+<span class="hljs-comment">-- 4. Генерація скриптів</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-string">'DDL таблиці'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Section</span>;
+<span class="hljs-keyword">SELECT</span> createScript <span class="hljs-keyword">FROM</span> util.tablesGetScript(@tableName);
+</div></code></pre>
+<h3 id="%D0%BC%D0%BE%D0%BD%D1%96%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B3-%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D1%81%D1%82%D1%96-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8">Моніторинг продуктивності системи</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Топ повільних процедур за добу</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-string">'Повільні процедури'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Section</span>;
+<span class="hljs-keyword">SELECT</span> TOP <span class="hljs-number">10</span>
+    ObjectName,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> ExecutionCount,
+    <span class="hljs-keyword">AVG</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> AvgDurationMs,
+    <span class="hljs-keyword">MAX</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> MaxDurationMs,
+    <span class="hljs-keyword">MIN</span>(<span class="hljs-keyword">Duration</span>) <span class="hljs-keyword">as</span> MinDurationMs
+<span class="hljs-keyword">FROM</span> util.viewExecutionModulesUsers  
+<span class="hljs-keyword">WHERE</span> EventTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>())
+    <span class="hljs-keyword">AND</span> <span class="hljs-keyword">Duration</span> &gt; <span class="hljs-number">1000000</span> <span class="hljs-comment">-- &gt; 1 сек</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ObjectName
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> AvgDurationMs <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Аналіз помилок за тиждень  </span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-string">'Топ помилок'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Section</span>;
+<span class="hljs-keyword">SELECT</span> 
+    ErrorNumber,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> ErrorCount, 
+    ErrorMessage,
+    <span class="hljs-keyword">MAX</span>(ErrorDateTime) <span class="hljs-keyword">as</span> LastOccurrence
+<span class="hljs-keyword">FROM</span> util.errorLog
+<span class="hljs-keyword">WHERE</span> ErrorDateTime &gt; <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">week</span>, <span class="hljs-number">-1</span>, <span class="hljs-keyword">GETDATE</span>())
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ErrorNumber, ErrorMessage
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ErrorCount <span class="hljs-keyword">DESC</span>;
+
+<span class="hljs-comment">-- Активні сесії створення індексів</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-string">'Прогрес створення індексів'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Section</span>;
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.myselfActiveIndexCreation();
+</div></code></pre>
+<h3 id="%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D1%96%D1%8F-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F">Автоматизація документування</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлення описів для всіх об'єктів схеми dbo</span>
+<span class="hljs-keyword">DECLARE</span> @<span class="hljs-keyword">sql</span> <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-keyword">MAX</span>) = N<span class="hljs-string">''</span>;
+
+<span class="hljs-comment">-- Генерація команд для автоматичного встановлення описів</span>
+<span class="hljs-keyword">SELECT</span> @<span class="hljs-keyword">sql</span> = @<span class="hljs-keyword">sql</span> + 
+    <span class="hljs-string">'EXEC util.modulesSetDescriptionFromComments '''</span> + 
+    <span class="hljs-keyword">QUOTENAME</span>(SCHEMA_NAME(schema_id)) + <span class="hljs-string">'.'</span> + <span class="hljs-keyword">QUOTENAME</span>(<span class="hljs-keyword">name</span>) + <span class="hljs-string">''';'</span> + <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">10</span>)
+<span class="hljs-keyword">FROM</span> sys.objects 
+<span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">type</span> <span class="hljs-keyword">IN</span> (<span class="hljs-string">'P'</span>, <span class="hljs-string">'FN'</span>, <span class="hljs-string">'IF'</span>, <span class="hljs-string">'TF'</span>, <span class="hljs-string">'TR'</span>, <span class="hljs-string">'V'</span>)
+    <span class="hljs-keyword">AND</span> schema_id = SCHEMA_ID(<span class="hljs-string">'dbo'</span>)
+    <span class="hljs-keyword">AND</span> <span class="hljs-keyword">name</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'sp_%'</span>  
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">type</span>, <span class="hljs-keyword">name</span>;
+
+PRINT @sql;  
+<span class="hljs-comment">-- EXEC sp_executesql @sql; -- розкоментувати для виконання</span>
+</div></code></pre>
+<hr>
+<h2 id="summary-by-numbers">SUMMARY BY NUMBERS</h2>
+<h3 id="%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%96%D0%B2-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8">Статистика компонентів системи:</h3>
+<ul>
+<li><strong>Функції</strong>: 65+ функцій</li>
+<li><strong>Процедури</strong>: 20+ процедур</li>
+<li><strong>Таблиці</strong>: 6 таблиць для логування</li>
+<li><strong>Представлення</strong>: 4 представлення</li>
+<li><strong>XE Сесії</strong>: 4 сесії моніторингу</li>
+</ul>
+<h3 id="%D1%80%D0%BE%D0%B7%D0%BF%D0%BE%D0%B4%D1%96%D0%BB-%D0%B7%D0%B0-%D0%BA%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D1%96%D1%8F%D0%BC%D0%B8">Розподіл за категоріями:</h3>
+<ul>
+<li><strong>Metadata &amp; Objects</strong>: 25 функцій</li>
+<li><strong>Modules &amp; Code Analysis</strong>: 18 функцій</li>
+<li><strong>Description &amp; Properties</strong>: 15 функцій/процедур</li>
+<li><strong>Indexes &amp; Performance</strong>: 10 функцій/процедур</li>
+<li><strong>String &amp; Text Processing</strong>: 12 функцій</li>
+<li><strong>Extended Events</strong>: 8 компонентів</li>
+<li><strong>Script Generation</strong>: 8 функцій</li>
+<li><strong>Execution Monitoring</strong>: 8 компонентів</li>
+<li><strong>Columns &amp; Parameters</strong>: 14 функцій</li>
+<li><strong>Temp Tables</strong>: 4 функції</li>
+</ul>
+<p>Pure Utils - це потужна екосистема, що покриває всі аспекти роботи DBA: від базового управління метаданими до продвинутого моніторингу продуктивності та автоматизації рутинних завдань. Система розроблена з урахуванням best practices SQL Server та надає інструменти для ефективного управління enterprise-рівня базами даних.</p>
+
+</body>
+</html>

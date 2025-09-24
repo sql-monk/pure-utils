@@ -21,7 +21,7 @@ BEGIN
 	DECLARE @crlf VARCHAR(2) = CHAR(13) + CHAR(10);
 	DECLARE @help NVARCHAR(MAX) = N'';
 
-	PRINT N'# pure-utiles
+	PRINT N'# pure-utils
 
 ```sql
 util.help

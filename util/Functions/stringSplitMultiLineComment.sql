@@ -1,4 +1,4 @@
-/*
+/* MS_Description
 # Description
 Розбирає багаторядковий коментар і повертає структуровану інформацію по секціях.
 Функція аналізує коментарі за стандартним форматом документації та виділяє основні секції.
@@ -74,4 +74,3 @@ RETURN(
 	SELECT cteMinor.name minor, cteMinor.description, NULL, NULL FROM cteMinor
 );
 GO
-EXEC util.modulesSetDescriptionFromComments @object = N'util.stringSplitMultiLineComment'; -- nvarchar(128)

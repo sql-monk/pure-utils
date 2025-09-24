@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DESCRIPTIONS_EXTENDED_PROPERTIES.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/*
+ * Visual Studio 2015 dark style
+ * Author: Nicolas LLOBERA <nllobera@gmail.com>
+ */
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #1E1E1E;
+  color: #DCDCDC;
+}
+
+.hljs-keyword,
+.hljs-literal,
+.hljs-symbol,
+.hljs-name {
+  color: #569CD6;
+}
+.hljs-link {
+  color: #569CD6;
+  text-decoration: underline;
+}
+
+.hljs-built_in,
+.hljs-type {
+  color: #4EC9B0;
+}
+
+.hljs-number,
+.hljs-class {
+  color: #B8D7A3;
+}
+
+.hljs-string,
+.hljs-meta-string {
+  color: #D69D85;
+}
+
+.hljs-regexp,
+.hljs-template-tag {
+  color: #9A5334;
+}
+
+.hljs-subst,
+.hljs-function,
+.hljs-title,
+.hljs-params,
+.hljs-formula {
+  color: #DCDCDC;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #57A64A;
+  font-style: italic;
+}
+
+.hljs-doctag {
+  color: #608B4E;
+}
+
+.hljs-meta,
+.hljs-meta-keyword,
+.hljs-tag {
+  color: #9B9B9B;
+}
+
+.hljs-variable,
+.hljs-template-variable {
+  color: #BD63C5;
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-builtin-name {
+  color: #9CDCFE;
+}
+
+.hljs-section {
+  color: gold;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+/*.hljs-code {
+  font-family:'Monospace';
+}*/
+
+.hljs-bullet,
+.hljs-selector-tag,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #D7BA7D;
+}
+
+.hljs-addition {
+  background-color: #144212;
+  display: inline-block;
+  width: 100%;
+}
+
+.hljs-deletion {
+  background-color: #600;
+  display: inline-block;
+  width: 100%;
+}
+
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///c%3A//Users//ol.khrustovskyi//OneDrive//Workspace//codespace//.styles//dark.css" type="text/css"><link rel="stylesheet" href="file:///c%3A//Users//ol.khrustovskyi//OneDrive//Workspace//codespace//.styles//vs.css" type="text/css"><link rel="stylesheet" href="file:///c%3A//Users//ol.khrustovskyi//OneDrive//Workspace//codespace//.styles//default.css" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="description--msdescription-%D1%82%D0%B0-extended-properties---%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9-%D0%BE%D0%B3%D0%BB%D1%8F%D0%B4-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F">DESCRIPTION &amp; MS_DESCRIPTION та EXTENDED PROPERTIES - Детальний огляд системи документування</h1>
+<h2 id="%D0%B0%D1%80%D1%85%D1%96%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F">Архітектура системи документування</h2>
+<p>Система DESCRIPTION &amp; MS_DESCRIPTION в Pure Utils - це комплексне рішення для автоматизації процесу документування об'єктів бази даних через розширені властивості (Extended Properties). Система забезпечує як автоматичне витягнення документації з коментарів коду, так і ручне управління описами для всіх типів об'єктів SQL Server.</p>
+<h3 id="%D0%BA%D0%BB%D1%8E%D1%87%D0%BE%D0%B2%D1%96-%D0%BA%D0%BE%D0%BD%D1%86%D0%B5%D0%BF%D1%86%D1%96%D1%97">Ключові концепції</h3>
+<p><strong>Extended Properties</strong> - це механізм SQL Server для зберігання додаткової метаінформації про об'єкти бази даних. Властивість <code>MS_Description</code> є стандартною властивістю для зберігання описів об'єктів, яка підтримується більшістю інструментів управління базами даних.</p>
+<p><strong>Автоматичне витягнення</strong> - система може парсити структуровані коментарі в коді модулів (процедур, функцій, представлень) та автоматично створювати відповідні Extended Properties.</p>
+<p><strong>Ручне управління</strong> - набір процедур для встановлення описів різних типів об'єктів через програмний інтерфейс.</p>
+<hr>
+<h2 id="%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-15-%D0%BE%D0%B1%D1%94%D0%BA%D1%82%D1%96%D0%B2">Компоненти системи (15 об'єктів)</h2>
+<h3 id="%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B5-%D0%B2%D0%B8%D1%82%D1%8F%D0%B3%D0%BD%D0%B5%D0%BD%D0%BD%D1%8F-%D0%BE%D0%BF%D0%B8%D1%81%D1%96%D0%B2-%D0%B7-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%B2-5-%D0%BE%D0%B1%D1%94%D0%BA%D1%82%D1%96%D0%B2"><strong>Автоматичне витягнення описів з коментарів (5 об'єктів)</strong></h3>
+<h4 id="1-utilmodulesgetdescriptionfromcomments---%D0%BF%D0%B0%D1%80%D1%81%D0%B8%D0%BD%D0%B3-%D1%81%D1%83%D1%87%D0%B0%D1%81%D0%BD%D0%B8%D1%85-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%B2">1. <strong><code>util.modulesGetDescriptionFromComments</code></strong> - Парсинг сучасних коментарів</h4>
+<ul>
+<li><strong>Призначення</strong>: Витягує описи з структурованих багаторядкових коментарів</li>
+<li><strong>Формат</strong>: Підтримує markdown-подібний синтаксис з секціями</li>
+<li><strong>Результат</strong>: Повертає таблицю з розібраними елементами опису</li>
+</ul>
+<h4 id="2-utilmodulesgetdescriptionfromcommentslegacy---%D0%BF%D0%B0%D1%80%D1%81%D0%B8%D0%BD%D0%B3-%D0%B7%D0%B0%D1%81%D1%82%D0%B0%D1%80%D1%96%D0%BB%D0%B8%D1%85-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%B2">2. <strong><code>util.modulesGetDescriptionFromCommentsLegacy</code></strong> - Парсинг застарілих коментарів</h4>
+<ul>
+<li><strong>Призначення</strong>: Витягує описи зі старого формату коментарів</li>
+<li><strong>Формат</strong>: Підтримує простий формат &quot;-- Description:&quot;</li>
+<li><strong>Сумісність</strong>: Забезпечує міграцію з старих систем документування</li>
+</ul>
+<h4 id="3-utilstringsplitmultilinecomment---%D1%80%D0%BE%D0%B7%D0%B1%D1%96%D1%80-%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%85-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%B2">3. <strong><code>util.stringSplitMultiLineComment</code></strong> - Розбір структурованих коментарів</h4>
+<ul>
+<li><strong>Призначення</strong>: Парсить багаторядкові коментарі на секції</li>
+<li><strong>Технологія</strong>: Розпізнає заголовки секцій та їх вміст</li>
+<li><strong>Застосування</strong>: Базова функція для інших парсерів</li>
+</ul>
+<h4 id="4-utilmodulessetdescriptionfromcomments---%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B5-%D0%B2%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F-%D0%BE%D0%BF%D0%B8%D1%81%D1%96%D0%B2">4. <strong><code>util.modulesSetDescriptionFromComments</code></strong> - Автоматичне встановлення описів</h4>
+<ul>
+<li><strong>Призначення</strong>: Встановлює Extended Properties на основі коментарів</li>
+<li><strong>Процес</strong>: Парсить ? Аналізує ? Встановлює властивості</li>
+<li><strong>Підтримка</strong>: Процедури, функції, представлення, тригери</li>
+</ul>
+<h4 id="5-utilmodulessetdescriptionfromcommentslegacy---%D0%BC%D1%96%D0%B3%D1%80%D0%B0%D1%86%D1%96%D1%8F-%D1%81%D1%82%D0%B0%D1%80%D0%B8%D1%85-%D0%BE%D0%BF%D0%B8%D1%81%D1%96%D0%B2">5. <strong><code>util.modulesSetDescriptionFromCommentsLegacy</code></strong> - Міграція старих описів</h4>
+<ul>
+<li><strong>Призначення</strong>: Встановлює описи з коментарів старого формату</li>
+<li><strong>Режими</strong>: Тільки порожні описи або перезапис існуючих</li>
+<li><strong>Параметр</strong>: <code>@OnlyEmpty BIT</code> для контролю поведінки</li>
+</ul>
+<h3 id="%D1%80%D1%83%D1%87%D0%BD%D0%B5-%D0%B2%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F-%D0%BE%D0%BF%D0%B8%D1%81%D1%96%D0%B2-12-%D0%BE%D0%B1%D1%94%D0%BA%D1%82%D1%96%D0%B2"><strong>Ручне встановлення описів (12 об'єктів)</strong></h3>
+<h4 id="6-utilmetadatasettabledescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%8C">6. <strong><code>util.metadataSetTableDescription</code></strong> - Описи таблиць</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для таблиці</span>
+<span class="hljs-comment">-- Підтримує схеми та повні назви об'єктів</span>
+EXEC util.metadataSetTableDescription 
+    @table = 'dbo.Users', 
+    @description = 'Таблиця користувачів системи з основною інформацією';
+</div></code></pre>
+<h4 id="7-utilmetadatasetcolumndescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D0%BA%D0%BE%D0%BB%D0%BE%D0%BD%D0%BE%D0%BA">7. <strong><code>util.metadataSetColumnDescription</code></strong> - Описи колонок</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для колонки таблиці або представлення</span>
+EXEC util.metadataSetColumnDescription 
+    @object = 'dbo.Users', 
+    @column = 'Email', 
+    @description = 'Email адреса користувача для аутентифікації';
+</div></code></pre>
+<h4 id="8-utilmetadatasetproceduredescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%B4%D1%83%D1%80">8. <strong><code>util.metadataSetProcedureDescription</code></strong> - Описи процедур</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для збереженої процедури</span>
+EXEC util.metadataSetProcedureDescription 
+    @procedure = 'dbo.CreateUser', 
+    @description = 'Створює нового користувача в системі з валідацією';
+</div></code></pre>
+<h4 id="9-utilmetadatasetfunctiondescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D0%B9">9. <strong><code>util.metadataSetFunctionDescription</code></strong> - Описи функцій</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для функції (скалярної або табличної)</span>
+EXEC util.metadataSetFunctionDescription 
+    @function = 'dbo.GetUserName', 
+    @description = 'Повертає повне ім''я користувача за його ID';
+</div></code></pre>
+<h4 id="10-utilmetadatasetviewdescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D0%BF%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D1%8C">10. <strong><code>util.metadataSetViewDescription</code></strong> - Описи представлень</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для представлення</span>
+EXEC util.metadataSetViewDescription 
+    @view = 'dbo.vw_ActiveUsers', 
+    @description = 'Представлення активних користувачів з розширеною інформацією';
+</div></code></pre>
+<h4 id="11-utilmetadatasettriggerdescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D1%82%D1%80%D0%B8%D0%B3%D0%B5%D1%80%D1%96%D0%B2">11. <strong><code>util.metadataSetTriggerDescription</code></strong> - Описи тригерів</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для тригера</span>
+EXEC util.metadataSetTriggerDescription 
+    @trigger = 'dbo.tr_Users_Audit', 
+    @description = 'Тригер аудиту змін користувацьких записів';
+</div></code></pre>
+<h4 id="12-utilmetadatasetparameterdescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%96%D0%B2">12. <strong><code>util.metadataSetParameterDescription</code></strong> - Описи параметрів</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для параметра процедури або функції</span>
+EXEC util.metadataSetParameterDescription 
+    @major = 'dbo.CreateUser', 
+    @parameter = '@Email', 
+    @description = 'Email адреса нового користувача (обов''язковий параметр)';
+</div></code></pre>
+<h4 id="13-utilmetadatasetindexdescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D1%96%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%D1%96%D0%B2">13. <strong><code>util.metadataSetIndexDescription</code></strong> - Описи індексів</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для індексу</span>
+EXEC util.metadataSetIndexDescription 
+    @major = 'dbo.Users', 
+    @index = 'IX_Users_Email', 
+    @description = 'Унікальний індекс для швидкого пошуку по email';
+</div></code></pre>
+<h4 id="14-utilmetadatasetschemadescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D1%81%D1%85%D0%B5%D0%BC">14. <strong><code>util.metadataSetSchemaDescription</code></strong> - Описи схем</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для схеми бази даних</span>
+EXEC util.metadataSetSchemaDescription 
+    @schema = 'sales', 
+    @description = 'Схема об''єктів системи продажів та CRM';
+</div></code></pre>
+<h4 id="15-utilmetadatasetdataspacedescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%D1%80%D1%96%D0%B2-%D0%B4%D0%B0%D0%BD%D0%B8%D1%85">15. <strong><code>util.metadataSetDataspaceDescription</code></strong> - Описи просторів даних</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для файлової групи або схеми розділення</span>
+EXEC util.metadataSetDataspaceDescription 
+    @dataspace = 'SALES_DATA', 
+    @description = 'Файлова група для зберігання даних продажів';
+</div></code></pre>
+<h4 id="16-utilmetadatasetfilegroupdescription---%D0%BE%D0%BF%D0%B8%D1%81%D0%B8-%D1%84%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D0%B8%D1%85-%D0%B3%D1%80%D1%83%D0%BF">16. <strong><code>util.metadataSetFilegroupDescription</code></strong> - Описи файлових груп</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Встановлює MS_Description для файлової групи</span>
+EXEC util.metadataSetFilegroupDescription 
+    @filegroup = 'ARCHIVE_FG', 
+    @description = 'Файлова група для архівних даних на повільному сховищі';
+</div></code></pre>
+<h4 id="17-utilmetadatasetextendedproperty---%D1%83%D0%BD%D1%96%D0%B2%D0%B5%D1%80%D1%81%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%B4%D1%83%D1%80%D0%B0">17. <strong><code>util.metadataSetExtendedProperty</code></strong> - Універсальна процедура</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Універсальна процедура для встановлення будь-яких Extended Properties</span>
+EXEC util.metadataSetExtendedProperty 
+    @name = 'DataClassification', 
+    @value = 'Confidential',
+    @level0type = 'SCHEMA', @level0name = 'dbo',
+    @level1type = 'TABLE', @level1name = 'Users',
+    @level2type = 'COLUMN', @level2name = 'SSN';
+</div></code></pre>
+<h3 id="%D1%87%D0%B8%D1%82%D0%B0%D0%BD%D0%BD%D1%8F-%D1%82%D0%B0-%D0%BE%D1%82%D1%80%D0%B8%D0%BC%D0%B0%D0%BD%D0%BD%D1%8F-%D0%BE%D0%BF%D0%B8%D1%81%D1%96%D0%B2-2-%D0%BE%D0%B1%D1%94%D0%BA%D1%82%D0%B8"><strong>Читання та отримання описів (2 об'єкти)</strong></h3>
+<h4 id="18-utilmetadatagetdescriptions---%D0%BE%D1%82%D1%80%D0%B8%D0%BC%D0%B0%D0%BD%D0%BD%D1%8F-%D0%BE%D0%BF%D0%B8%D1%81%D1%96%D0%B2-%D0%BE%D0%B1%D1%94%D0%BA%D1%82%D1%96%D0%B2">18. <strong><code>util.metadataGetDescriptions</code></strong> - Отримання описів об'єктів</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Повертає всі MS_Description для об'єкта або його частин</span>
+<span class="hljs-comment">-- Параметри: @object - назва об'єкта, @subObject - підоб'єкт (колонка, параметр)</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetDescriptions(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-literal">NULL</span>); <span class="hljs-comment">-- вся таблиця</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetDescriptions(<span class="hljs-string">'dbo.Users'</span>, <span class="hljs-string">'Email'</span>); <span class="hljs-comment">-- конкретна колонка</span>
+</div></code></pre>
+<h4 id="19-utilmetadatagetextendedproperiesvalues---%D1%87%D0%B8%D1%82%D0%B0%D0%BD%D0%BD%D1%8F-%D1%80%D0%BE%D0%B7%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D1%85-%D0%B2%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D0%B5%D0%B9">19. <strong><code>util.metadataGetExtendedProperiesValues</code></strong> - Читання розширених властивостей</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Повертає значення конкретної Extended Property</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.metadataGetExtendedProperiesValues(
+    <span class="hljs-string">'dbo.Users'</span>, 
+    <span class="hljs-string">'Email'</span>, 
+    <span class="hljs-string">'MS_Description'</span>
+);
+</div></code></pre>
+<hr>
+<h2 id="%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF-%D1%80%D0%BE%D0%B1%D0%BE%D1%82%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8">Принцип роботи системи</h2>
+<h3 id="%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B5-%D0%B2%D0%B8%D1%82%D1%8F%D0%B3%D0%BD%D0%B5%D0%BD%D0%BD%D1%8F-%D0%B7-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%B2"><strong>Автоматичне витягнення з коментарів</strong></h3>
+<h4 id="%D0%B5%D1%82%D0%B0%D0%BF-1-%D0%BF%D0%B0%D1%80%D1%81%D0%B8%D0%BD%D0%B3-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%B2">Етап 1: Парсинг коментарів</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Система читає вихідний код модуля</span>
+<span class="hljs-keyword">DECLARE</span> @moduleText <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-keyword">MAX</span>) = (
+    <span class="hljs-keyword">SELECT</span> definition 
+    <span class="hljs-keyword">FROM</span> sys.sql_modules 
+    <span class="hljs-keyword">WHERE</span> object_id = OBJECT_ID(<span class="hljs-string">'dbo.MyProcedure'</span>)
+);
+
+<span class="hljs-comment">-- Витягує структуровані коментарі</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> util.stringSplitMultiLineComment(@moduleText);
+</div></code></pre>
+<h4 id="%D0%B5%D1%82%D0%B0%D0%BF-2-%D0%B0%D0%BD%D0%B0%D0%BB%D1%96%D0%B7-%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B8">Етап 2: Аналіз структури</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Розпізнає секції опису</span>
+<span class="hljs-keyword">WITH</span> ParsedComments <span class="hljs-keyword">AS</span> (
+    <span class="hljs-keyword">SELECT</span> 
+        sectionName,
+        sectionValue,
+        ROW_NUMBER() <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">position</span>) <span class="hljs-keyword">as</span> <span class="hljs-keyword">RowNum</span>
+    <span class="hljs-keyword">FROM</span> util.modulesGetDescriptionFromComments(<span class="hljs-string">'dbo.MyProcedure'</span>)
+)
+<span class="hljs-keyword">SELECT</span> 
+    <span class="hljs-keyword">CASE</span> sectionName 
+        <span class="hljs-keyword">WHEN</span> <span class="hljs-string">'Description'</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">'MS_Description для процедури'</span>
+        <span class="hljs-keyword">WHEN</span> <span class="hljs-string">'Parameters'</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">'MS_Description для параметрів'</span>
+        <span class="hljs-keyword">WHEN</span> <span class="hljs-string">'Returns'</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">'MS_Description для результату'</span>
+    <span class="hljs-keyword">END</span> <span class="hljs-keyword">as</span> Target,
+    sectionValue
+<span class="hljs-keyword">FROM</span> ParsedComments;
+</div></code></pre>
+<h4 id="%D0%B5%D1%82%D0%B0%D0%BF-3-%D0%B2%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F-%D0%B2%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D0%B5%D0%B9">Етап 3: Встановлення властивостей</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Автоматично створює Extended Properties</span>
+EXEC util.modulesSetDescriptionFromComments 'dbo.MyProcedure';
+
+<span class="hljs-comment">-- Результат: встановлені MS_Description для:</span>
+<span class="hljs-comment">-- - Самої процедури (основний опис)</span>
+<span class="hljs-comment">-- - Кожного параметра (якщо описані)</span>
+<span class="hljs-comment">-- - Повернутих значень (для функцій)</span>
+</div></code></pre>
+<h3 id="%D1%80%D1%83%D1%87%D0%BD%D0%B5-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D1%96%D0%BD%D0%BD%D1%8F-%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BC%D0%B8"><strong>Ручне управління описами</strong></h3>
+<h4 id="%D1%81%D1%82%D0%B2%D0%BE%D1%80%D0%B5%D0%BD%D0%BD%D1%8F-%D0%BD%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE-%D0%BE%D0%BF%D0%B8%D1%81%D1%83">Створення нового опису</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Перевіряє існування властивості</span>
+IF EXISTS (
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-number">1</span> <span class="hljs-keyword">FROM</span> fn_listextendedproperty(<span class="hljs-string">'MS_Description'</span>, 
+        <span class="hljs-string">'SCHEMA'</span>, <span class="hljs-string">'dbo'</span>, <span class="hljs-string">'TABLE'</span>, <span class="hljs-string">'Users'</span>, <span class="hljs-string">'COLUMN'</span>, <span class="hljs-string">'Email'</span>)
+)
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-comment">-- Оновлює існуючу</span>
+    EXEC sp_updateextendedproperty 
+        @<span class="hljs-keyword">name</span> = <span class="hljs-string">'MS_Description'</span>,
+        @<span class="hljs-keyword">value</span> = <span class="hljs-string">'Новий опис'</span>,
+        @level0type = <span class="hljs-string">'SCHEMA'</span>, @level0name = <span class="hljs-string">'dbo'</span>,
+        @level1type = <span class="hljs-string">'TABLE'</span>, @level1name = <span class="hljs-string">'Users'</span>,
+        @level2type = <span class="hljs-string">'COLUMN'</span>, @level2name = <span class="hljs-string">'Email'</span>;
+<span class="hljs-keyword">END</span>
+<span class="hljs-keyword">ELSE</span>
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-comment">-- Створює нову</span>
+    EXEC sp_addextendedproperty 
+        @<span class="hljs-keyword">name</span> = <span class="hljs-string">'MS_Description'</span>,
+        @<span class="hljs-keyword">value</span> = <span class="hljs-string">'Новий опис'</span>,
+        @level0type = <span class="hljs-string">'SCHEMA'</span>, @level0name = <span class="hljs-string">'dbo'</span>,
+        @level1type = <span class="hljs-string">'TABLE'</span>, @level1name = <span class="hljs-string">'Users'</span>,
+        @level2type = <span class="hljs-string">'COLUMN'</span>, @level2name = <span class="hljs-string">'Email'</span>;
+<span class="hljs-keyword">END</span>
+</div></code></pre>
+<h4 id="%D1%80%D0%B5%D0%B7%D0%B5%D1%80%D0%B2%D0%BD%D0%B5-%D0%BA%D0%BE%D0%BF%D1%96%D1%8E%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F">Резервне копіювання</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Система автоматично створює бекап перед зміною</span>
+<span class="hljs-keyword">DECLARE</span> @backupName <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">128</span>) = <span class="hljs-keyword">CONCAT</span>(
+    <span class="hljs-string">'MS_Description_Backup_'</span>, 
+    <span class="hljs-keyword">FORMAT</span>(<span class="hljs-keyword">GETDATE</span>(), <span class="hljs-string">'yyyyMMdd_HHmmss'</span>)
+);
+
+<span class="hljs-comment">-- Зберігає старе значення</span>
+EXEC sp_addextendedproperty 
+    @name = @backupName,
+    @value = @oldDescription,
+    @level0type = 'SCHEMA', @level0name = 'dbo',
+    @level1type = 'TABLE', @level1name = 'Users',
+    @level2type = 'COLUMN', @level2name = 'Email';
+</div></code></pre>
+<hr>
+<h2 id="%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82-%D0%B1%D0%B0%D0%B3%D0%B0%D1%82%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%BE%D0%B2%D0%B8%D1%85-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%B2-%D0%B4%D0%BB%D1%8F-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%BE%D0%B3%D0%BE-%D0%BF%D0%B0%D1%80%D1%81%D0%B8%D0%BD%D0%B3%D1%83">Формат багаторядкових коментарів для автоматичного парсингу</h2>
+<h3 id="%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82%D0%BD%D0%B8%D0%B9-%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82-%D1%81%D1%83%D1%87%D0%B0%D1%81%D0%BD%D0%B8%D1%85-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%B2"><strong>Стандартний формат сучасних коментарів</strong></h3>
+<p>Для коректної роботи автоматичного парсингу коментарі повинні мати наступну структуру:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/*
+# Description
+Детальний опис призначення процедури або функції.
+Може містити кілька рядків з поясненням логіки роботи,
+бізнес-правил та особливостей використання.
+
+# Parameters  
+@param1 TYPE [= DEFAULT] - опис першого параметра з поясненням призначення
+@param2 TYPE [= DEFAULT] - опис другого параметра, може бути багаторядковим
+    опис що продовжується на наступному рядку з відступом
+@param3 TYPE [= DEFAULT] - опис третього параметра
+
+# Returns
+Опис того, що повертає функція або процедура.
+Для функцій - тип даних та формат результату.
+Для процедур - опис вихідних параметрів або результуючих наборів.
+
+# Usage
+Приклади використання з конкретними значеннями параметрів:
+EXEC dbo.MyProcedure @param1 = 'value1', @param2 = 123;
+
+# Notes  
+Додаткові примітки, обмеження, попередження про продуктивність,
+залежності від інших об'єктів або системних налаштувань.
+
+# Author
+Ім'я автора та дата створення (опціонально)
+
+# History
+Журнал змін з датами та описом модифікацій (опціонально)
+*/</span>
+</div></code></pre>
+<h3 id="%D0%BF%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D0%B0-%D0%BE%D1%84%D0%BE%D1%80%D0%BC%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%B2"><strong>Правила оформлення коментарів</strong></h3>
+<h4 id="1-%D0%B7%D0%B0%D0%B3%D0%B0%D0%BB%D1%8C%D0%BD%D1%96-%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D0%B8"><strong>1. Загальні принципи:</strong></h4>
+<ul>
+<li>Коментар повинен починатися з <code>/*</code> та закінчуватися <code>*/</code></li>
+<li>Секції позначаються символом <code>#</code> на початку рядка</li>
+<li>Назви секцій регістронезалежні, але рекомендується CamelCase</li>
+<li>Порожні рядки між секціями ігноруються</li>
+</ul>
+<h4 id="2-%D0%BE%D0%B1%D0%BE%D0%B2%D1%8F%D0%B7%D0%BA%D0%BE%D0%B2%D1%96-%D1%81%D0%B5%D0%BA%D1%86%D1%96%D1%97"><strong>2. Обов'язкові секції:</strong></h4>
+<pre class="hljs"><code><div><span class="hljs-comment">/*
+# Description  
+Мінімально необхідна секція з описом об'єкта
+*/</span>
+</div></code></pre>
+<h4 id="3-%D1%81%D0%B5%D0%BA%D1%86%D1%96%D1%8F-parameters"><strong>3. Секція Parameters:</strong></h4>
+<pre class="hljs"><code><div><span class="hljs-comment">/*
+# Parameters
+@userId INT - ідентифікатор користувача (обов'язковий)
+@startDate DATETIME = NULL - початкова дата фільтрації (опціонально)
+@endDate DATETIME = NULL - кінцева дата фільтрації, 
+    якщо не вказана, використовується поточна дата
+@includeInactive BIT = 0 - включати неактивних користувачів:
+    0 - тільки активні (за замовчуванням)
+    1 - всі користувачі
+*/</span>
+</div></code></pre>
+<h4 id="4-%D1%81%D0%B5%D0%BA%D1%86%D1%96%D1%8F-returns-%D0%B4%D0%BB%D1%8F-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D0%B9"><strong>4. Секція Returns (для функцій):</strong></h4>
+<pre class="hljs"><code><div><span class="hljs-comment">/*
+# Returns
+TABLE - Повертає таблицю з колонками:
+- UserId INT - ідентифікатор користувача  
+- UserName NVARCHAR(100) - повне ім'я користувача
+- LastLogin DATETIME - час останнього входу в систему
+- IsActive BIT - статус активності акаунту
+
+Для скалярних функцій:
+NVARCHAR(100) - повертає повне ім'я користувача у форматі "Прізвище, Ім'я"
+або NULL якщо користувач не знайдений
+*/</span>
+</div></code></pre>
+<h4 id="5-%D1%81%D0%B5%D0%BA%D1%86%D1%96%D1%8F-usage-%D0%B7-%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B0%D0%BC%D0%B8"><strong>5. Секція Usage з прикладами:</strong></h4>
+<pre class="hljs"><code><div><span class="hljs-comment">/*
+# Usage
+-- Отримати активних користувачів за останній місяць
+SELECT * FROM dbo.GetUserActivity(@userId = NULL, @startDate = '2024-01-01', @endDate = NULL, @includeInactive = 0);
+
+-- Перевірити активність конкретного користувача
+SELECT * FROM dbo.GetUserActivity(@userId = 123, @startDate = NULL, @endDate = NULL, @includeInactive = 1);
+
+-- Розширений аналіз за період
+DECLARE @result TABLE (UserId INT, ActivityScore DECIMAL(5,2));
+INSERT INTO @result 
+SELECT UserId, COUNT(*) * 1.5 as ActivityScore 
+FROM dbo.GetUserActivity(@userId = NULL, @startDate = '2024-01-01', @endDate = '2024-12-31', @includeInactive = 0)
+GROUP BY UserId;
+*/</span>
+</div></code></pre>
+<h3 id="%D0%B7%D0%B0%D1%81%D1%82%D0%B0%D1%80%D1%96%D0%BB%D0%B8%D0%B9-%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82-legacy"><strong>Застарілий формат (Legacy)</strong></h3>
+<p>Для міграції існуючого коду підтримується простий формат:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Description: Короткий опис процедури або функції в одному рядку</span>
+<span class="hljs-comment">-- Author: Ім'я автора  </span>
+<span class="hljs-comment">-- Created: 2024-01-15</span>
+<span class="hljs-comment">-- Modified: 2024-02-20 - додано новий параметр @includeInactive</span>
+</div></code></pre>
+<h3 id="%D0%BF%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4-%D0%BF%D0%BE%D0%B2%D0%BD%D0%BE%D0%B3%D0%BE-%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%8F"><strong>Приклад повного коментаря</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment">/*
+# Description
+Процедура для створення нового користувача в системі з повною валідацією
+даних та автоматичним призначенням початкових ролей. Виконує перевірку
+унікальності email, валідацію формату даних та створення супутніх записів
+в таблицях профілю та налаштувань.
+
+# Parameters
+@email NVARCHAR(255) - email адреса користувача (обов'язковий)
+    Повинен мати валідний формат та бути унікальним в системі
+@firstName NVARCHAR(100) - ім'я користувача (обов'язковий)
+    Мінімум 2 символи, максимум 100, тільки літери та дефіс
+@lastName NVARCHAR(100) - прізвище користувача (обов'язковий)  
+    Мінімум 2 символи, максимум 100, тільки літери та дефіс
+@departmentId INT = NULL - ідентифікатор департаменту (опціонально)
+    Якщо не вказано, користувач буде призначений до департаменту за замовчуванням
+@isActive BIT = 1 - початковий статус активності акаунту
+    1 - активний (за замовчуванням), 0 - неактивний
+@sendWelcomeEmail BIT = 1 - надіслати привітальний email
+    1 - надіслати (за замовчуванням), 0 - не надсилати
+
+# Returns
+Процедура повертає через вихідні параметри:
+@newUserId INT OUTPUT - ідентифікатор створеного користувача
+@errorMessage NVARCHAR(500) OUTPUT - повідомлення про помилку (якщо є)
+
+# Usage  
+-- Створення стандартного користувача
+DECLARE @userId INT, @error NVARCHAR(500);
+EXEC dbo.CreateUser 
+    @email = 'john.doe@company.com',
+    @firstName = 'John', 
+    @lastName = 'Doe',
+    @departmentId = 5,
+    @newUserId = @userId OUTPUT,
+    @errorMessage = @error OUTPUT;
+
+-- Створення неактивного користувача без email
+DECLARE @userId INT, @error NVARCHAR(500);
+EXEC dbo.CreateUser 
+    @email = 'temp.user@company.com',
+    @firstName = 'Temporary', 
+    @lastName = 'User',
+    @isActive = 0,
+    @sendWelcomeEmail = 0,
+    @newUserId = @userId OUTPUT,
+    @errorMessage = @error OUTPUT;
+
+# Notes
+- Процедура автоматично створює запис в таблиці UserProfiles
+- Призначає роль 'StandardUser' за замовчуванням  
+- Логує всі дії створення користувача в таблицю AuditLog
+- При помилці валідації откочує всі зміни через транзакцію
+- Максимальна довжина пароля генерується автоматично (12 символів)
+
+# Author
+John Smith (john.smith@company.com)
+
+# History  
+2024-01-15 - Початкова версія (John Smith)
+2024-02-20 - Додано параметр @sendWelcomeEmail (Jane Doe)  
+2024-03-10 - Покращено валідацію email адрес (John Smith)
+2024-04-05 - Додано підтримку департаментів (Mike Johnson)
+*/</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">OR</span> <span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">PROCEDURE</span> dbo.CreateUser
+    @email <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">255</span>),
+    @firstName <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">100</span>), 
+    @lastName <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">100</span>),
+    @departmentId <span class="hljs-built_in">INT</span> = <span class="hljs-literal">NULL</span>,
+    @isActive <span class="hljs-built_in">BIT</span> = <span class="hljs-number">1</span>,
+    @sendWelcomeEmail <span class="hljs-built_in">BIT</span> = <span class="hljs-number">1</span>,
+    @newUserId <span class="hljs-built_in">INT</span> <span class="hljs-keyword">OUTPUT</span>,
+    @errorMessage <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">500</span>) <span class="hljs-keyword">OUTPUT</span>
+<span class="hljs-keyword">AS</span>
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-comment">-- Код процедури</span>
+<span class="hljs-keyword">END</span>;
+</div></code></pre>
+<hr>
+<h2 id="%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D1%87%D0%BD%D1%96-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D1%96%D1%97-%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F">Практичні сценарії використання</h2>
+<h3 id="%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D1%96%D0%B9-1-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F-%D1%96%D1%81%D0%BD%D1%83%D1%8E%D1%87%D0%BE%D1%97-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8"><strong>Сценарій 1: Документування існуючої системи</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Крок 1: Аналіз існуючих коментарів</span>
+<span class="hljs-keyword">SELECT</span> 
+    OBJECT_SCHEMA_NAME(object_id) <span class="hljs-keyword">as</span> SchemaName,
+    OBJECT_NAME(object_id) <span class="hljs-keyword">as</span> ObjectName,
+    definition
+<span class="hljs-keyword">FROM</span> sys.sql_modules 
+<span class="hljs-keyword">WHERE</span> definition <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Description%'</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> SchemaName, ObjectName;
+
+<span class="hljs-comment">-- Крок 2: Автоматичне встановлення описів з коментарів  </span>
+<span class="hljs-keyword">DECLARE</span> @objectName <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">128</span>);
+<span class="hljs-keyword">DECLARE</span> object_cursor <span class="hljs-keyword">CURSOR</span> <span class="hljs-keyword">FOR</span>
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">QUOTENAME</span>(OBJECT_SCHEMA_NAME(object_id)) + <span class="hljs-string">'.'</span> + <span class="hljs-keyword">QUOTENAME</span>(OBJECT_NAME(object_id))
+    <span class="hljs-keyword">FROM</span> sys.sql_modules 
+    <span class="hljs-keyword">WHERE</span> definition <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%# Description%'</span>;
+
+OPEN object_cursor;
+FETCH NEXT FROM object_cursor INTO @objectName;
+
+WHILE @@FETCH_STATUS = 0
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-keyword">BEGIN</span> TRY
+        EXEC util.modulesSetDescriptionFromComments @objectName;
+        PRINT 'Processed: ' + @objectName;
+    <span class="hljs-keyword">END</span> TRY
+    <span class="hljs-keyword">BEGIN</span> CATCH  
+        PRINT <span class="hljs-string">'Error processing '</span> + @objectName + <span class="hljs-string">': '</span> + ERROR_MESSAGE();
+    <span class="hljs-keyword">END</span> CATCH
+    
+    <span class="hljs-keyword">FETCH</span> <span class="hljs-keyword">NEXT</span> <span class="hljs-keyword">FROM</span> object_cursor <span class="hljs-keyword">INTO</span> @objectName;
+<span class="hljs-keyword">END</span>
+
+<span class="hljs-keyword">CLOSE</span> object_cursor;
+<span class="hljs-keyword">DEALLOCATE</span> object_cursor;
+</div></code></pre>
+<h3 id="%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D1%96%D0%B9-2-%D0%BC%D0%B0%D1%81%D0%BE%D0%B2%D0%B5-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%8C"><strong>Сценарій 2: Масове документування таблиць</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Документування всіх таблиць схеми</span>
+<span class="hljs-keyword">DECLARE</span> @<span class="hljs-keyword">tables</span> <span class="hljs-keyword">TABLE</span> (
+    SchemaName <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">128</span>),
+    TableName <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">128</span>), 
+    Description <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">500</span>)
+);
+
+<span class="hljs-comment">-- Заповнення описів (можна завантажити з Excel або іншого джерела)</span>
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> @<span class="hljs-keyword">tables</span> <span class="hljs-keyword">VALUES</span> 
+(<span class="hljs-string">'dbo'</span>, <span class="hljs-string">'Users'</span>, <span class="hljs-string">'Основна таблиця користувачів системи'</span>),
+(<span class="hljs-string">'dbo'</span>, <span class="hljs-string">'Orders'</span>, <span class="hljs-string">'Таблиця замовлень клієнтів'</span>),  
+(<span class="hljs-string">'dbo'</span>, <span class="hljs-string">'Products'</span>, <span class="hljs-string">'Каталог товарів та послуг'</span>),
+(<span class="hljs-string">'sales'</span>, <span class="hljs-string">'Customers'</span>, <span class="hljs-string">'Інформація про клієнтів відділу продажів'</span>);
+
+<span class="hljs-comment">-- Встановлення описів</span>
+<span class="hljs-keyword">DECLARE</span> @<span class="hljs-keyword">schema</span> <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">128</span>), @<span class="hljs-keyword">table</span> <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">128</span>), @<span class="hljs-keyword">desc</span> <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">500</span>);
+<span class="hljs-keyword">DECLARE</span> table_cursor <span class="hljs-keyword">CURSOR</span> <span class="hljs-keyword">FOR</span> <span class="hljs-keyword">SELECT</span> SchemaName, TableName, Description <span class="hljs-keyword">FROM</span> @<span class="hljs-keyword">tables</span>;
+
+OPEN table_cursor;
+FETCH NEXT FROM table_cursor INTO @schema, @table, @desc;
+
+WHILE @@FETCH_STATUS = 0  
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-keyword">DECLARE</span> @fullName <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-number">256</span>) = <span class="hljs-keyword">QUOTENAME</span>(@<span class="hljs-keyword">schema</span>) + <span class="hljs-string">'.'</span> + <span class="hljs-keyword">QUOTENAME</span>(@<span class="hljs-keyword">table</span>);
+    EXEC util.metadataSetTableDescription @table = @fullName, @description = @desc;
+    
+    FETCH NEXT FROM table_cursor INTO @schema, @table, @desc;
+<span class="hljs-keyword">END</span>
+
+<span class="hljs-keyword">CLOSE</span> table_cursor;
+<span class="hljs-keyword">DEALLOCATE</span> table_cursor;
+</div></code></pre>
+<h3 id="%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D1%96%D0%B9-3-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F-%D0%BA%D0%BE%D0%BB%D0%BE%D0%BD%D0%BE%D0%BA-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-%D0%BC%D0%B5%D1%82%D0%B0%D0%B4%D0%B0%D0%BD%D1%96"><strong>Сценарій 3: Документування колонок через метадані</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Автоматичне створення описів колонок на основі назв</span>
+<span class="hljs-keyword">WITH</span> ColumnDescriptions <span class="hljs-keyword">AS</span> (
+    <span class="hljs-keyword">SELECT</span> 
+        OBJECT_SCHEMA_NAME(t.object_id) <span class="hljs-keyword">as</span> SchemaName,
+        OBJECT_NAME(t.object_id) <span class="hljs-keyword">as</span> TableName,
+        c.name <span class="hljs-keyword">as</span> ColumnName,
+        <span class="hljs-keyword">CASE</span> 
+            <span class="hljs-keyword">WHEN</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%ID'</span> <span class="hljs-keyword">OR</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Id'</span> 
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Унікальний ідентифікатор запису'</span>
+            <span class="hljs-keyword">WHEN</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Name'</span> <span class="hljs-keyword">OR</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Title'</span>
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Назва або заголовок'</span>  
+            <span class="hljs-keyword">WHEN</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Date'</span> <span class="hljs-keyword">OR</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Time'</span>
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Дата та час події'</span>
+            <span class="hljs-keyword">WHEN</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Email'</span> 
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Електронна адреса'</span>
+            <span class="hljs-keyword">WHEN</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Phone'</span> 
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Номер телефону'</span>
+            <span class="hljs-keyword">WHEN</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Status'</span> <span class="hljs-keyword">OR</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%State'</span>
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Статус або стан об''єкта'</span>  
+            <span class="hljs-keyword">WHEN</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Amount'</span> <span class="hljs-keyword">OR</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Price'</span> <span class="hljs-keyword">OR</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Cost'</span>
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Грошова сума'</span>
+            <span class="hljs-keyword">WHEN</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Count'</span> <span class="hljs-keyword">OR</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Quantity'</span>
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Кількість або лічильник'</span>
+            <span class="hljs-keyword">WHEN</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Flag'</span> <span class="hljs-keyword">OR</span> c.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'Is%'</span>
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Логічний прапор (так/ні)'</span>
+            <span class="hljs-keyword">ELSE</span> <span class="hljs-string">'Колонка потребує додавання опису'</span>
+        <span class="hljs-keyword">END</span> <span class="hljs-keyword">as</span> SuggestedDescription,
+        tp.name <span class="hljs-keyword">as</span> DataType,
+        c.max_length,
+        c.is_nullable
+    <span class="hljs-keyword">FROM</span> sys.tables t
+    <span class="hljs-keyword">JOIN</span> sys.columns c <span class="hljs-keyword">ON</span> t.object_id = c.object_id
+    <span class="hljs-keyword">JOIN</span> sys.types tp <span class="hljs-keyword">ON</span> c.user_type_id = tp.user_type_id
+    <span class="hljs-keyword">WHERE</span> t.schema_id = SCHEMA_ID(<span class="hljs-string">'dbo'</span>)
+)
+<span class="hljs-keyword">SELECT</span> 
+    SchemaName,
+    TableName, 
+    ColumnName,
+    SuggestedDescription + 
+    <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> is_nullable = <span class="hljs-number">1</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">' (може бути пустим)'</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-string">' (обов''язковий)'</span> <span class="hljs-keyword">END</span> +
+    <span class="hljs-string">' ['</span> + DataType + 
+    <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> max_length &gt; <span class="hljs-number">0</span> <span class="hljs-keyword">AND</span> DataType <span class="hljs-keyword">IN</span> (<span class="hljs-string">'varchar'</span>, <span class="hljs-string">'nvarchar'</span>, <span class="hljs-string">'char'</span>, <span class="hljs-string">'nchar'</span>) 
+         <span class="hljs-keyword">THEN</span> <span class="hljs-string">'('</span> + <span class="hljs-keyword">CAST</span>(max_length <span class="hljs-keyword">as</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>)) + <span class="hljs-string">')'</span> 
+         <span class="hljs-keyword">ELSE</span> <span class="hljs-string">''</span> 
+    <span class="hljs-keyword">END</span> + <span class="hljs-string">']'</span> <span class="hljs-keyword">as</span> FullDescription
+<span class="hljs-keyword">FROM</span> ColumnDescriptions
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> SchemaName, TableName, ColumnName;
+</div></code></pre>
+<h3 id="%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D1%96%D0%B9-4-%D0%B2%D0%B0%D0%BB%D1%96%D0%B4%D0%B0%D1%86%D1%96%D1%8F-%D1%82%D0%B0-%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D1%96%D1%80%D0%BA%D0%B0-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D1%96%D1%97"><strong>Сценарій 4: Валідація та перевірка документації</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Звіт про стан документування</span>
+<span class="hljs-keyword">WITH</span> DocumentationStatus <span class="hljs-keyword">AS</span> (
+    <span class="hljs-comment">-- Таблиці без описів</span>
+    <span class="hljs-keyword">SELECT</span> 
+        <span class="hljs-string">'TABLE'</span> <span class="hljs-keyword">as</span> ObjectType,
+        OBJECT_SCHEMA_NAME(t.object_id) <span class="hljs-keyword">as</span> SchemaName, 
+        OBJECT_NAME(t.object_id) <span class="hljs-keyword">as</span> ObjectName,
+        <span class="hljs-literal">NULL</span> <span class="hljs-keyword">as</span> SubObjectName,
+        <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> ep.value <span class="hljs-keyword">IS</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Відсутній опис'</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-string">'Документовано'</span> <span class="hljs-keyword">END</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">Status</span>
+    <span class="hljs-keyword">FROM</span> sys.tables t
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> sys.extended_properties ep <span class="hljs-keyword">ON</span> t.object_id = ep.major_id 
+        <span class="hljs-keyword">AND</span> ep.minor_id = <span class="hljs-number">0</span> <span class="hljs-keyword">AND</span> ep.name = <span class="hljs-string">'MS_Description'</span>
+    
+    <span class="hljs-keyword">UNION</span> <span class="hljs-keyword">ALL</span>
+    
+    <span class="hljs-comment">-- Колонки без описів  </span>
+    <span class="hljs-keyword">SELECT</span> 
+        <span class="hljs-string">'COLUMN'</span>,
+        OBJECT_SCHEMA_NAME(t.object_id),
+        OBJECT_NAME(t.object_id), 
+        c.name,
+        <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> ep.value <span class="hljs-keyword">IS</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Відсутній опис'</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-string">'Документовано'</span> <span class="hljs-keyword">END</span>
+    <span class="hljs-keyword">FROM</span> sys.tables t
+    <span class="hljs-keyword">JOIN</span> sys.columns c <span class="hljs-keyword">ON</span> t.object_id = c.object_id  
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> sys.extended_properties ep <span class="hljs-keyword">ON</span> t.object_id = ep.major_id 
+        <span class="hljs-keyword">AND</span> c.column_id = ep.minor_id <span class="hljs-keyword">AND</span> ep.name = <span class="hljs-string">'MS_Description'</span>
+        
+    <span class="hljs-keyword">UNION</span> <span class="hljs-keyword">ALL</span>
+    
+    <span class="hljs-comment">-- Процедури без описів</span>
+    <span class="hljs-keyword">SELECT</span> 
+        <span class="hljs-string">'PROCEDURE'</span>,
+        OBJECT_SCHEMA_NAME(p.object_id),
+        OBJECT_NAME(p.object_id),
+        <span class="hljs-literal">NULL</span>,
+        <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> ep.value <span class="hljs-keyword">IS</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">'Відсутній опис'</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-string">'Документовано'</span> <span class="hljs-keyword">END</span>
+    <span class="hljs-keyword">FROM</span> sys.procedures p
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> sys.extended_properties ep <span class="hljs-keyword">ON</span> p.object_id = ep.major_id 
+        <span class="hljs-keyword">AND</span> ep.minor_id = <span class="hljs-number">0</span> <span class="hljs-keyword">AND</span> ep.name = <span class="hljs-string">'MS_Description'</span>
+)
+<span class="hljs-keyword">SELECT</span> 
+    ObjectType,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> TotalObjects,
+    <span class="hljs-keyword">SUM</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">Status</span> = <span class="hljs-string">'Документовано'</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) <span class="hljs-keyword">as</span> DocumentedObjects,
+    <span class="hljs-keyword">SUM</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">Status</span> = <span class="hljs-string">'Відсутній опис'</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) <span class="hljs-keyword">as</span> UndocumentedObjects,
+    <span class="hljs-keyword">CAST</span>(<span class="hljs-keyword">SUM</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">Status</span> = <span class="hljs-string">'Документовано'</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) * <span class="hljs-number">100.0</span> / <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">5</span>,<span class="hljs-number">2</span>)) <span class="hljs-keyword">as</span> DocumentationPercentage
+<span class="hljs-keyword">FROM</span> DocumentationStatus  
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ObjectType
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> DocumentationPercentage <span class="hljs-keyword">DESC</span>;
+</div></code></pre>
+<h3 id="%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D1%96%D0%B9-5-%D0%B5%D0%BA%D1%81%D0%BF%D0%BE%D1%80%D1%82-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D1%96%D1%97"><strong>Сценарій 5: Експорт документації</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Експорт повної документації для генерації звітів</span>
+<span class="hljs-keyword">SELECT</span> 
+    <span class="hljs-string">'TABLE'</span> <span class="hljs-keyword">as</span> ObjectType,
+    t.SchemaName,
+    t.ObjectName, 
+    <span class="hljs-literal">NULL</span> <span class="hljs-keyword">as</span> SubObjectName,
+    t.Description,
+    <span class="hljs-literal">NULL</span> <span class="hljs-keyword">as</span> DataType,
+    <span class="hljs-literal">NULL</span> <span class="hljs-keyword">as</span> IsNullable
+<span class="hljs-keyword">FROM</span> (
+    <span class="hljs-keyword">SELECT</span> 
+        OBJECT_SCHEMA_NAME(tb.object_id) <span class="hljs-keyword">as</span> SchemaName,
+        OBJECT_NAME(tb.object_id) <span class="hljs-keyword">as</span> ObjectName,
+        <span class="hljs-keyword">CAST</span>(ep.value <span class="hljs-keyword">as</span> <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-keyword">MAX</span>)) <span class="hljs-keyword">as</span> Description
+    <span class="hljs-keyword">FROM</span> sys.tables tb
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> sys.extended_properties ep <span class="hljs-keyword">ON</span> tb.object_id = ep.major_id 
+        <span class="hljs-keyword">AND</span> ep.minor_id = <span class="hljs-number">0</span> <span class="hljs-keyword">AND</span> ep.name = <span class="hljs-string">'MS_Description'</span>
+) t
+
+<span class="hljs-keyword">UNION</span> <span class="hljs-keyword">ALL</span>
+
+<span class="hljs-keyword">SELECT</span> 
+    <span class="hljs-string">'COLUMN'</span>,
+    c.SchemaName,
+    c.ObjectName,
+    c.ColumnName,
+    c.Description, 
+    c.DataType,
+    c.IsNullable
+<span class="hljs-keyword">FROM</span> (
+    <span class="hljs-keyword">SELECT</span> 
+        OBJECT_SCHEMA_NAME(tb.object_id) <span class="hljs-keyword">as</span> SchemaName,
+        OBJECT_NAME(tb.object_id) <span class="hljs-keyword">as</span> ObjectName,
+        cl.name <span class="hljs-keyword">as</span> ColumnName,
+        <span class="hljs-keyword">CAST</span>(ep.value <span class="hljs-keyword">as</span> <span class="hljs-keyword">NVARCHAR</span>(<span class="hljs-keyword">MAX</span>)) <span class="hljs-keyword">as</span> Description,
+        tp.name + <span class="hljs-keyword">CASE</span> 
+            <span class="hljs-keyword">WHEN</span> tp.name <span class="hljs-keyword">IN</span> (<span class="hljs-string">'varchar'</span>, <span class="hljs-string">'nvarchar'</span>, <span class="hljs-string">'char'</span>, <span class="hljs-string">'nchar'</span>) 
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'('</span> + <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> cl.max_length = <span class="hljs-number">-1</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">'MAX'</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-keyword">CAST</span>(cl.max_length <span class="hljs-keyword">as</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>)) <span class="hljs-keyword">END</span> + <span class="hljs-string">')'</span>
+            <span class="hljs-keyword">WHEN</span> tp.name <span class="hljs-keyword">IN</span> (<span class="hljs-string">'decimal'</span>, <span class="hljs-string">'numeric'</span>)
+            <span class="hljs-keyword">THEN</span> <span class="hljs-string">'('</span> + <span class="hljs-keyword">CAST</span>(cl.precision <span class="hljs-keyword">as</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>)) + <span class="hljs-string">','</span> + <span class="hljs-keyword">CAST</span>(cl.scale <span class="hljs-keyword">as</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>)) + <span class="hljs-string">')'</span>
+            <span class="hljs-keyword">ELSE</span> <span class="hljs-string">''</span>
+        <span class="hljs-keyword">END</span> <span class="hljs-keyword">as</span> DataType,
+        <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> cl.is_nullable = <span class="hljs-number">1</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">'YES'</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-string">'NO'</span> <span class="hljs-keyword">END</span> <span class="hljs-keyword">as</span> IsNullable
+    <span class="hljs-keyword">FROM</span> sys.tables tb
+    <span class="hljs-keyword">JOIN</span> sys.columns cl <span class="hljs-keyword">ON</span> tb.object_id = cl.object_id
+    <span class="hljs-keyword">JOIN</span> sys.types tp <span class="hljs-keyword">ON</span> cl.user_type_id = tp.user_type_id
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> sys.extended_properties ep <span class="hljs-keyword">ON</span> tb.object_id = ep.major_id 
+        <span class="hljs-keyword">AND</span> cl.column_id = ep.minor_id <span class="hljs-keyword">AND</span> ep.name = <span class="hljs-string">'MS_Description'</span>
+) c
+
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ObjectType, SchemaName, ObjectName, SubObjectName;
+</div></code></pre>
+<hr>
+<h2 id="%D1%96%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D1%96%D1%8F-%D0%B7-%D1%96%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D0%BC%D0%B8-%D1%80%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B8">Інтеграція з інструментами розробки</h2>
+<h3 id="sql-server-management-studio-ssms"><strong>SQL Server Management Studio (SSMS)</strong></h3>
+<p>Extended Properties автоматично відображаються в:</p>
+<ul>
+<li>Object Explorer Details (колонка Description)</li>
+<li>Properties діалогах об'єктів</li>
+<li>Generate Scripts Wizard (опція Include Extended Properties)</li>
+</ul>
+<h3 id="azure-data-studio"><strong>Azure Data Studio</strong></h3>
+<p>Розширення для відображення описів:</p>
+<ul>
+<li>Schema Compare з підтримкою Extended Properties</li>
+<li>Database Documentation генератор</li>
+</ul>
+<h3 id="visual-studio-sql-server-data-tools-ssdt"><strong>Visual Studio SQL Server Data Tools (SSDT)</strong></h3>
+<ul>
+<li>Підтримка Extended Properties в Database Projects</li>
+<li>Автоматичне включення в схему порівняння</li>
+<li>Генерація документації з описами</li>
+</ul>
+<h3 id="%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D1%96%D1%8F-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-powershell"><strong>Автоматизація через PowerShell</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Скрипт для експорту документації в Excel</span>
+<span class="hljs-built_in">Import-Module</span> SqlServer
+
+<span class="hljs-variable">$connectionString</span> = <span class="hljs-string">"Server=localhost;Database=MyDB;Integrated Security=true"</span>
+<span class="hljs-variable">$query</span> = <span class="hljs-string">@"
+SELECT 
+    ObjectType, SchemaName, ObjectName, SubObjectName, 
+    Description, DataType, IsNullable
+FROM util.GetAllDocumentation()
+ORDER BY ObjectType, SchemaName, ObjectName
+"@</span>
+
+<span class="hljs-variable">$data</span> = <span class="hljs-built_in">Invoke-Sqlcmd</span> <span class="hljs-literal">-ConnectionString</span> <span class="hljs-variable">$connectionString</span> <span class="hljs-literal">-Query</span> <span class="hljs-variable">$query</span>
+<span class="hljs-variable">$data</span> | <span class="hljs-built_in">Export-Excel</span> <span class="hljs-literal">-Path</span> <span class="hljs-string">"C:\Reports\DatabaseDocumentation.xlsx"</span> <span class="hljs-literal">-AutoSize</span> <span class="hljs-literal">-TableStyle</span> Medium2
+</div></code></pre>
+
+</body>
+</html>

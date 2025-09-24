@@ -1,65 +1,65 @@
 # pure utils
 
-### Основні можливості
-1. [DESCRIPTION & MS_DESCRIPTION] - 15 функцій/процедур
-2. [OBJECTS & METADATA] - 25 функцій
-3. [PARAMETERS] - 6 функцій  
-4. [COLUMNS] - 8 функцій
-5. [STRING & TEXT PROCESSING] - 12 функцій
-6. [SCRIPT GENERATION] - 8 функцій
-7. [TEMP TABLES] - 2 функції
-8. [MODULES & CODE ANALYSIS] - 18 функцій
-9. [ERROR HANDLING] - 2 функції/процедури + 1 таблиця
-10. [EXTENDED EVENTS (XE)] - 8 функцій/процедур
-11. [EXTENDED PROPERTIES] - 12 процедур
-12. [INDEXES] - 10 функцій/процедур
-13. [TABLES] - 4 функції
-14. [LOGS & EVENTS] - 6 представлень + таблиці
-15. [EXECUTION MONITORING] - 8 функцій/представлень
-16. [PERMISSIONS] - 2 функції
-17. [HISTORY] - 3 функції
+### РћСЃРЅРѕРІРЅС– РјРѕР¶Р»РёРІРѕСЃС‚С–
+1. [DESCRIPTION & MS_DESCRIPTION] - 15 С„СѓРЅРєС†С–Р№/РїСЂРѕС†РµРґСѓСЂ
+2. [OBJECTS & METADATA] - 25 С„СѓРЅРєС†С–Р№
+3. [PARAMETERS] - 6 С„СѓРЅРєС†С–Р№  
+4. [COLUMNS] - 8 С„СѓРЅРєС†С–Р№
+5. [STRING & TEXT PROCESSING] - 12 С„СѓРЅРєС†С–Р№
+6. [SCRIPT GENERATION] - 8 С„СѓРЅРєС†С–Р№
+7. [TEMP TABLES] - 2 С„СѓРЅРєС†С–С—
+8. [MODULES & CODE ANALYSIS] - 18 С„СѓРЅРєС†С–Р№
+9. [ERROR HANDLING] - 2 С„СѓРЅРєС†С–С—/РїСЂРѕС†РµРґСѓСЂРё + 1 С‚Р°Р±Р»РёС†СЏ
+10. [EXTENDED EVENTS (XE)] - 8 С„СѓРЅРєС†С–Р№/РїСЂРѕС†РµРґСѓСЂ
+11. [EXTENDED PROPERTIES] - 12 РїСЂРѕС†РµРґСѓСЂ
+12. [INDEXES] - 10 С„СѓРЅРєС†С–Р№/РїСЂРѕС†РµРґСѓСЂ
+13. [TABLES] - 4 С„СѓРЅРєС†С–С—
+14. [LOGS & EVENTS] - 6 РїСЂРµРґСЃС‚Р°РІР»РµРЅСЊ + С‚Р°Р±Р»РёС†С–
+15. [EXECUTION MONITORING] - 8 С„СѓРЅРєС†С–Р№/РїСЂРµРґСЃС‚Р°РІР»РµРЅСЊ
+16. [PERMISSIONS] - 2 С„СѓРЅРєС†С–С—
+17. [HISTORY] - 3 С„СѓРЅРєС†С–С—
 
 ---
 
 ## DESCRIPTION & MS_DESCRIPTION
 
-### Компоненти системи документування (15 об'єктів)
+### РљРѕРјРїРѕРЅРµРЅС‚Рё СЃРёСЃС‚РµРјРё РґРѕРєСѓРјРµРЅС‚СѓРІР°РЅРЅСЏ (15 РѕР±'С”РєС‚С–РІ)
 
-**Автоматичне витягнення описів з коментарів:**
-- `modulesGetDescriptionFromComments` - витягує описи з багаторядкових коментарів
-- `modulesGetDescriptionFromCommentsLegacy` - витягує описи зі старого формату коментарів
-- `stringSplitMultiLineComment` - парсить структуровані коментарі
-- `modulesSetDescriptionFromComments` - автоматично встановлює описи з коментарів
-- `modulesSetDescriptionFromCommentsLegacy` - для старого формату
+**РђРІС‚РѕРјР°С‚РёС‡РЅРµ РІРёС‚СЏРіРЅРµРЅРЅСЏ РѕРїРёСЃС–РІ Р· РєРѕРјРµРЅС‚Р°СЂС–РІ:**
+- `modulesGetDescriptionFromComments` - РІРёС‚СЏРіСѓС” РѕРїРёСЃРё Р· Р±Р°РіР°С‚РѕСЂСЏРґРєРѕРІРёС… РєРѕРјРµРЅС‚Р°СЂС–РІ
+- `modulesGetDescriptionFromCommentsLegacy` - РІРёС‚СЏРіСѓС” РѕРїРёСЃРё Р·С– СЃС‚Р°СЂРѕРіРѕ С„РѕСЂРјР°С‚Сѓ РєРѕРјРµРЅС‚Р°СЂС–РІ
+- `stringSplitMultiLineComment` - РїР°СЂСЃРёС‚СЊ СЃС‚СЂСѓРєС‚СѓСЂРѕРІР°РЅС– РєРѕРјРµРЅС‚Р°СЂС–
+- `modulesSetDescriptionFromComments` - Р°РІС‚РѕРјР°С‚РёС‡РЅРѕ РІСЃС‚Р°РЅРѕРІР»СЋС” РѕРїРёСЃРё Р· РєРѕРјРµРЅС‚Р°СЂС–РІ
+- `modulesSetDescriptionFromCommentsLegacy` - РґР»СЏ СЃС‚Р°СЂРѕРіРѕ С„РѕСЂРјР°С‚Сѓ
 
-**Ручне встановлення описів (12 процедур):**
-- `metadataSetTableDescription` - описи таблиць
-- `metadataSetColumnDescription` - описи колонок
-- `metadataSetProcedureDescription` - описи процедур
-- `metadataSetFunctionDescription` - описи функцій
-- `metadataSetViewDescription` - описи представлень
-- `metadataSetTriggerDescription` - описи тригерів
-- `metadataSetParameterDescription` - описи параметрів
-- `metadataSetIndexDescription` - описи індексів
-- `metadataSetSchemaDescription` - описи схем
-- `metadataSetDataspaceDescription` - описи просторів даних
-- `metadataSetFilegroupDescription` - описи файлових груп
-- `metadataSetExtendedProperty` - універсальна процедура
+**Р СѓС‡РЅРµ РІСЃС‚Р°РЅРѕРІР»РµРЅРЅСЏ РѕРїРёСЃС–РІ (12 РїСЂРѕС†РµРґСѓСЂ):**
+- `metadataSetTableDescription` - РѕРїРёСЃРё С‚Р°Р±Р»РёС†СЊ
+- `metadataSetColumnDescription` - РѕРїРёСЃРё РєРѕР»РѕРЅРѕРє
+- `metadataSetProcedureDescription` - РѕРїРёСЃРё РїСЂРѕС†РµРґСѓСЂ
+- `metadataSetFunctionDescription` - РѕРїРёСЃРё С„СѓРЅРєС†С–Р№
+- `metadataSetViewDescription` - РѕРїРёСЃРё РїСЂРµРґСЃС‚Р°РІР»РµРЅСЊ
+- `metadataSetTriggerDescription` - РѕРїРёСЃРё С‚СЂРёРіРµСЂС–РІ
+- `metadataSetParameterDescription` - РѕРїРёСЃРё РїР°СЂР°РјРµС‚СЂС–РІ
+- `metadataSetIndexDescription` - РѕРїРёСЃРё С–РЅРґРµРєСЃС–РІ
+- `metadataSetSchemaDescription` - РѕРїРёСЃРё СЃС…РµРј
+- `metadataSetDataspaceDescription` - РѕРїРёСЃРё РїСЂРѕСЃС‚РѕСЂС–РІ РґР°РЅРёС…
+- `metadataSetFilegroupDescription` - РѕРїРёСЃРё С„Р°Р№Р»РѕРІРёС… РіСЂСѓРї
+- `metadataSetExtendedProperty` - СѓРЅС–РІРµСЂСЃР°Р»СЊРЅР° РїСЂРѕС†РµРґСѓСЂР°
 
-**Отримання описів:**
-- `metadataGetDescriptions` - отримання описів об'єктів
-- `metadataGetExtendedProperiesValues` - читання розширених властивостей
+**РћС‚СЂРёРјР°РЅРЅСЏ РѕРїРёСЃС–РІ:**
+- `metadataGetDescriptions` - РѕС‚СЂРёРјР°РЅРЅСЏ РѕРїРёСЃС–РІ РѕР±'С”РєС‚С–РІ
+- `metadataGetExtendedProperiesValues` - С‡РёС‚Р°РЅРЅСЏ СЂРѕР·С€РёСЂРµРЅРёС… РІР»Р°СЃС‚РёРІРѕСЃС‚РµР№
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Автоматичне встановлення описів з коментарів
+-- РђРІС‚РѕРјР°С‚РёС‡РЅРµ РІСЃС‚Р°РЅРѕРІР»РµРЅРЅСЏ РѕРїРёСЃС–РІ Р· РєРѕРјРµРЅС‚Р°СЂС–РІ
 EXEC util.modulesSetDescriptionFromComments 'dbo.MyProcedure';
 
--- Ручне встановлення описів
-EXEC util.metadataSetTableDescription @table = 'dbo.Users', @description = 'Таблиця користувачів системи';
-EXEC util.metadataSetColumnDescription @object = 'dbo.Users', @column = 'Email', @description = 'Email адреса користувача';
+-- Р СѓС‡РЅРµ РІСЃС‚Р°РЅРѕРІР»РµРЅРЅСЏ РѕРїРёСЃС–РІ
+EXEC util.metadataSetTableDescription @table = 'dbo.Users', @description = 'РўР°Р±Р»РёС†СЏ РєРѕСЂРёСЃС‚СѓРІР°С‡С–РІ СЃРёСЃС‚РµРјРё';
+EXEC util.metadataSetColumnDescription @object = 'dbo.Users', @column = 'Email', @description = 'Email Р°РґСЂРµСЃР° РєРѕСЂРёСЃС‚СѓРІР°С‡Р°';
 
--- Отримання всіх описів
+-- РћС‚СЂРёРјР°РЅРЅСЏ РІСЃС–С… РѕРїРёСЃС–РІ
 SELECT * FROM util.metadataGetDescriptions('dbo.Users', NULL);
 SELECT * FROM util.metadataGetExtendedProperiesValues('dbo.Users', NULL, 'MS_Description');
 ```
@@ -68,36 +68,36 @@ SELECT * FROM util.metadataGetExtendedProperiesValues('dbo.Users', NULL, 'MS_Des
 
 ## OBJECTS & METADATA
 
-### Универсальні функції для об'єктів (25 функцій)
-**Основні функції:**
-- `metadataGetObjectName` - отримання назви об'єкта за ID
-- `metadataGetObjectType` - тип об'єкта за назвою
-- `metadataGetObjectsType` - типи кількох об'єктів
-- `metadataGetAnyId` - універсальне отримання ID будь-якого об'єкта
-- `metadataGetAnyName` - універсальне отримання назви будь-якого об'єкта
+### РЈРЅРёРІРµСЂСЃР°Р»СЊРЅС– С„СѓРЅРєС†С–С— РґР»СЏ РѕР±'С”РєС‚С–РІ (25 С„СѓРЅРєС†С–Р№)
+**РћСЃРЅРѕРІРЅС– С„СѓРЅРєС†С–С—:**
+- `metadataGetObjectName` - РѕС‚СЂРёРјР°РЅРЅСЏ РЅР°Р·РІРё РѕР±'С”РєС‚Р° Р·Р° ID
+- `metadataGetObjectType` - С‚РёРї РѕР±'С”РєС‚Р° Р·Р° РЅР°Р·РІРѕСЋ
+- `metadataGetObjectsType` - С‚РёРїРё РєС–Р»СЊРєРѕС… РѕР±'С”РєС‚С–РІ
+- `metadataGetAnyId` - СѓРЅС–РІРµСЂСЃР°Р»СЊРЅРµ РѕС‚СЂРёРјР°РЅРЅСЏ ID Р±СѓРґСЊ-СЏРєРѕРіРѕ РѕР±'С”РєС‚Р°
+- `metadataGetAnyName` - СѓРЅС–РІРµСЂСЃР°Р»СЊРЅРµ РѕС‚СЂРёРјР°РЅРЅСЏ РЅР°Р·РІРё Р±СѓРґСЊ-СЏРєРѕРіРѕ РѕР±'С”РєС‚Р°
 
-**Класифікація об'єктів:**
-- `metadataGetClassByName` - код класу за назвою
-- `metadataGetClassName` - назва класу за кодом
+**РљР»Р°СЃРёС„С–РєР°С†С–СЏ РѕР±'С”РєС‚С–РІ:**
+- `metadataGetClassByName` - РєРѕРґ РєР»Р°СЃСѓ Р·Р° РЅР°Р·РІРѕСЋ
+- `metadataGetClassName` - РЅР°Р·РІР° РєР»Р°СЃСѓ Р·Р° РєРѕРґРѕРј
 
-**Спеціалізовані функції:**
-- `metadataGetCertificateName` - імена сертифікатів
-- `metadataGetDataspaceId` / `metadataGetDataspaceName` - простори даних
-- `metadataGetPartitionFunctionId` / `metadataGetPartitionFunctionName` - функції розділення
+**РЎРїРµС†С–Р°Р»С–Р·РѕРІР°РЅС– С„СѓРЅРєС†С–С—:**
+- `metadataGetCertificateName` - С–РјРµРЅР° СЃРµСЂС‚РёС„С–РєР°С‚С–РІ
+- `metadataGetDataspaceId` / `metadataGetDataspaceName` - РїСЂРѕСЃС‚РѕСЂРё РґР°РЅРёС…
+- `metadataGetPartitionFunctionId` / `metadataGetPartitionFunctionName` - С„СѓРЅРєС†С–С— СЂРѕР·РґС–Р»РµРЅРЅСЏ
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Основна робота з об'єктами
+-- РћСЃРЅРѕРІРЅР° СЂРѕР±РѕС‚Р° Р· РѕР±'С”РєС‚Р°РјРё
 SELECT util.metadataGetObjectName(OBJECT_ID('dbo.Users')); -- [dbo].[Users]
 SELECT util.metadataGetObjectType('dbo.Users'); -- 'U' (User Table)
 SELECT * FROM util.metadataGetObjectsType('dbo.Users,dbo.Orders,dbo.GetUserData');
 
--- Універсальні функції
+-- РЈРЅС–РІРµСЂСЃР°Р»СЊРЅС– С„СѓРЅРєС†С–С—
 SELECT util.metadataGetAnyId('dbo.Users', 'OBJECT'); -- object_id
 SELECT util.metadataGetAnyId('dbo.Users', 'OBJECT', 'Email'); -- column_id
 SELECT util.metadataGetAnyName(OBJECT_ID('dbo.Users'), 0, '1'); -- [dbo].[Users]
 
--- Класифікація
+-- РљР»Р°СЃРёС„С–РєР°С†С–СЏ
 SELECT util.metadataGetClassByName('OBJECT_OR_COLUMN'); -- 1
 SELECT util.metadataGetClassName(1); -- 'OBJECT_OR_COLUMN'
 ```
@@ -106,18 +106,18 @@ SELECT util.metadataGetClassName(1); -- 'OBJECT_OR_COLUMN'
 
 ## PARAMETERS
 
-### Функції для роботи з параметрами (6 функцій)
-- `metadataGetParameters` - детальна інформація про параметри процедур/функцій
-- `metadataGetParameterId` - ID параметра за назвою
-- `metadataGetParameterName` - назва параметра за ID
+### Р¤СѓРЅРєС†С–С— РґР»СЏ СЂРѕР±РѕС‚Рё Р· РїР°СЂР°РјРµС‚СЂР°РјРё (6 С„СѓРЅРєС†С–Р№)
+- `metadataGetParameters` - РґРµС‚Р°Р»СЊРЅР° С–РЅС„РѕСЂРјР°С†С–СЏ РїСЂРѕ РїР°СЂР°РјРµС‚СЂРё РїСЂРѕС†РµРґСѓСЂ/С„СѓРЅРєС†С–Р№
+- `metadataGetParameterId` - ID РїР°СЂР°РјРµС‚СЂР° Р·Р° РЅР°Р·РІРѕСЋ
+- `metadataGetParameterName` - РЅР°Р·РІР° РїР°СЂР°РјРµС‚СЂР° Р·Р° ID
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Отримання всіх параметрів процедури
+-- РћС‚СЂРёРјР°РЅРЅСЏ РІСЃС–С… РїР°СЂР°РјРµС‚СЂС–РІ РїСЂРѕС†РµРґСѓСЂРё
 SELECT * FROM util.metadataGetParameters('util.errorHandler');
-SELECT * FROM util.metadataGetParameters(NULL); -- всі параметри всіх об'єктів
+SELECT * FROM util.metadataGetParameters(NULL); -- РІСЃС– РїР°СЂР°РјРµС‚СЂРё РІСЃС–С… РѕР±'С”РєС‚С–РІ
 
--- Робота з конкретними параметрами
+-- Р РѕР±РѕС‚Р° Р· РєРѕРЅРєСЂРµС‚РЅРёРјРё РїР°СЂР°РјРµС‚СЂР°РјРё
 SELECT util.metadataGetParameterId('dbo.MyProc', '@userId');
 SELECT util.metadataGetParameterName(OBJECT_ID('dbo.MyProc'), 1);
 ```
@@ -126,61 +126,61 @@ SELECT util.metadataGetParameterName(OBJECT_ID('dbo.MyProc'), 1);
 
 ## COLUMNS
 
-### Функції для роботи з колонками (8 функцій)
-- `metadataGetColumns` - детальна інформація про колонки
-- `metadataGetColumnId` - ID колонки за назвою
-- `metadataGetColumnName` - назва колонки за ID
-- `tablesGetIndexedColumns` - аналіз індексованих колонок
+### Р¤СѓРЅРєС†С–С— РґР»СЏ СЂРѕР±РѕС‚Рё Р· РєРѕР»РѕРЅРєР°РјРё (8 С„СѓРЅРєС†С–Р№)
+- `metadataGetColumns` - РґРµС‚Р°Р»СЊРЅР° С–РЅС„РѕСЂРјР°С†С–СЏ РїСЂРѕ РєРѕР»РѕРЅРєРё
+- `metadataGetColumnId` - ID РєРѕР»РѕРЅРєРё Р·Р° РЅР°Р·РІРѕСЋ
+- `metadataGetColumnName` - РЅР°Р·РІР° РєРѕР»РѕРЅРєРё Р·Р° ID
+- `tablesGetIndexedColumns` - Р°РЅР°Р»С–Р· С–РЅРґРµРєСЃРѕРІР°РЅРёС… РєРѕР»РѕРЅРѕРє
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Детальна інформація про колонки
+-- Р”РµС‚Р°Р»СЊРЅР° С–РЅС„РѕСЂРјР°С†С–СЏ РїСЂРѕ РєРѕР»РѕРЅРєРё
 SELECT * FROM util.metadataGetColumns('dbo.Users');
-SELECT * FROM util.metadataGetColumns(NULL); -- всі колонки всіх таблиць
+SELECT * FROM util.metadataGetColumns(NULL); -- РІСЃС– РєРѕР»РѕРЅРєРё РІСЃС–С… С‚Р°Р±Р»РёС†СЊ
 
--- Робота з конкретними колонками
+-- Р РѕР±РѕС‚Р° Р· РєРѕРЅРєСЂРµС‚РЅРёРјРё РєРѕР»РѕРЅРєР°РјРё
 SELECT util.metadataGetColumnId('dbo.Users', 'Email');
 SELECT util.metadataGetColumnName('dbo.Users', 1);
 
--- Аналіз індексованих колонок
+-- РђРЅР°Р»С–Р· С–РЅРґРµРєСЃРѕРІР°РЅРёС… РєРѕР»РѕРЅРѕРє
 SELECT * FROM util.tablesGetIndexedColumns('dbo.Users');
--- Показує: IndexName, KeyOrdinal, IsIncludedColumn, IsUnique, IsPrimaryKey
+-- РџРѕРєР°Р·СѓС”: IndexName, KeyOrdinal, IsIncludedColumn, IsUnique, IsPrimaryKey
 ```
 
 ---
 
 ## STRING & TEXT PROCESSING
 
-### Функції для обробки тексту (12 функцій)
+### Р¤СѓРЅРєС†С–С— РґР»СЏ РѕР±СЂРѕР±РєРё С‚РµРєСЃС‚Сѓ (12 С„СѓРЅРєС†С–Р№)
 
-**Розбиття тексту:**
-- `stringSplitToLines` - розбиття тексту на рядки
-- `modulesSplitToLines` - розбиття коду модулів на рядки
-- `stringSplitMultiLineComment` - парсинг багаторядкових коментарів
+**Р РѕР·Р±РёС‚С‚СЏ С‚РµРєСЃС‚Сѓ:**
+- `stringSplitToLines` - СЂРѕР·Р±РёС‚С‚СЏ С‚РµРєСЃС‚Сѓ РЅР° СЂСЏРґРєРё
+- `modulesSplitToLines` - СЂРѕР·Р±РёС‚С‚СЏ РєРѕРґСѓ РјРѕРґСѓР»С–РІ РЅР° СЂСЏРґРєРё
+- `stringSplitMultiLineComment` - РїР°СЂСЃРёРЅРі Р±Р°РіР°С‚РѕСЂСЏРґРєРѕРІРёС… РєРѕРјРµРЅС‚Р°СЂС–РІ
 
-**Пошук позицій:**
-- `stringFindCommentsPositions` - всі коментарі в тексті
-- `stringFindInlineCommentsPositions` - однорядкові коментарі
-- `stringFindLinesPositions` - позиції всіх рядків
-- `stringFindMultilineCommentsPositions` - багаторядкові коментарі
-- `stringGetCreateLineNumber` - рядок з CREATE
+**РџРѕС€СѓРє РїРѕР·РёС†С–Р№:**
+- `stringFindCommentsPositions` - РІСЃС– РєРѕРјРµРЅС‚Р°СЂС– РІ С‚РµРєСЃС‚С–
+- `stringFindInlineCommentsPositions` - РѕРґРЅРѕСЂСЏРґРєРѕРІС– РєРѕРјРµРЅС‚Р°СЂС–
+- `stringFindLinesPositions` - РїРѕР·РёС†С–С— РІСЃС–С… СЂСЏРґРєС–РІ
+- `stringFindMultilineCommentsPositions` - Р±Р°РіР°С‚РѕСЂСЏРґРєРѕРІС– РєРѕРјРµРЅС‚Р°СЂС–
+- `stringGetCreateLineNumber` - СЂСЏРґРѕРє Р· CREATE
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Розбиття тексту на рядки
+-- Р РѕР·Р±РёС‚С‚СЏ С‚РµРєСЃС‚Сѓ РЅР° СЂСЏРґРєРё
 DECLARE @code NVARCHAR(MAX) = 'CREATE PROCEDURE test AS
 SELECT * FROM users;
--- коментар
+-- РєРѕРјРµРЅС‚Р°СЂ
 SELECT COUNT(*) FROM orders;';
 
-SELECT * FROM util.stringSplitToLines(@code, 1); -- без порожніх рядків
-SELECT * FROM util.stringGetCreateLineNumber(@code, 1); -- номер рядка з CREATE
+SELECT * FROM util.stringSplitToLines(@code, 1); -- Р±РµР· РїРѕСЂРѕР¶РЅС–С… СЂСЏРґРєС–РІ
+SELECT * FROM util.stringGetCreateLineNumber(@code, 1); -- РЅРѕРјРµСЂ СЂСЏРґРєР° Р· CREATE
 
--- Пошук коментарів
+-- РџРѕС€СѓРє РєРѕРјРµРЅС‚Р°СЂС–РІ
 SELECT * FROM util.stringFindCommentsPositions(@code, 1);
 SELECT * FROM util.stringFindInlineCommentsPositions(@code, 1);
 
--- Парсинг структурованих коментарів
+-- РџР°СЂСЃРёРЅРі СЃС‚СЂСѓРєС‚СѓСЂРѕРІР°РЅРёС… РєРѕРјРµРЅС‚Р°СЂС–РІ
 DECLARE @comment NVARCHAR(MAX) = '/*
 # Description
 Test function
@@ -194,27 +194,27 @@ SELECT * FROM util.stringSplitMultiLineComment(@comment);
 
 ## SCRIPT GENERATION
 
-### Функції для генерації DDL скриптів (8 функцій)
+### Р¤СѓРЅРєС†С–С— РґР»СЏ РіРµРЅРµСЂР°С†С–С— DDL СЃРєСЂРёРїС‚С–РІ (8 С„СѓРЅРєС†С–Р№)
 
-**Скрипти індексів:**
-- `indexesGetScript` - DDL для створення індексів
-- `indexesGetScriptConventionRename` - скрипти перейменування індексів
-- `indexesGetConventionNames` - рекомендовані назви індексів
+**РЎРєСЂРёРїС‚Рё С–РЅРґРµРєСЃС–РІ:**
+- `indexesGetScript` - DDL РґР»СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ С–РЅРґРµРєСЃС–РІ
+- `indexesGetScriptConventionRename` - СЃРєСЂРёРїС‚Рё РїРµСЂРµР№РјРµРЅСѓРІР°РЅРЅСЏ С–РЅРґРµРєСЃС–РІ
+- `indexesGetConventionNames` - СЂРµРєРѕРјРµРЅРґРѕРІР°РЅС– РЅР°Р·РІРё С–РЅРґРµРєСЃС–РІ
 
-**Скрипти таблиць:**
-- `tablesGetScript` - повний DDL таблиці
+**РЎРєСЂРёРїС‚Рё С‚Р°Р±Р»РёС†СЊ:**
+- `tablesGetScript` - РїРѕРІРЅРёР№ DDL С‚Р°Р±Р»РёС†С–
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Генерація скриптів індексів
-SELECT * FROM util.indexesGetScript('dbo.Users', NULL); -- всі індекси таблиці
-SELECT * FROM util.indexesGetScript('dbo.Users', 'IX_Users_Email'); -- конкретний індекс
+-- Р“РµРЅРµСЂР°С†С–СЏ СЃРєСЂРёРїС‚С–РІ С–РЅРґРµРєСЃС–РІ
+SELECT * FROM util.indexesGetScript('dbo.Users', NULL); -- РІСЃС– С–РЅРґРµРєСЃРё С‚Р°Р±Р»РёС†С–
+SELECT * FROM util.indexesGetScript('dbo.Users', 'IX_Users_Email'); -- РєРѕРЅРєСЂРµС‚РЅРёР№ С–РЅРґРµРєСЃ
 
--- Скрипти перейменування за конвенціями
-SELECT * FROM util.indexesGetConventionNames('dbo.Users', NULL); -- рекомендації
-SELECT * FROM util.indexesGetScriptConventionRename('dbo.Users', NULL); -- скрипти
+-- РЎРєСЂРёРїС‚Рё РїРµСЂРµР№РјРµРЅСѓРІР°РЅРЅСЏ Р·Р° РєРѕРЅРІРµРЅС†С–СЏРјРё
+SELECT * FROM util.indexesGetConventionNames('dbo.Users', NULL); -- СЂРµРєРѕРјРµРЅРґР°С†С–С—
+SELECT * FROM util.indexesGetScriptConventionRename('dbo.Users', NULL); -- СЃРєСЂРёРїС‚Рё
 
--- Повний DDL таблиці
+-- РџРѕРІРЅРёР№ DDL С‚Р°Р±Р»РёС†С–
 SELECT createScript FROM util.tablesGetScript('dbo.Users');
 ```
 
@@ -223,39 +223,39 @@ SELECT createScript FROM util.tablesGetScript('dbo.Users');
 ## TEMP TABLES
 
 
-інструменти для **автоматичного створення тимчасових таблиць** на основі аналізу SQL запитів та існуючих об'єктів бази даних. Система використовує вбудовану функцію SQL Server `sys.dm_exec_describe_first_result_set` для автоматичного визначення структури результуючого набору та генерації відповідного DDL скрипту.
+С–РЅСЃС‚СЂСѓРјРµРЅС‚Рё РґР»СЏ **Р°РІС‚РѕРјР°С‚РёС‡РЅРѕРіРѕ СЃС‚РІРѕСЂРµРЅРЅСЏ С‚РёРјС‡Р°СЃРѕРІРёС… С‚Р°Р±Р»РёС†СЊ** РЅР° РѕСЃРЅРѕРІС– Р°РЅР°Р»С–Р·Сѓ SQL Р·Р°РїРёС‚С–РІ С‚Р° С–СЃРЅСѓСЋС‡РёС… РѕР±'С”РєС‚С–РІ Р±Р°Р·Рё РґР°РЅРёС…. РЎРёСЃС‚РµРјР° РІРёРєРѕСЂРёСЃС‚РѕРІСѓС” РІР±СѓРґРѕРІР°РЅСѓ С„СѓРЅРєС†С–СЋ SQL Server `sys.dm_exec_describe_first_result_set` РґР»СЏ Р°РІС‚РѕРјР°С‚РёС‡РЅРѕРіРѕ РІРёР·РЅР°С‡РµРЅРЅСЏ СЃС‚СЂСѓРєС‚СѓСЂРё СЂРµР·СѓР»СЊС‚СѓСЋС‡РѕРіРѕ РЅР°Р±РѕСЂСѓ С‚Р° РіРµРЅРµСЂР°С†С–С— РІС–РґРїРѕРІС–РґРЅРѕРіРѕ DDL СЃРєСЂРёРїС‚Сѓ.
 
-### Ключові можливості:
-- **Автоматичне визначення типів даних** та nullable constraints
-- **Підтримка параметризованих запитів** через sp_executesql формат
-- **Flexible іменування** тимчасових таблиць
+### РљР»СЋС‡РѕРІС– РјРѕР¶Р»РёРІРѕСЃС‚С–:
+- **РђРІС‚РѕРјР°С‚РёС‡РЅРµ РІРёР·РЅР°С‡РµРЅРЅСЏ С‚РёРїС–РІ РґР°РЅРёС…** С‚Р° nullable constraints
+- **РџС–РґС‚СЂРёРјРєР° РїР°СЂР°РјРµС‚СЂРёР·РѕРІР°РЅРёС… Р·Р°РїРёС‚С–РІ** С‡РµСЂРµР· sp_executesql С„РѕСЂРјР°С‚
+- **Flexible С–РјРµРЅСѓРІР°РЅРЅСЏ** С‚РёРјС‡Р°СЃРѕРІРёС… С‚Р°Р±Р»РёС†СЊ
 
-### Функції для створення тимчасових таблиць (4 функції)
+### Р¤СѓРЅРєС†С–С— РґР»СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ С‚РёРјС‡Р°СЃРѕРІРёС… С‚Р°Р±Р»РёС†СЊ (4 С„СѓРЅРєС†С–С—)
 
-**Inline функції (повертають TABLE):**
-- `stringGetCreateTempScriptInline` - аналіз SQL запиту з поверненням TABLE
+**Inline С„СѓРЅРєС†С–С— (РїРѕРІРµСЂС‚Р°СЋС‚СЊ TABLE):**
+- `stringGetCreateTempScriptInline` - Р°РЅР°Р»С–Р· SQL Р·Р°РїРёС‚Сѓ Р· РїРѕРІРµСЂРЅРµРЅРЅСЏРј TABLE
 
-**Scalar функції (повертають NVARCHAR(MAX)):**
-- `stringGetCreateTempScript` - аналіз SQL запиту з поверненням скрипту
+**Scalar С„СѓРЅРєС†С–С— (РїРѕРІРµСЂС‚Р°СЋС‚СЊ NVARCHAR(MAX)):**
+- `stringGetCreateTempScript` - Р°РЅР°Р»С–Р· SQL Р·Р°РїРёС‚Сѓ Р· РїРѕРІРµСЂРЅРµРЅРЅСЏРј СЃРєСЂРёРїС‚Сѓ
 
-### Детальний опис функцій:
+### Р”РµС‚Р°Р»СЊРЅРёР№ РѕРїРёСЃ С„СѓРЅРєС†С–Р№:
 
 #### stringGetCreateTempScriptInline
-- **Призначення**: Аналізує SQL запит та генерує CREATE TABLE DDL
-- **Технологія**: sys.dm_exec_describe_first_result_set з підтримкою параметрів
-- **Результат**: TABLE з колонкою createScript
-- **Переваги**: Можна використовувати в JOIN та підзапитах
+- **РџСЂРёР·РЅР°С‡РµРЅРЅСЏ**: РђРЅР°Р»С–Р·СѓС” SQL Р·Р°РїРёС‚ С‚Р° РіРµРЅРµСЂСѓС” CREATE TABLE DDL
+- **РўРµС…РЅРѕР»РѕРіС–СЏ**: sys.dm_exec_describe_first_result_set Р· РїС–РґС‚СЂРёРјРєРѕСЋ РїР°СЂР°РјРµС‚СЂС–РІ
+- **Р РµР·СѓР»СЊС‚Р°С‚**: TABLE Р· РєРѕР»РѕРЅРєРѕСЋ createScript
+- **РџРµСЂРµРІР°РіРё**: РњРѕР¶РЅР° РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё РІ JOIN С‚Р° РїС–РґР·Р°РїРёС‚Р°С…
 
 #### stringGetCreateTempScript  
-- **Призначення**: Scalar обгортка для stringGetCreateTempScriptInline
-- **Результат**: NVARCHAR(MAX) - готовий до виконання скрипт
-- **Переваги**: Зручно для безпосереднього виконання через sp_executesql
+- **РџСЂРёР·РЅР°С‡РµРЅРЅСЏ**: Scalar РѕР±РіРѕСЂС‚РєР° РґР»СЏ stringGetCreateTempScriptInline
+- **Р РµР·СѓР»СЊС‚Р°С‚**: NVARCHAR(MAX) - РіРѕС‚РѕРІРёР№ РґРѕ РІРёРєРѕРЅР°РЅРЅСЏ СЃРєСЂРёРїС‚
+- **РџРµСЂРµРІР°РіРё**: Р—СЂСѓС‡РЅРѕ РґР»СЏ Р±РµР·РїРѕСЃРµСЂРµРґРЅСЊРѕРіРѕ РІРёРєРѕРЅР°РЅРЅСЏ С‡РµСЂРµР· sp_executesql
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 
-#### Базові сценарії використання
+#### Р‘Р°Р·РѕРІС– СЃС†РµРЅР°СЂС–С— РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ
 ```sql
--- 1. Створення temp таблиці з простого SELECT
+-- 1. РЎС‚РІРѕСЂРµРЅРЅСЏ temp С‚Р°Р±Р»РёС†С– Р· РїСЂРѕСЃС‚РѕРіРѕ SELECT
 SELECT createScript 
 FROM util.stringGetCreateTempScriptInline(
     'SELECT UserID, UserName, Email, CreatedDate FROM dbo.Users WHERE IsActive = 1', 
@@ -263,16 +263,16 @@ FROM util.stringGetCreateTempScriptInline(
     NULL
 );
 
--- 2. Використання scalar функції для виконання
+-- 2. Р’РёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ scalar С„СѓРЅРєС†С–С— РґР»СЏ РІРёРєРѕРЅР°РЅРЅСЏ
 DECLARE @script NVARCHAR(MAX) = util.stringGetCreateTempScript(
     'SELECT OrderID, CustomerID, OrderDate, TotalAmount FROM dbo.Orders', 
     '#OrdersTemp', 
     NULL
 );
 EXEC sp_executesql @script;
--- Тепер можна використовувати #OrdersTemp (**але не забувайте про область видимості**)
+-- РўРµРїРµСЂ РјРѕР¶РЅР° РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё #OrdersTemp (**Р°Р»Рµ РЅРµ Р·Р°Р±СѓРІР°Р№С‚Рµ РїСЂРѕ РѕР±Р»Р°СЃС‚СЊ РІРёРґРёРјРѕСЃС‚С–**)
 
--- 3. Створення temp таблиці з результату процедури
+-- 3. РЎС‚РІРѕСЂРµРЅРЅСЏ temp С‚Р°Р±Р»РёС†С– Р· СЂРµР·СѓР»СЊС‚Р°С‚Сѓ РїСЂРѕС†РµРґСѓСЂРё
 DECLARE @procScript NVARCHAR(MAX) = util.objectGetCreateTempScript(
     'dbo.GetMonthlyReport', 
     '#MonthlyReportData', 
@@ -282,9 +282,9 @@ EXEC sp_executesql @procScript;
 INSERT INTO #MonthlyReportData EXEC dbo.GetMonthlyReport @Month = 12, @Year = 2024;
 ```
 
-#### Параметризовані запити
+#### РџР°СЂР°РјРµС‚СЂРёР·РѕРІР°РЅС– Р·Р°РїРёС‚Рё
 ```sql
--- Підтримка параметрів для складних запитів
+-- РџС–РґС‚СЂРёРјРєР° РїР°СЂР°РјРµС‚СЂС–РІ РґР»СЏ СЃРєР»Р°РґРЅРёС… Р·Р°РїРёС‚С–РІ
 DECLARE @params NVARCHAR(MAX) = '@StartDate DATETIME, @EndDate DATETIME, @MinAmount DECIMAL(10,2)';
 DECLARE @query NVARCHAR(MAX) = N'
 SELECT 
@@ -304,15 +304,15 @@ LEFT JOIN (
 WHERE o.OrderDate BETWEEN @StartDate AND @EndDate
     AND o.TotalAmount >= @MinAmount';
 
--- Генерація скрипту з параметрами
+-- Р“РµРЅРµСЂР°С†С–СЏ СЃРєСЂРёРїС‚Сѓ Р· РїР°СЂР°РјРµС‚СЂР°РјРё
 SELECT createScript 
 FROM util.stringGetCreateTempScriptInline(@query, '#FilteredOrders', @params);
 
--- Використання згенерованого скрипту
+-- Р’РёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ Р·РіРµРЅРµСЂРѕРІР°РЅРѕРіРѕ СЃРєСЂРёРїС‚Сѓ
 DECLARE @createScript NVARCHAR(MAX) = util.stringGetCreateTempScript(@query, '#FilteredOrders', @params);
 EXEC sp_executesql @createScript;
 
--- Заповнення даними
+-- Р—Р°РїРѕРІРЅРµРЅРЅСЏ РґР°РЅРёРјРё
 INSERT INTO #FilteredOrders
 EXEC sp_executesql @query, @params, 
     @StartDate = '2024-01-01', 
@@ -320,13 +320,13 @@ EXEC sp_executesql @query, @params,
     @MinAmount = 100.00;
 ```
 
-#### Робота з функціями та процедурами
+#### Р РѕР±РѕС‚Р° Р· С„СѓРЅРєС†С–СЏРјРё С‚Р° РїСЂРѕС†РµРґСѓСЂР°РјРё
 ```sql
--- Створення temp таблиці для table-valued функції
+-- РЎС‚РІРѕСЂРµРЅРЅСЏ temp С‚Р°Р±Р»РёС†С– РґР»СЏ table-valued С„СѓРЅРєС†С–С—
 SELECT createScript 
 FROM util.objectGetCreateTempScriptInline('dbo.GetUserAnalytics', '#UserAnalytics', NULL);
 
--- Створення temp таблиці для процедури з параметрами
+-- РЎС‚РІРѕСЂРµРЅРЅСЏ temp С‚Р°Р±Р»РёС†С– РґР»СЏ РїСЂРѕС†РµРґСѓСЂРё Р· РїР°СЂР°РјРµС‚СЂР°РјРё
 DECLARE @procScript NVARCHAR(MAX) = util.objectGetCreateTempScript(
     'dbo.GetSalesReport', 
     '#SalesReportTemp', 
@@ -334,20 +334,20 @@ DECLARE @procScript NVARCHAR(MAX) = util.objectGetCreateTempScript(
 );
 EXEC sp_executesql @procScript;
 
--- Заповнення через процедуру
+-- Р—Р°РїРѕРІРЅРµРЅРЅСЏ С‡РµСЂРµР· РїСЂРѕС†РµРґСѓСЂСѓ
 INSERT INTO #SalesReportTemp 
 EXEC dbo.GetSalesReport @RegionID = 5, @Quarter = 4, @Year = 2024;
 
--- Подальша робота з даними
+-- РџРѕРґР°Р»СЊС€Р° СЂРѕР±РѕС‚Р° Р· РґР°РЅРёРјРё
 SELECT Region, SUM(SalesAmount) as TotalSales
 FROM #SalesReportTemp
 GROUP BY Region
 ORDER BY TotalSales DESC;
 ```
 
-#### Складні сценарії та оптимізація
+#### РЎРєР»Р°РґРЅС– СЃС†РµРЅР°СЂС–С— С‚Р° РѕРїС‚РёРјС–Р·Р°С†С–СЏ
 ```sql
--- Створення temp таблиці з CTE та оконними функціями
+-- РЎС‚РІРѕСЂРµРЅРЅСЏ temp С‚Р°Р±Р»РёС†С– Р· CTE С‚Р° РѕРєРѕРЅРЅРёРјРё С„СѓРЅРєС†С–СЏРјРё
 DECLARE @complexQuery NVARCHAR(MAX) = N'
 WITH RankedOrders AS (
     SELECT 
@@ -388,15 +388,15 @@ JOIN dbo.Customers c ON ro.CustomerID = c.CustomerID
 JOIN CustomerMetrics cm ON ro.CustomerID = cm.CustomerID
 WHERE ro.OrderRank = 1';
 
--- Генерація та створення складної temp таблиці
+-- Р“РµРЅРµСЂР°С†С–СЏ С‚Р° СЃС‚РІРѕСЂРµРЅРЅСЏ СЃРєР»Р°РґРЅРѕС— temp С‚Р°Р±Р»РёС†С–
 DECLARE @script NVARCHAR(MAX) = util.stringGetCreateTempScript(@complexQuery, '#CustomerAnalytics', NULL);
 EXEC sp_executesql @script;
 
--- Використання створеної структури
+-- Р’РёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ СЃС‚РІРѕСЂРµРЅРѕС— СЃС‚СЂСѓРєС‚СѓСЂРё
 INSERT INTO #CustomerAnalytics
 EXEC sp_executesql @complexQuery;
 
--- Аналіз даних
+-- РђРЅР°Р»С–Р· РґР°РЅРёС…
 SELECT 
     CustomerTier,
     COUNT(*) as CustomerCount,
@@ -412,9 +412,9 @@ ORDER BY
     END;
 ```
 
-#### Практичні сценарії ETL та міграції
+#### РџСЂР°РєС‚РёС‡РЅС– СЃС†РµРЅР°СЂС–С— ETL С‚Р° РјС–РіСЂР°С†С–С—
 ```sql
--- Сценарій 1: Підготовка staging таблиці для ETL
+-- РЎС†РµРЅР°СЂС–Р№ 1: РџС–РґРіРѕС‚РѕРІРєР° staging С‚Р°Р±Р»РёС†С– РґР»СЏ ETL
 DECLARE @sourceQuery NVARCHAR(MAX) = N'
 SELECT 
     CAST(SourceID as BIGINT) as SourceID,
@@ -426,7 +426,7 @@ FROM SourceSystem.dbo.RawData
 WHERE ImportDate = CAST(GETDATE() as DATE)
     AND SourceName IS NOT NULL';
 
--- Створення staging таблиці
+-- РЎС‚РІРѕСЂРµРЅРЅСЏ staging С‚Р°Р±Р»РёС†С–
 DECLARE @stagingScript NVARCHAR(MAX) = util.stringGetCreateTempScript(
     @sourceQuery, 
     '#StagingData', 
@@ -434,11 +434,11 @@ DECLARE @stagingScript NVARCHAR(MAX) = util.stringGetCreateTempScript(
 );
 EXEC sp_executesql @stagingScript;
 
--- Заповнення та обробка
+-- Р—Р°РїРѕРІРЅРµРЅРЅСЏ С‚Р° РѕР±СЂРѕР±РєР°
 INSERT INTO #StagingData
 EXEC sp_executesql @sourceQuery;
 
--- Сценарій 2: Динамічне створення temp таблиць для звітів
+-- РЎС†РµРЅР°СЂС–Р№ 2: Р”РёРЅР°РјС–С‡РЅРµ СЃС‚РІРѕСЂРµРЅРЅСЏ temp С‚Р°Р±Р»РёС†СЊ РґР»СЏ Р·РІС–С‚С–РІ
 DECLARE @reportQuery NVARCHAR(MAX);
 DECLARE @reportParams NVARCHAR(MAX) = '@ReportType NVARCHAR(50), @DateFrom DATE, @DateTo DATE';
 
@@ -465,7 +465,7 @@ GROUP BY
         ELSE ''Unknown''
     END';
 
--- Створення гнучкої звітної структури
+-- РЎС‚РІРѕСЂРµРЅРЅСЏ РіРЅСѓС‡РєРѕС— Р·РІС–С‚РЅРѕС— СЃС‚СЂСѓРєС‚СѓСЂРё
 DECLARE @reportScript NVARCHAR(MAX) = util.stringGetCreateTempScript(
     @reportQuery, 
     '#DynamicReport', 
@@ -478,28 +478,28 @@ EXEC sp_executesql @reportScript;
 
 ## ERROR HANDLING
 
-### Компоненти системи обробки помилок (3 об'єкти)
-- `util.errorHandler` - універсальний обробник помилок
-- `util.errorLog` - централізований журнал помилок з повним контекстом
-- `util.help` - довідкова система по Pure Utils
+### РљРѕРјРїРѕРЅРµРЅС‚Рё СЃРёСЃС‚РµРјРё РѕР±СЂРѕР±РєРё РїРѕРјРёР»РѕРє (3 РѕР±'С”РєС‚Рё)
+- `util.errorHandler` - СѓРЅС–РІРµСЂСЃР°Р»СЊРЅРёР№ РѕР±СЂРѕР±РЅРёРє РїРѕРјРёР»РѕРє
+- `util.errorLog` - С†РµРЅС‚СЂР°Р»С–Р·РѕРІР°РЅРёР№ Р¶СѓСЂРЅР°Р» РїРѕРјРёР»РѕРє Р· РїРѕРІРЅРёРј РєРѕРЅС‚РµРєСЃС‚РѕРј
+- `util.help` - РґРѕРІС–РґРєРѕРІР° СЃРёСЃС‚РµРјР° РїРѕ Pure Utils
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Базове логування помилок
+-- Р‘Р°Р·РѕРІРµ Р»РѕРіСѓРІР°РЅРЅСЏ РїРѕРјРёР»РѕРє
 BEGIN TRY
-    -- Ризикована операція
+    -- Р РёР·РёРєРѕРІР°РЅР° РѕРїРµСЂР°С†С–СЏ
     EXEC dbo.BusinessProcedure;
 END TRY
 BEGIN CATCH
-    EXEC util.errorHandler @attachment = 'Контекст операції';
+    EXEC util.errorHandler @attachment = 'РљРѕРЅС‚РµРєСЃС‚ РѕРїРµСЂР°С†С–С—';
 END CATCH
 
--- Аналіз помилок
+-- РђРЅР°Р»С–Р· РїРѕРјРёР»РѕРє
 SELECT * FROM util.errorLog 
 WHERE ErrorDateTime > DATEADD(DAY, -1, GETDATE())
 ORDER BY ErrorDateTime DESC;
 
--- Довідка по системі
+-- Р”РѕРІС–РґРєР° РїРѕ СЃРёСЃС‚РµРјС–
 SELECT * FROM util.help('error');
 ```
 
@@ -507,32 +507,32 @@ SELECT * FROM util.help('error');
 
 ## EXTENDED EVENTS (XE)
 
-### Система моніторингу через Extended Events (15 об'єктів)
-**XE Сесії:**
-- `utilsErrors` - збір критичних помилок
-- `utilsModulesUsers` - моніторинг виконання модулів користувачами  
-- `utilsModulesFaust` - спеціальний моніторинг Faust користувачів
-- `utilsModulesSSIS` - відстеження SSIS пакетів
+### РЎРёСЃС‚РµРјР° РјРѕРЅС–С‚РѕСЂРёРЅРіСѓ С‡РµСЂРµР· Extended Events (15 РѕР±'С”РєС‚С–РІ)
+**XE РЎРµСЃС–С—:**
+- `utilsErrors` - Р·Р±С–СЂ РєСЂРёС‚РёС‡РЅРёС… РїРѕРјРёР»РѕРє
+- `utilsModulesUsers` - РјРѕРЅС–С‚РѕСЂРёРЅРі РІРёРєРѕРЅР°РЅРЅСЏ РјРѕРґСѓР»С–РІ РєРѕСЂРёСЃС‚СѓРІР°С‡Р°РјРё  
+- `utilsModulesFaust` - СЃРїРµС†С–Р°Р»СЊРЅРёР№ РјРѕРЅС–С‚РѕСЂРёРЅРі Faust РєРѕСЂРёСЃС‚СѓРІР°С‡С–РІ
+- `utilsModulesSSIS` - РІС–РґСЃС‚РµР¶РµРЅРЅСЏ SSIS РїР°РєРµС‚С–РІ
 
-**Функції для читання XE:**
-- `util.xeGetErrors` - читання помилок з XE файлів
-- `util.xeGetTargetFile` - інформація про поточні файли сесій
-- `util.xeGetLogsPath` - генерація шляхів до логів
+**Р¤СѓРЅРєС†С–С— РґР»СЏ С‡РёС‚Р°РЅРЅСЏ XE:**
+- `util.xeGetErrors` - С‡РёС‚Р°РЅРЅСЏ РїРѕРјРёР»РѕРє Р· XE С„Р°Р№Р»С–РІ
+- `util.xeGetTargetFile` - С–РЅС„РѕСЂРјР°С†С–СЏ РїСЂРѕ РїРѕС‚РѕС‡РЅС– С„Р°Р№Р»Рё СЃРµСЃС–Р№
+- `util.xeGetLogsPath` - РіРµРЅРµСЂР°С†С–СЏ С€Р»СЏС…С–РІ РґРѕ Р»РѕРіС–РІ
 
-**Таблиці зберігання:**
-- `util.executionModulesUsers/Faust/SSIS` - дані виконання модулів
-- `util.executionSqlText` - кеш унікальних SQL текстів
-- `util.xeOffsets` - позиції читання XE файлів
+**РўР°Р±Р»РёС†С– Р·Р±РµСЂС–РіР°РЅРЅСЏ:**
+- `util.executionModulesUsers/Faust/SSIS` - РґР°РЅС– РІРёРєРѕРЅР°РЅРЅСЏ РјРѕРґСѓР»С–РІ
+- `util.executionSqlText` - РєРµС€ СѓРЅС–РєР°Р»СЊРЅРёС… SQL С‚РµРєСЃС‚С–РІ
+- `util.xeOffsets` - РїРѕР·РёС†С–С— С‡РёС‚Р°РЅРЅСЏ XE С„Р°Р№Р»С–РІ
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Обробка XE даних
+-- РћР±СЂРѕР±РєР° XE РґР°РЅРёС…
 EXEC util.xeCopyModulesToTable 'Users';
 
--- Аналіз помилок з XE
+-- РђРЅР°Р»С–Р· РїРѕРјРёР»РѕРє Р· XE
 SELECT * FROM util.xeGetErrors(DATEADD(HOUR, -1, GETDATE()));
 
--- Моніторинг виконання модулів  
+-- РњРѕРЅС–С‚РѕСЂРёРЅРі РІРёРєРѕРЅР°РЅРЅСЏ РјРѕРґСѓР»С–РІ  
 SELECT * FROM util.viewExecutionModulesUsers
 WHERE EventTime > DATEADD(HOUR, -1, GETDATE());
 ```
@@ -541,31 +541,31 @@ WHERE EventTime > DATEADD(HOUR, -1, GETDATE());
 
 ## EXTENDED PROPERTIES
 
-### Процедури для роботи з розширеними властивостями (12 процедур)
-- `metadataSetTableDescription` - описи таблиць
-- `metadataSetColumnDescription` - описи колонок  
-- `metadataSetProcedureDescription` - описи процедур
-- `metadataSetFunctionDescription` - описи функцій
-- `metadataSetViewDescription` - описи представлень
-- `metadataSetTriggerDescription` - описи тригерів
-- `metadataSetParameterDescription` - описи параметрів
-- `metadataSetIndexDescription` - описи індексів
-- `metadataSetSchemaDescription` - описи схем
-- `metadataSetDataspaceDescription` - описи просторів даних
-- `metadataSetFilegroupDescription` - описи файлових груп
-- `metadataSetExtendedProperty` - універсальна процедура
+### РџСЂРѕС†РµРґСѓСЂРё РґР»СЏ СЂРѕР±РѕС‚Рё Р· СЂРѕР·С€РёСЂРµРЅРёРјРё РІР»Р°СЃС‚РёРІРѕСЃС‚СЏРјРё (12 РїСЂРѕС†РµРґСѓСЂ)
+- `metadataSetTableDescription` - РѕРїРёСЃРё С‚Р°Р±Р»РёС†СЊ
+- `metadataSetColumnDescription` - РѕРїРёСЃРё РєРѕР»РѕРЅРѕРє  
+- `metadataSetProcedureDescription` - РѕРїРёСЃРё РїСЂРѕС†РµРґСѓСЂ
+- `metadataSetFunctionDescription` - РѕРїРёСЃРё С„СѓРЅРєС†С–Р№
+- `metadataSetViewDescription` - РѕРїРёСЃРё РїСЂРµРґСЃС‚Р°РІР»РµРЅСЊ
+- `metadataSetTriggerDescription` - РѕРїРёСЃРё С‚СЂРёРіРµСЂС–РІ
+- `metadataSetParameterDescription` - РѕРїРёСЃРё РїР°СЂР°РјРµС‚СЂС–РІ
+- `metadataSetIndexDescription` - РѕРїРёСЃРё С–РЅРґРµРєСЃС–РІ
+- `metadataSetSchemaDescription` - РѕРїРёСЃРё СЃС…РµРј
+- `metadataSetDataspaceDescription` - РѕРїРёСЃРё РїСЂРѕСЃС‚РѕСЂС–РІ РґР°РЅРёС…
+- `metadataSetFilegroupDescription` - РѕРїРёСЃРё С„Р°Р№Р»РѕРІРёС… РіСЂСѓРї
+- `metadataSetExtendedProperty` - СѓРЅС–РІРµСЂСЃР°Р»СЊРЅР° РїСЂРѕС†РµРґСѓСЂР°
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Встановлення описів різних об'єктів
-EXEC util.metadataSetTableDescription @table = 'dbo.Users', @description = 'Таблиця користувачів';
-EXEC util.metadataSetColumnDescription @object = 'dbo.Users', @column = 'Email', @description = 'Email користувача';
-EXEC util.metadataSetProcedureDescription @procedure = 'dbo.GetUsers', @description = 'Отримання списку користувачів';
+-- Р’СЃС‚Р°РЅРѕРІР»РµРЅРЅСЏ РѕРїРёСЃС–РІ СЂС–Р·РЅРёС… РѕР±'С”РєС‚С–РІ
+EXEC util.metadataSetTableDescription @table = 'dbo.Users', @description = 'РўР°Р±Р»РёС†СЏ РєРѕСЂРёСЃС‚СѓРІР°С‡С–РІ';
+EXEC util.metadataSetColumnDescription @object = 'dbo.Users', @column = 'Email', @description = 'Email РєРѕСЂРёСЃС‚СѓРІР°С‡Р°';
+EXEC util.metadataSetProcedureDescription @procedure = 'dbo.GetUsers', @description = 'РћС‚СЂРёРјР°РЅРЅСЏ СЃРїРёСЃРєСѓ РєРѕСЂРёСЃС‚СѓРІР°С‡С–РІ';
 
--- Універсальне встановлення властивості
+-- РЈРЅС–РІРµСЂСЃР°Р»СЊРЅРµ РІСЃС‚Р°РЅРѕРІР»РµРЅРЅСЏ РІР»Р°СЃС‚РёРІРѕСЃС‚С–
 EXEC util.metadataSetExtendedProperty 
     @name = 'MS_Description', 
-    @value = 'Критична таблиця системи',
+    @value = 'РљСЂРёС‚РёС‡РЅР° С‚Р°Р±Р»РёС†СЏ СЃРёСЃС‚РµРјРё',
     @level0type = 'SCHEMA', @level0name = 'dbo',
     @level1type = 'TABLE', @level1name = 'Orders';
 ```
@@ -574,23 +574,23 @@ EXEC util.metadataSetExtendedProperty
 
 ## INDEXES
 
-### Функції та процедури для роботи з індексами (10 об'єктів)
-- `indexesGetScript` - генерація DDL скриптів індексів
-- `indexesGetConventionNames` - рекомендовані назви за конвенціями
-- `indexesGetScriptConventionRename` - скрипти перейменування
-- `indexesGetMissing` - аналіз відсутніх індексів
-- `indexesGetUnused` - пошук невикористовуваних індексів
-- `indexesGetDuplicates` - виявлення дублікатів індексів
+### Р¤СѓРЅРєС†С–С— С‚Р° РїСЂРѕС†РµРґСѓСЂРё РґР»СЏ СЂРѕР±РѕС‚Рё Р· С–РЅРґРµРєСЃР°РјРё (10 РѕР±'С”РєС‚С–РІ)
+- `indexesGetScript` - РіРµРЅРµСЂР°С†С–СЏ DDL СЃРєСЂРёРїС‚С–РІ С–РЅРґРµРєСЃС–РІ
+- `indexesGetConventionNames` - СЂРµРєРѕРјРµРЅРґРѕРІР°РЅС– РЅР°Р·РІРё Р·Р° РєРѕРЅРІРµРЅС†С–СЏРјРё
+- `indexesGetScriptConventionRename` - СЃРєСЂРёРїС‚Рё РїРµСЂРµР№РјРµРЅСѓРІР°РЅРЅСЏ
+- `indexesGetMissing` - Р°РЅР°Р»С–Р· РІС–РґСЃСѓС‚РЅС–С… С–РЅРґРµРєСЃС–РІ
+- `indexesGetUnused` - РїРѕС€СѓРє РЅРµРІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°РЅРёС… С–РЅРґРµРєСЃС–РІ
+- `indexesGetDuplicates` - РІРёСЏРІР»РµРЅРЅСЏ РґСѓР±Р»С–РєР°С‚С–РІ С–РЅРґРµРєСЃС–РІ
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Генерація скриптів індексів
+-- Р“РµРЅРµСЂР°С†С–СЏ СЃРєСЂРёРїС‚С–РІ С–РЅРґРµРєСЃС–РІ
 SELECT * FROM util.indexesGetScript('dbo.Users', NULL);
 
--- Аналіз рекомендацій по іменуванню
+-- РђРЅР°Р»С–Р· СЂРµРєРѕРјРµРЅРґР°С†С–Р№ РїРѕ С–РјРµРЅСѓРІР°РЅРЅСЋ
 SELECT * FROM util.indexesGetConventionNames('dbo.Users', NULL);
 
--- Пошук проблемних індексів
+-- РџРѕС€СѓРє РїСЂРѕР±Р»РµРјРЅРёС… С–РЅРґРµРєСЃС–РІ
 SELECT * FROM util.indexesGetMissing('dbo.Users');
 SELECT * FROM util.indexesGetUnused('dbo.Users');
 SELECT * FROM util.indexesGetDuplicates('dbo.Users');
@@ -600,18 +600,18 @@ SELECT * FROM util.indexesGetDuplicates('dbo.Users');
 
 ## TABLES
 
-### Функції для роботи з таблицями (4 функції)
-- `tablesGetScript` - повний DDL скрипт таблиці
-- `tablesGetIndexedColumns` - аналіз індексованих колонок
-- `tablesGetConstraints` - інформація про обмеження
-- `tablesGetDependencies` - залежності таблиці
+### Р¤СѓРЅРєС†С–С— РґР»СЏ СЂРѕР±РѕС‚Рё Р· С‚Р°Р±Р»РёС†СЏРјРё (4 С„СѓРЅРєС†С–С—)
+- `tablesGetScript` - РїРѕРІРЅРёР№ DDL СЃРєСЂРёРїС‚ С‚Р°Р±Р»РёС†С–
+- `tablesGetIndexedColumns` - Р°РЅР°Р»С–Р· С–РЅРґРµРєСЃРѕРІР°РЅРёС… РєРѕР»РѕРЅРѕРє
+- `tablesGetConstraints` - С–РЅС„РѕСЂРјР°С†С–СЏ РїСЂРѕ РѕР±РјРµР¶РµРЅРЅСЏ
+- `tablesGetDependencies` - Р·Р°Р»РµР¶РЅРѕСЃС‚С– С‚Р°Р±Р»РёС†С–
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Повний DDL таблиці
+-- РџРѕРІРЅРёР№ DDL С‚Р°Р±Р»РёС†С–
 SELECT createScript FROM util.tablesGetScript('dbo.Users');
 
--- Аналіз структури
+-- РђРЅР°Р»С–Р· СЃС‚СЂСѓРєС‚СѓСЂРё
 SELECT * FROM util.tablesGetIndexedColumns('dbo.Users');
 SELECT * FROM util.tablesGetConstraints('dbo.Users');
 SELECT * FROM util.tablesGetDependencies('dbo.Users');
@@ -621,25 +621,25 @@ SELECT * FROM util.tablesGetDependencies('dbo.Users');
 
 ## LOGS & EVENTS
 
-### Представлення для аналізу логів та подій (6 представлень + таблиці)
-- `util.viewErrorLog` - форматований перегляд помилок
-- `util.viewExecutionStats` - статистика виконання
-- `util.viewPerformanceCounters` - лічильники продуктивності
-- `util.viewSessionActivity` - активність сесій
-- `util.viewBlockingChains` - ланцюги блокувань
-- `util.viewWaitStats` - статистика очікувань
+### РџСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ РґР»СЏ Р°РЅР°Р»С–Р·Сѓ Р»РѕРіС–РІ С‚Р° РїРѕРґС–Р№ (6 РїСЂРµРґСЃС‚Р°РІР»РµРЅСЊ + С‚Р°Р±Р»РёС†С–)
+- `util.viewErrorLog` - С„РѕСЂРјР°С‚РѕРІР°РЅРёР№ РїРµСЂРµРіР»СЏРґ РїРѕРјРёР»РѕРє
+- `util.viewExecutionStats` - СЃС‚Р°С‚РёСЃС‚РёРєР° РІРёРєРѕРЅР°РЅРЅСЏ
+- `util.viewPerformanceCounters` - Р»С–С‡РёР»СЊРЅРёРєРё РїСЂРѕРґСѓРєС‚РёРІРЅРѕСЃС‚С–
+- `util.viewSessionActivity` - Р°РєС‚РёРІРЅС–СЃС‚СЊ СЃРµСЃС–Р№
+- `util.viewBlockingChains` - Р»Р°РЅС†СЋРіРё Р±Р»РѕРєСѓРІР°РЅСЊ
+- `util.viewWaitStats` - СЃС‚Р°С‚РёСЃС‚РёРєР° РѕС‡С–РєСѓРІР°РЅСЊ
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Аналіз останніх помилок
+-- РђРЅР°Р»С–Р· РѕСЃС‚Р°РЅРЅС–С… РїРѕРјРёР»РѕРє
 SELECT * FROM util.viewErrorLog 
 WHERE ErrorDateTime > DATEADD(HOUR, -1, GETDATE());
 
--- Моніторинг продуктивності
+-- РњРѕРЅС–С‚РѕСЂРёРЅРі РїСЂРѕРґСѓРєС‚РёРІРЅРѕСЃС‚С–
 SELECT * FROM util.viewPerformanceCounters;
 SELECT * FROM util.viewWaitStats;
 
--- Аналіз блокувань
+-- РђРЅР°Р»С–Р· Р±Р»РѕРєСѓРІР°РЅСЊ
 SELECT * FROM util.viewBlockingChains;
 ```
 
@@ -647,26 +647,26 @@ SELECT * FROM util.viewBlockingChains;
 
 ## EXECUTION MONITORING
 
-### Функції та представлення для моніторингу виконання (8 об'єктів)
-- `util.getActiveQueries` - поточні активні запити
-- `util.getLongRunningQueries` - довготривалі операції
-- `util.getBlockedProcesses` - заблоковані процеси
-- `util.viewExecutionPlans` - плани виконання
-- `util.viewResourceUsage` - використання ресурсів
-- `util.viewQueryStats` - статистика запитів
+### Р¤СѓРЅРєС†С–С— С‚Р° РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ РґР»СЏ РјРѕРЅС–С‚РѕСЂРёРЅРіСѓ РІРёРєРѕРЅР°РЅРЅСЏ (8 РѕР±'С”РєС‚С–РІ)
+- `util.getActiveQueries` - РїРѕС‚РѕС‡РЅС– Р°РєС‚РёРІРЅС– Р·Р°РїРёС‚Рё
+- `util.getLongRunningQueries` - РґРѕРІРіРѕС‚СЂРёРІР°Р»С– РѕРїРµСЂР°С†С–С—
+- `util.getBlockedProcesses` - Р·Р°Р±Р»РѕРєРѕРІР°РЅС– РїСЂРѕС†РµСЃРё
+- `util.viewExecutionPlans` - РїР»Р°РЅРё РІРёРєРѕРЅР°РЅРЅСЏ
+- `util.viewResourceUsage` - РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ СЂРµСЃСѓСЂСЃС–РІ
+- `util.viewQueryStats` - СЃС‚Р°С‚РёСЃС‚РёРєР° Р·Р°РїРёС‚С–РІ
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Моніторинг поточної активності
+-- РњРѕРЅС–С‚РѕСЂРёРЅРі РїРѕС‚РѕС‡РЅРѕС— Р°РєС‚РёРІРЅРѕСЃС‚С–
 SELECT * FROM util.getActiveQueries();
-SELECT * FROM util.getLongRunningQueries(30); -- більше 30 секунд
+SELECT * FROM util.getLongRunningQueries(30); -- Р±С–Р»СЊС€Рµ 30 СЃРµРєСѓРЅРґ
 
--- Аналіз продуктивності
+-- РђРЅР°Р»С–Р· РїСЂРѕРґСѓРєС‚РёРІРЅРѕСЃС‚С–
 SELECT * FROM util.viewQueryStats 
 WHERE ExecutionCount > 100
 ORDER BY AvgDuration DESC;
 
--- Використання ресурсів
+-- Р’РёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ СЂРµСЃСѓСЂСЃС–РІ
 SELECT * FROM util.viewResourceUsage;
 ```
 
@@ -674,16 +674,16 @@ SELECT * FROM util.viewResourceUsage;
 
 ## PERMISSIONS
 
-### Функції для аналізу дозволів (2 функції)
-- `permissionsGetUserRights` - права конкретного користувача
-- `permissionsGetObjectAccess` - доступ до об'єкта
+### Р¤СѓРЅРєС†С–С— РґР»СЏ Р°РЅР°Р»С–Р·Сѓ РґРѕР·РІРѕР»С–РІ (2 С„СѓРЅРєС†С–С—)
+- `permissionsGetUserRights` - РїСЂР°РІР° РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РєРѕСЂРёСЃС‚СѓРІР°С‡Р°
+- `permissionsGetObjectAccess` - РґРѕСЃС‚СѓРї РґРѕ РѕР±'С”РєС‚Р°
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Аналіз прав користувача
+-- РђРЅР°Р»С–Р· РїСЂР°РІ РєРѕСЂРёСЃС‚СѓРІР°С‡Р°
 SELECT * FROM util.permissionsGetUserRights('domain\username');
 
--- Перевірка доступу до об'єкта
+-- РџРµСЂРµРІС–СЂРєР° РґРѕСЃС‚СѓРїСѓ РґРѕ РѕР±'С”РєС‚Р°
 SELECT * FROM util.permissionsGetObjectAccess('dbo.Users');
 ```
 
@@ -691,15 +691,15 @@ SELECT * FROM util.permissionsGetObjectAccess('dbo.Users');
 
 ## HISTORY
 
-### Функції для роботи з історією (3 функції)
-- `historyGetSchemaChanges` - зміни в схемі БД
-- `historyGetDataChanges` - зміни в даних (CDC/CT)
-- `historyGetBackupInfo` - інформація про резервні копії
+### Р¤СѓРЅРєС†С–С— РґР»СЏ СЂРѕР±РѕС‚Рё Р· С–СЃС‚РѕСЂС–С”СЋ (3 С„СѓРЅРєС†С–С—)
+- `historyGetSchemaChanges` - Р·РјС–РЅРё РІ СЃС…РµРјС– Р‘Р”
+- `historyGetDataChanges` - Р·РјС–РЅРё РІ РґР°РЅРёС… (CDC/CT)
+- `historyGetBackupInfo` - С–РЅС„РѕСЂРјР°С†С–СЏ РїСЂРѕ СЂРµР·РµСЂРІРЅС– РєРѕРїС–С—
 
-### Приклади використання:
+### РџСЂРёРєР»Р°РґРё РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ:
 ```sql
--- Аналіз змін в схемі
+-- РђРЅР°Р»С–Р· Р·РјС–РЅ РІ СЃС…РµРјС–
 SELECT * FROM util.historyGetSchemaChanges(DATEADD(DAY, -7, GETDATE()));
 
--- Інформація про бекапи
+-- Р†РЅС„РѕСЂРјР°С†С–СЏ РїСЂРѕ Р±РµРєР°РїРё
 SELECT * FROM util.historyGetBackupInfo('MyDatabase');

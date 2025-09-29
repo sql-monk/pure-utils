@@ -1,38 +1,38 @@
 /*
 # Description
-Отримує історію змін та активності для конкретного об'єкта бази даних.
-Функція повертає всі події, пов'язані з вказаним об'єктом, виконані поточним користувачем.
+РћС‚СЂРёРјСѓС” С–СЃС‚РѕСЂС–СЋ Р·РјС–РЅ С‚Р° Р°РєС‚РёРІРЅРѕСЃС‚С– РґР»СЏ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РѕР±'С”РєС‚Р° Р±Р°Р·Рё РґР°РЅРёС….
+Р¤СѓРЅРєС†С–СЏ РїРѕРІРµСЂС‚Р°С” РІСЃС– РїРѕРґС–С—, РїРѕРІ'СЏР·Р°РЅС– Р· РІРєР°Р·Р°РЅРёРј РѕР±'С”РєС‚РѕРј, РІРёРєРѕРЅР°РЅС– РїРѕС‚РѕС‡РЅРёРј РєРѕСЂРёСЃС‚СѓРІР°С‡РµРј.
 
 # Parameters
-@object NVARCHAR(128) - Назва об'єкта для отримання історії
-@startTime DATETIME2 = NULL - Початковий час для фільтрації подій (NULL = всі події)
+@object NVARCHAR(128) - РќР°Р·РІР° РѕР±'С”РєС‚Р° РґР»СЏ РѕС‚СЂРёРјР°РЅРЅСЏ С–СЃС‚РѕСЂС–С—
+@startTime DATETIME2 = NULL - РџРѕС‡Р°С‚РєРѕРІРёР№ С‡Р°СЃ РґР»СЏ С„С–Р»СЊС‚СЂР°С†С–С— РїРѕРґС–Р№ (NULL = РІСЃС– РїРѕРґС–С—)
 
 # Returns
-TABLE - Повertає таблицю з колонками:
-- eventType NVARCHAR - Тип події
-- postTime DATETIME - Час публікації події
-- SPID INT - Ідентифікатор сесії
-- serverName NVARCHAR - Назва сервера
-- loginName NVARCHAR - Ім'я користувача для входу
-- userName NVARCHAR - Ім'я користувача
-- roleName NVARCHAR - Назва ролі
-- databaseName NVARCHAR - Назва бази даних
-- schemaName NVARCHAR - Назва схеми
-- objectName NVARCHAR - Назва об'єкта
-- objectType NVARCHAR - Тип об'єкта
-- loginType NVARCHAR - Тип входу
-- targetObjectName NVARCHAR - Назва цільового об'єкта
-- targetObjectType NVARCHAR - Тип цільового об'єкта
-- propertyName NVARCHAR - Назва властивості
-- propertyValue NVARCHAR - Значення властивості
-- parameters NVARCHAR - Параметри
-- tsql_command NVARCHAR - T-SQL команда
+TABLE - РџРѕРІertР°С” С‚Р°Р±Р»РёС†СЋ Р· РєРѕР»РѕРЅРєР°РјРё:
+- eventType NVARCHAR - РўРёРї РїРѕРґС–С—
+- postTime DATETIME - Р§Р°СЃ РїСѓР±Р»С–РєР°С†С–С— РїРѕРґС–С—
+- SPID INT - Р†РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ СЃРµСЃС–С—
+- serverName NVARCHAR - РќР°Р·РІР° СЃРµСЂРІРµСЂР°
+- loginName NVARCHAR - Р†Рј'СЏ РєРѕСЂРёСЃС‚СѓРІР°С‡Р° РґР»СЏ РІС…РѕРґСѓ
+- userName NVARCHAR - Р†Рј'СЏ РєРѕСЂРёСЃС‚СѓРІР°С‡Р°
+- roleName NVARCHAR - РќР°Р·РІР° СЂРѕР»С–
+- databaseName NVARCHAR - РќР°Р·РІР° Р±Р°Р·Рё РґР°РЅРёС…
+- schemaName NVARCHAR - РќР°Р·РІР° СЃС…РµРјРё
+- objectName NVARCHAR - РќР°Р·РІР° РѕР±'С”РєС‚Р°
+- objectType NVARCHAR - РўРёРї РѕР±'С”РєС‚Р°
+- loginType NVARCHAR - РўРёРї РІС…РѕРґСѓ
+- targetObjectName NVARCHAR - РќР°Р·РІР° С†С–Р»СЊРѕРІРѕРіРѕ РѕР±'С”РєС‚Р°
+- targetObjectType NVARCHAR - РўРёРї С†С–Р»СЊРѕРІРѕРіРѕ РѕР±'С”РєС‚Р°
+- propertyName NVARCHAR - РќР°Р·РІР° РІР»Р°СЃС‚РёРІРѕСЃС‚С–
+- propertyValue NVARCHAR - Р—РЅР°С‡РµРЅРЅСЏ РІР»Р°СЃС‚РёРІРѕСЃС‚С–
+- parameters NVARCHAR - РџР°СЂР°РјРµС‚СЂРё
+- tsql_command NVARCHAR - T-SQL РєРѕРјР°РЅРґР°
 
 # Usage
--- Отримати всю історію змін таблиці
+-- РћС‚СЂРёРјР°С‚Рё РІСЃСЋ С–СЃС‚РѕСЂС–СЋ Р·РјС–РЅ С‚Р°Р±Р»РёС†С–
 SELECT * FROM util.objectGetHistory('myTable', NULL);
 
--- Отримати історію змін за останню добу
+-- РћС‚СЂРёРјР°С‚Рё С–СЃС‚РѕСЂС–СЋ Р·РјС–РЅ Р·Р° РѕСЃС‚Р°РЅРЅСЋ РґРѕР±Сѓ
 SELECT * FROM util.objectGetHistory('myTable', DATEADD(day, -1, GETDATE()));
 */
 CREATE OR ALTER FUNCTION util.objectGetHistory(@object NVARCHAR(128), @startTime DATETIME2 = NULL)

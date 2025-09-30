@@ -12,3 +12,9 @@
 /utils.sqlproj
 
 .vscode/settings.json
+
+# Test artifacts (keep test files but ignore test results)
+/Tests/Results/
+/Tests/Logs/
+/Tests/**/*.log
+/Tests/**/*.tmp

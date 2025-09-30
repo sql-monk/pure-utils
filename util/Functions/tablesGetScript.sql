@@ -1,24 +1,29 @@
+
 /*
 # Description
-Р“РµРЅРµСЂСѓС” РїРѕРІРЅРёР№ DDL СЃРєСЂРёРїС‚ РґР»СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ С‚Р°Р±Р»РёС†С–, РІРєР»СЋС‡Р°СЋС‡Рё РєРѕР»РѕРЅРєРё, С‚РёРїРё РґР°РЅРёС…, РѕР±РјРµР¶РµРЅРЅСЏ С‚Р° С–РЅРґРµРєСЃРё.
+Генерує повний DDL скрипт для створення таблиці, включаючи колонки, типи даних, обмеження та індекси.
 
 # Parameters
-@table NVARCHAR(128) = NULL - РЅР°Р·РІР° С‚Р°Р±Р»РёС†С– РґР»СЏ РіРµРЅРµСЂР°С†С–С— СЃРєСЂРёРїС‚Р° (NULL = СѓСЃС– С‚Р°Р±Р»РёС†С–)
+@table NVARCHAR(128) = NULL - назва таблиці для генерації скрипта (NULL = усі таблиці)
+@newName NVARCHAR(128) = NULL - нова назва таблиці в скрипті (NULL = використовувати оригінальну назву)
 
 # Returns
-TABLE - РџРѕРІРµСЂС‚Р°С” С‚Р°Р±Р»РёС†СЋ Р· РєРѕР»РѕРЅРєР°РјРё:
-- SchemaName NVARCHAR(128) - РЅР°Р·РІР° СЃС…РµРјРё
-- TableName NVARCHAR(128) - РЅР°Р·РІР° С‚Р°Р±Р»РёС†С–
-- CreateScript NVARCHAR(MAX) - РїРѕРІРЅРёР№ DDL СЃРєСЂРёРїС‚ РґР»СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ С‚Р°Р±Р»РёС†С–
+TABLE - Повертає таблицю з колонками:
+- SchemaName NVARCHAR(128) - назва схеми
+- TableName NVARCHAR(128) - назва таблиці
+- CreateScript NVARCHAR(MAX) - повний DDL скрипт для створення таблиці
 
 # Usage
--- Р—РіРµРЅРµСЂСѓРІР°С‚Рё СЃРєСЂРёРїС‚ РґР»СЏ РєРѕРЅРєСЂРµС‚РЅРѕС— С‚Р°Р±Р»РёС†С–
-SELECT * FROM util.tablesGetScript('myTable');
+-- Згенерувати скрипт для конкретної таблиці
+SELECT * FROM util.tablesGetScript('myTable', NULL);
 
--- Р—РіРµРЅРµСЂСѓРІР°С‚Рё СЃРєСЂРёРїС‚Рё РґР»СЏ РІСЃС–С… С‚Р°Р±Р»РёС†СЊ
-SELECT * FROM util.tablesGetScript(NULL);
+-- Згенерувати скрипт з новою назвою таблиці
+SELECT * FROM util.tablesGetScript('myTable', 'myNewTable');
+
+-- Згенерувати скрипти для всіх таблиць
+SELECT * FROM util.tablesGetScript(NULL, NULL);
 */
-CREATE OR ALTER FUNCTION util.tablesGetScript(@table NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.tablesGetScript(@table NVARCHAR(128) = NULL, @newName NVARCHAR(128) = NULL)
 RETURNS TABLE
 AS
 RETURN(
@@ -126,7 +131,7 @@ RETURN(
 	)
 	SELECT
 		util.metadataGetObjectName(ti.object_id) tableName,
-		'CREATE TABLE ' + QUOTENAME(ti.SchemaName) + '.' + QUOTENAME(ti.TableName) + ' (' + CHAR(13) + CHAR(10)
+		'CREATE TABLE ' + QUOTENAME(ti.SchemaName) + '.' + QUOTENAME(ISNULL(@newName, ti.TableName)) + ' (' + CHAR(13) + CHAR(10)
 		+ STRING_AGG(
 				'    ' + QUOTENAME(ci.ColumnName) + ' '
 				+ CASE
@@ -146,13 +151,13 @@ RETURN(
 			) WITHIN GROUP(ORDER BY ci.column_id)
 		+ CASE
 				WHEN pki.KeyColumns IS NOT NULL THEN
-					',' + CHAR(13) + CHAR(10) + '    CONSTRAINT ' + QUOTENAME(pki.ConstraintName) + ' PRIMARY KEY (' + pki.KeyColumns + ')'
+					',' + CHAR(13) + CHAR(10) + '    CONSTRAINT ' + QUOTENAME(CASE WHEN @newName IS NOT NULL THEN REPLACE(pki.ConstraintName, ti.TableName, @newName) ELSE pki.ConstraintName END) + ' PRIMARY KEY (' + pki.KeyColumns + ')'
 				ELSE ''
 			END + CASE
-							WHEN fki.ForeignKeyConstraints IS NOT NULL THEN ',' + CHAR(13) + CHAR(10) + '    ' + fki.ForeignKeyConstraints
+							WHEN fki.ForeignKeyConstraints IS NOT NULL THEN ',' + CHAR(13) + CHAR(10) + '    ' + CASE WHEN @newName IS NOT NULL THEN REPLACE(fki.ForeignKeyConstraints, ti.TableName, @newName) ELSE fki.ForeignKeyConstraints END
 							ELSE ''
 						END + CASE
-										WHEN cci.CheckConstraints IS NOT NULL THEN ',' + CHAR(13) + CHAR(10) + '    ' + cci.CheckConstraints
+										WHEN cci.CheckConstraints IS NOT NULL THEN ',' + CHAR(13) + CHAR(10) + '    ' + CASE WHEN @newName IS NOT NULL THEN REPLACE(cci.CheckConstraints, ti.TableName, @newName) ELSE cci.CheckConstraints END
 										ELSE ''
 									END + CHAR(13) + CHAR(10) + ');' statement
 	FROM TableInfo ti

@@ -79,7 +79,7 @@ BEGIN
 		TaskTime,
 		FileName,
 		FileOffset
-	FROM util.xeReadFileModules(@scope, DEFAULT);
+	FROM util.xeGetModules(@scope, DEFAULT);
 
 	INSERT
 		util.executionSqlText

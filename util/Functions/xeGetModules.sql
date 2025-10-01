@@ -65,7 +65,7 @@ RETURN(
 			x.event_data.value('(event/action[@name="client_app_name"]/value)[1]', 'NVARCHAR(256)') ClientAppName,
 			x.event_data.value('(event/action[@name="server_principal_name"]/value)[1]', 'NVARCHAR(128)') ServerPrincipalName,
 			x.event_data.value('(event/action[@name="sql_text"]/value)[1]', 'NVARCHAR(MAX)') SqlText,
-			x.event_data.value('(event/action[@name="plan_handle"]/value)[1]', 'VARBINARY(64)') PlanHandle,
+			CONVERT(VARBINARY(MAX), x.event_data.value('(event/action[@name="plan_handle"]/value)[1]', 'VARCHAR(MAX)'), 2) PlanHandle,
 			x.event_data.value('(event/action[@name="task_time"]/value)[1]', 'BIGINT') TaskTime,
 			x.file_name FileName,
 			x.file_offset FileOffset

@@ -31,20 +31,14 @@ CREATE OR ALTER FUNCTION util.modulesSplitToLines(@object NVARCHAR(128), @skipEm
 RETURNS TABLE
 AS
 RETURN(
-	WITH cteLines AS (
-		SELECT
-			sm.object_id objectId,
-			TRIM(REPLACE(line.value, CHAR(9), ' ')) line,
-			line.ordinal
-		FROM sys.sql_modules sm
-			CROSS APPLY STRING_SPLIT(REPLACE(sm.definition, CHAR(13), CHAR(10)), CHAR(10), 1) line
-		WHERE(@object IS NULL OR sm.object_id = ISNULL(TRY_CONVERT(INT, @object), OBJECT_ID(@object)))
-	)
 	SELECT
-		cteLines.objectId,
-		cteLines.line,
-		cteLines.ordinal lineNumber
-	FROM cteLines
-	WHERE(@skipEmpty = 0 OR LEN(cteLines.line) > 0)
+		m.object_id objectId,
+		l.line,
+		l.lineNumber
+	FROM sys.sql_modules m
+		CROSS APPLY util.stringSplitToLines(m.definition, @skipEmpty) l
+	WHERE(
+		@object IS NULL OR m.object_id = ISNULL(TRY_CONVERT(INT, @object), OBJECT_ID(@object))
+	)
 );
 

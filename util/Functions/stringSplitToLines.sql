@@ -16,6 +16,9 @@ CREATE OR ALTER FUNCTION util.stringSplitToLines(@string NVARCHAR(MAX), @skipEmp
 RETURNS TABLE
 AS
 RETURN(
-	WITH cteLines AS (SELECT TRIM(REPLACE(line.value, CHAR(9), ' ')) line, line.ordinal FROM STRING_SPLIT(REPLACE(@string, CHAR(13), CHAR(10)), CHAR(10), 1) line)
-	SELECT cteLines.line, cteLines.ordinal lineNumber FROM cteLines WHERE(@skipEmpty = 0 OR LEN(cteLines.line) > 0)
+	SELECT
+		value line,
+		ordinal lineNumber
+	FROM STRING_SPLIT(REPLACE(REPLACE(@string, CHAR(13) + CHAR(10), CHAR(10)), CHAR(13), CHAR(10)), CHAR(10), 1)
+	WHERE(@skipEmpty = 1 AND LEN(TRIM(value)) > 0)
 );

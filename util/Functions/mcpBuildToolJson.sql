@@ -11,16 +11,17 @@ BEGIN
     -- Description вже екранований через STRING_ESCAPE в ToolsList
     DECLARE @descriptionJson NVARCHAR(MAX) = CASE 
         WHEN @description IS NOT NULL THEN CONCAT('"', @description, '"')
-        ELSE 'null'
+        ELSE '""'
     END;
     
     -- Екрануємо імена схеми та об'єкта
-    DECLARE @escapedSchema NVARCHAR(256) = STRING_ESCAPE(@schemaName, 'json');
-    DECLARE @escapedObject NVARCHAR(256) = STRING_ESCAPE(@objectName, 'json');
+    -- Для імен використовуємо лише допустимі символи (букви, цифри, _, -)
+    DECLARE @escapedSchema NVARCHAR(256) = @schemaName;
+    DECLARE @escapedObject NVARCHAR(256) = @objectName;
 
     RETURN CONCAT(
         '{',
-            '"name":"', @escapedSchema, '.', @escapedObject, '",',
+            '"name":"', @escapedObject, '",',
             '"description":', @descriptionJson, ',',
             '"inputSchema":{',
                 '"type":"object",',

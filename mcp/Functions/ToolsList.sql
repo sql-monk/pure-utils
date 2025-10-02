@@ -12,7 +12,7 @@ BEGIN
 			OBJECT_SCHEMA_NAME(m.object_id) SchemaName,
 			OBJECT_NAME(m.object_id) ObjectName
 		FROM sys.sql_modules m
-		WHERE OBJECT_SCHEMA_NAME(m.object_id) = 'util' AND m.definition LIKE '/*%'
+		WHERE OBJECT_SCHEMA_NAME(m.object_id) = 'mcp' --AND m.definition LIKE '/*%'
 	),
 
 	-- Крок 2: Отримуємо описи об'єктів

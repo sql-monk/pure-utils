@@ -84,12 +84,10 @@ public class PureMcpServer
 
             try
             {
-                Console.Error.WriteLine($" request: {line}");
                 
                 var request = JsonSerializer.Deserialize(line, JsonContext.Default.JsonRpcRequest);
                 if (request == null) continue;
 
-                // ���������� ����������� (�� ����� id)
                 if (!request.Id.HasValue || request.Id.Value.ValueKind == JsonValueKind.Null)
                 {
                     Console.Error.WriteLine($"notification: {request.Method}");
@@ -118,22 +116,23 @@ public class PureMcpServer
             switch (request.Method)
             {
                 case "initialize":
+                    var initResult = new Dictionary<string, object>
+                    {
+                        ["protocolVersion"] = "2024-11-05",
+                        ["serverInfo"] = new Dictionary<string, object>
+                        {
+                            ["name"] = "mcp-sqlserver-dynamic",
+                            ["version"] = "2.0.0"
+                        },
+                        ["capabilities"] = new Dictionary<string, object>
+                        {
+                            ["tools"] = new Dictionary<string, object>()
+                        }
+                    };
                     return new JsonRpcResponse 
                     { 
                         Id = request.Id,
-                        Result = new
-                        {
-                            protocolVersion = "2024-11-05",
-                            serverInfo = new
-                            {
-                                name = "mcp-sqlserver-dynamic",
-                                version = "2.0.0"
-                            },
-                            capabilities = new
-                            {
-                                tools = new { }
-                            }
-                        }
+                        Result = initResult
                     };
 
                 case "tools/list":
@@ -206,11 +205,9 @@ public class PureMcpServer
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        // ��������� ��������� � ����� mcp
         using var command = new SqlCommand($"mcp.{toolName}", connection);
         command.CommandType = CommandType.StoredProcedure;
 
-        // ������ ��������� � arguments
         if (paramsElement.Value.TryGetProperty("arguments", out var args) && args.ValueKind == JsonValueKind.Object)
         {
             foreach (var prop in args.EnumerateObject())
@@ -229,7 +226,6 @@ public class PureMcpServer
             }
         }
 
-        // �������� � ������ ��������� (������� SELECT '{...}' as result)
         using var reader = await command.ExecuteReaderAsync();
         
         string jsonString = "{}";
@@ -243,7 +239,7 @@ public class PureMcpServer
     }
 }
 
-// JSON-RPC �����
+// JSON-RPC ?????
 public class JsonRpcRequest
 {
     public string Jsonrpc { get; set; } = "2.0";

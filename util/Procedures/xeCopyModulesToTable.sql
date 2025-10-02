@@ -49,7 +49,7 @@ BEGIN
 		FileOffset BIGINT NOT NULL
 	)
 	WITH (DATA_COMPRESSION = PAGE);
-	
+
 	CREATE INDEX ix_eventTime ON #xEvents(EventTime DESC)INCLUDE(FileName, FileOffset)WITH(DATA_COMPRESSION = PAGE);
 
 	INSERT
@@ -91,13 +91,25 @@ BEGIN
 		SELECT * FROM util.executionSqlText t WHERE t.sqlHash = st.SqlTextHash
 	);
 
+	INSERT util.executionPlanHandleHash (planHandle, planHash)
+	SELECT DISTINCT
+		e.planHandle,
+		qs.query_plan_hash
+	FROM #xEvents e
+		JOIN sys.dm_exec_query_stats qs ON qs.plan_handle = e.planHandle
+	WHERE NOT EXISTS (
+		SELECT * FROM util.executionPlanHandleHash ephh WHERE ephh.planHandle = e.planHandle AND ephh.planHash = qs.query_plan_hash
+	);
+
 	DELETE FROM util.xeOffsets WHERE sessionName = 'utilsModules' + @scope;
-	
+
 	INSERT
 		util.xeOffsets(sessionName, LastEventTime, LastFileName, LastOffset)
 	SELECT TOP(1)'utilsModules' + @scope, EventTime, FileName, FileOffset FROM #xEvents ORDER BY EventTime DESC;
 
-	DECLARE @cmd NVARCHAR(MAX) = N'INSERT INTO util.executionModules' + @scope 	+ N'(EventName,
+	DECLARE @cmd NVARCHAR(MAX)
+		= N'INSERT INTO util.executionModules' + @scope
+			+ N'(EventName,
 	EventTime,
 	hb,
 	ObjectName,
@@ -143,7 +155,7 @@ SELECT
 	PlanHandle,
 	TaskTime
 FROM #xEvents xe
-WHERE NOT EXISTS (SELECT * FROM util.executionModules' + @scope + ' u WHERE u.EventTime = xe.EventTime AND u.EventName = xe.EventName AND u.hb = xe.hb);';
+WHERE NOT EXISTS (SELECT * FROM util.executionModules' + @scope + N' u WHERE u.EventTime = xe.EventTime AND u.EventName = xe.EventName AND u.hb = xe.hb);';
 
 	EXEC sys.sp_executesql @cmd;
 END;

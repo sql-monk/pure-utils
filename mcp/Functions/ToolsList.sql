@@ -15,9 +15,15 @@ BEGIN
 		WHERE OBJECT_SCHEMA_NAME(m.object_id) = 'mcp' --AND m.definition LIKE '/*%'
 	),
 
-	-- Крок 2: Отримуємо описи об'єктів
+	-- Крок 2: Отримуємо описи об'єктів (беремо тільки перший опис)
 	ObjectDescriptions AS (
-		SELECT o.object_id, STRING_ESCAPE(d.description, 'json') Description FROM UtilObjects o CROSS APPLY util.metadataGetDescriptions(o.object_id, DEFAULT) d
+		SELECT 
+			o.object_id, 
+			STRING_ESCAPE((
+				SELECT TOP 1 d.description 
+				FROM util.metadataGetDescriptions(o.object_id, DEFAULT) d
+			), 'json') AS Description 
+		FROM UtilObjects o
 	),
 
 	-- Крок 3: Збираємо всі параметри
@@ -79,7 +85,7 @@ BEGIN
 
 	-- Крок 6: Збираємо фінальний JSON для кожного tool
 	ToolsJson AS (
-		SELECT
+		SELECT DISTINCT
 			o.object_id,
 			util.mcpBuildToolJson(o.SchemaName, o.ObjectName, od.Description, pp.PropertiesJson, rp.RequiredJson) ToolJson
 		FROM UtilObjects o
@@ -88,10 +94,12 @@ BEGIN
 			LEFT JOIN RequiredParameters rp ON rp.object_id = o.object_id
 	)
 
-	-- Фінальна агрегація
+	-- Фінальна агрегація (з дедуплікацією)
 	SELECT @tools = CONCAT('[',
 										STUFF((
-			SELECT CONCAT(',', t.ToolJson)FROM ToolsJson t ORDER BY t.object_id FOR XML PATH(''), TYPE
+			SELECT DISTINCT CONCAT(',', t.ToolJson)
+			FROM ToolsJson t 
+			FOR XML PATH(''), TYPE
 		)											.value('.', 'nvarchar(max)'),
 											1,
 											1,

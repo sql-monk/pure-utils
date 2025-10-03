@@ -1,26 +1,26 @@
 
 /*
 # Description
-Генерує повний DDL скрипт для створення таблиці, включаючи колонки, типи даних, обмеження та індекси.
+Р“РµРЅРµСЂСѓС” РїРѕРІРЅРёР№ DDL СЃРєСЂРёРїС‚ РґР»СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ С‚Р°Р±Р»РёС†С–, РІРєР»СЋС‡Р°СЋС‡Рё РєРѕР»РѕРЅРєРё, С‚РёРїРё РґР°РЅРёС…, РѕР±РјРµР¶РµРЅРЅСЏ С‚Р° С–РЅРґРµРєСЃРё.
 
 # Parameters
-@table NVARCHAR(128) = NULL - назва таблиці для генерації скрипта (NULL = усі таблиці)
-@newName NVARCHAR(128) = NULL - нова назва таблиці в скрипті (NULL = використовувати оригінальну назву)
+@table NVARCHAR(128) = NULL - РЅР°Р·РІР° С‚Р°Р±Р»РёС†С– РґР»СЏ РіРµРЅРµСЂР°С†С–С— СЃРєСЂРёРїС‚Р° (NULL = СѓСЃС– С‚Р°Р±Р»РёС†С–)
+@newName NVARCHAR(128) = NULL - РЅРѕРІР° РЅР°Р·РІР° С‚Р°Р±Р»РёС†С– РІ СЃРєСЂРёРїС‚С– (NULL = РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё РѕСЂРёРіС–РЅР°Р»СЊРЅСѓ РЅР°Р·РІСѓ)
 
 # Returns
-TABLE - Повертає таблицю з колонками:
-- SchemaName NVARCHAR(128) - назва схеми
-- TableName NVARCHAR(128) - назва таблиці
-- CreateScript NVARCHAR(MAX) - повний DDL скрипт для створення таблиці
+TABLE - РџРѕРІРµСЂС‚Р°С” С‚Р°Р±Р»РёС†СЋ Р· РєРѕР»РѕРЅРєР°РјРё:
+- SchemaName NVARCHAR(128) - РЅР°Р·РІР° СЃС…РµРјРё
+- TableName NVARCHAR(128) - РЅР°Р·РІР° С‚Р°Р±Р»РёС†С–
+- CreateScript NVARCHAR(MAX) - РїРѕРІРЅРёР№ DDL СЃРєСЂРёРїС‚ РґР»СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ С‚Р°Р±Р»РёС†С–
 
 # Usage
--- Згенерувати скрипт для конкретної таблиці
+-- Р—РіРµРЅРµСЂСѓРІР°С‚Рё СЃРєСЂРёРїС‚ РґР»СЏ РєРѕРЅРєСЂРµС‚РЅРѕС— С‚Р°Р±Р»РёС†С–
 SELECT * FROM util.tablesGetScript('myTable', NULL);
 
--- Згенерувати скрипт з новою назвою таблиці
+-- Р—РіРµРЅРµСЂСѓРІР°С‚Рё СЃРєСЂРёРїС‚ Р· РЅРѕРІРѕСЋ РЅР°Р·РІРѕСЋ С‚Р°Р±Р»РёС†С–
 SELECT * FROM util.tablesGetScript('myTable', 'myNewTable');
 
--- Згенерувати скрипти для всіх таблиць
+-- Р—РіРµРЅРµСЂСѓРІР°С‚Рё СЃРєСЂРёРїС‚Рё РґР»СЏ РІСЃС–С… С‚Р°Р±Р»РёС†СЊ
 SELECT * FROM util.tablesGetScript(NULL, NULL);
 */
 CREATE OR ALTER FUNCTION util.tablesGetScript(@table NVARCHAR(128) = NULL, @newName NVARCHAR(128) = NULL)
@@ -159,7 +159,7 @@ RETURN(
 						END + CASE
 										WHEN cci.CheckConstraints IS NOT NULL THEN ',' + CHAR(13) + CHAR(10) + '    ' + CASE WHEN @newName IS NOT NULL THEN REPLACE(cci.CheckConstraints, ti.TableName, @newName) ELSE cci.CheckConstraints END
 										ELSE ''
-									END + CHAR(13) + CHAR(10) + ');' statement
+									END + CHAR(13) + CHAR(10) + ');' createScript
 	FROM TableInfo ti
 		INNER JOIN ColumnInfo ci ON ti.object_id = ci.object_id
 		LEFT JOIN PrimaryKeyInfo pki ON ti.object_id = pki.object_id

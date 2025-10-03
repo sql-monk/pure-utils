@@ -29,7 +29,7 @@ BEGIN
 												 WHEN @minorId = 0 THEN util.metadataGetObjectName(@majorId)
 												 ELSE CONCAT(util.metadataGetObjectName(@majorId), '.', util.metadataGetColumnName(@majorId, @minorId))
 											 END
-					 WHEN 2 THEN CONCAT(util.metadataGetObjectName(@majorId), ' (', util.metadataGetParameterName(@majorId, @minorId), ')')
+					 WHEN 2 THEN  util.metadataGetParameterName(@majorId, @minorId)
 					 WHEN 3 THEN QUOTENAME(SCHEMA_NAME(@majorId))
 					 WHEN 4 THEN QUOTENAME(USER_NAME(@majorId))
 					 WHEN 7 THEN CONCAT(util.metadataGetObjectName(@majorId), '.', util.metadataGetIndexName(@majorId, @minorId))

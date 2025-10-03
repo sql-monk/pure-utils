@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    Розгортає об'єкти зі схеми util з автоматичним вирішенням залежностей.
+    Розгортає об'єкти зі схем util або mcp з автоматичним вирішенням залежностей.
 
 .DESCRIPTION
-    Скрипт шукає SQL файли об'єктів схеми util, аналізує їх залежності від інших об'єктів util,
+    Скрипт шукає SQL файли об'єктів схем util/mcp, аналізує їх залежності від інших об'єктів,
     і розгортає їх у правильному порядку (спочатку залежності, потім сам об'єкт).
 
 .PARAMETER Server
@@ -12,21 +12,27 @@
 .PARAMETER Database
     Ім'я бази даних
 
-.PARAMETER Utils
-    Ім'я об'єкту в схемі util для розгортання, маска для пошуку, або масив імен.
+.PARAMETER Schema
+    Схема для розгортання ('util' або 'mcp'). За замовчуванням 'util'.
+
+.PARAMETER Objects
+    Ім'я об'єкту для розгортання, маска для пошуку, або масив імен.
     Приклади: 
     - "mcpBuildParameterJson" - конкретний об'єкт
     - "mcp*" - всі об'єкти що починаються з "mcp"
     - @("mcpBuildParameterJson", "mcpMapSqlTypeToJsonType") - масив об'єктів
 
 .EXAMPLE
-    .\deployUtil.ps1 -Server "localhost" -Database "master" -Utils "mcpBuildParameterJson"
+    .\deployUtil.ps1 -Server "localhost" -Database "master" -Schema "util" -Objects "mcpBuildParameterJson"
     
 .EXAMPLE
-    .\deployUtil.ps1 -Server "localhost" -Database "master" -Utils "mcp*"
+    .\deployUtil.ps1 -Server "localhost" -Database "master" -Schema "mcp" -Objects "GetTables"
     
 .EXAMPLE
-    .\deployUtil.ps1 -Server "localhost" -Database "master" -Utils @("mcpBuildParameterJson", "mcpMapSqlTypeToJsonType")
+    .\deployUtil.ps1 -Server "localhost" -Database "master" -Schema "util" -Objects "mcp*"
+    
+.EXAMPLE
+    .\deployUtil.ps1 -Server "localhost" -Database "master" -Schema "mcp" -Objects @("GetTables", "GetDatabases")
 #>
 
 [CmdletBinding()]
@@ -37,8 +43,12 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$Database,
     
+    [Parameter(Mandatory = $false)]
+    [ValidateSet('util', 'mcp')]
+    [string]$Schema = 'util',
+    
     [Parameter(Mandatory = $true)]
-    [object]$Utils
+    [object]$Objects
 )
 
 # Перевірка наявності модуля dbatools
@@ -51,11 +61,11 @@ Import-Module dbatools
 
 # Отримуємо шлях до кореневої директорії проекту (де знаходиться скрипт)
 $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
-$utilPath = Join-Path $scriptRoot "util"
+$schemaPath = Join-Path $scriptRoot $Schema
 
-# Перевірка існування директорії util
-if (-not (Test-Path $utilPath)) {
-    Write-Error "Директорія util не знайдена: $utilPath"
+# Перевірка існування директорії схемиФ
+if (-not (Test-Path $schemaPath)) {
+    Write-Error "Директорія схеми '$Schema' не знайдена: $schemaPath"
     exit 1
 }
 
@@ -71,12 +81,12 @@ function Find-ObjectFile {
         [string]$ObjectName
     )
     
-    # Шукаємо файл у всіх підпапках util (Functions, Procedures, Tables, Views)
+    # Шукаємо файл у всіх підпапках обраної схеми (Functions, Procedures, Tables, Views)
     $possiblePaths = @(
-        Join-Path $utilPath "Functions\$ObjectName.sql"
-        Join-Path $utilPath "Procedures\$ObjectName.sql"
-        Join-Path $utilPath "Tables\$ObjectName.sql"
-        Join-Path $utilPath "Views\$ObjectName.sql"
+        Join-Path $schemaPath "Functions\$ObjectName.sql"
+        Join-Path $schemaPath "Procedures\$ObjectName.sql"
+        Join-Path $schФemaPath "Tables\$ObjectName.sql"
+        Join-Path $schemaPath "Views\$ObjectName.sql"
     )
     
     foreach ($path in $possiblePaths) {
@@ -90,18 +100,22 @@ function Find-ObjectFile {
 
 <#
 .SYNOPSIS
-    Витягує залежності від об'єктів util з SQL коду
+    Витягує залежності від об'єктів util або mcp з SQL коду
 #>
-function Get-UtilDependencies {
+function Get-SchemaDependencies {
     param(
         [string]$SqlContent
     )
     
     $dependencies = @()
     
-    # Регулярний вираз для пошуку посилань на util.ObjectName
-    # Підтримує варіанти: util.Object, [util].Object, util.[Object], [util].[Object]
-    $pattern = '\[?util\]?\.(\[?[A-Za-z_][A-Za-z0-9_]*\]?)'
+    # Регулярний вираз для пошуку посилань на schema.ObjectName
+    # Підтримує варіанти: 
+    # - util.Object, [util].Object, util.[Object], [util].[Object]
+    # - mcp.Object, [mcp].Object, mcp.[Object], [mcp].[Object]
+    # - db.util.Object, [db].util.Object та інші комбінації
+    $schemaPattern = "\\[?$Schema\\]?"
+    $pattern = "(?:\\[?[A-Za-z_][A-Za-z0-9_]*\\]?\\.)?$schemaPattern\\.(\\[?[A-Za-z_][A-Za-z0-9_]*\\]?)"
     
     $depMatches = [regex]::Matches($SqlContent, $pattern, [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
     
@@ -148,7 +162,7 @@ function Get-ObjectWithDependencies {
     $content = Get-Content -Path $objectFile -Raw -Encoding UTF8
     
     # Витягуємо залежності
-    $dependencies = Get-UtilDependencies -SqlContent $content
+    $dependencies = Get-SchemaDependencies -SqlContent $content
     
     if ($dependencies.Count -gt 0) {
         Write-Verbose ("$('  ' * $Depth)Знайдено залежності: " + ($dependencies -join ", "))
@@ -188,32 +202,32 @@ function Get-ObjectFiles {
     
     $objectNames = @()
     
-    if ($Utils -is [array]) {
+    if ($Objects -is [array]) {
         # Якщо передано масив імен
-        $objectNames = $Utils
+        $objectNames = $Objects
     }
-    elseif ($Utils -like "*`**" -or $Utils -like "*?*") {
+    elseif ($Objects -like "*`**" -or $Objects -like "*?*") {
         # Якщо передано маску (містить * або ?)
-        Write-Verbose "Пошук файлів за маскою: $Utils"
+        Write-Verbose "Пошук файлів за маскою: $Objects"
         
-        $allFiles = Get-ChildItem -Path $utilPath -Recurse -Filter "*.sql" | Where-Object { 
+        $allFiles = Get-ChildItem -Path $schemaPath -Recurse -Filter "*.sql" | Where-Object { 
             $_.Directory.Name -in @('Functions', 'Procedures', 'Tables', 'Views') 
         }
         
         foreach ($file in $allFiles) {
             $name = $file.BaseName
-            if ($name -like $Utils) {
+            if ($name -like $Objects) {
                 $objectNames += $name
             }
         }
         
         if ($objectNames.Count -eq 0) {
-            Write-Warning "Не знайдено файлів за маскою: $Utils"
+            Write-Warning "Не знайдено файлів за маскою: $Objects"
         }
     }
     else {
         # Якщо передано одне ім'я
-        $objectNames = @($Utils)
+        $objectNames = @($Objects)
     }
     
     return $objectNames
@@ -221,29 +235,26 @@ function Get-ObjectFiles {
 
 # Основна логіка
 try {
-    Write-Host "=== Розгортання об'єктів util ===" -ForegroundColor Cyan
+    Write-Host "Розгортання об'єктів схеми $Schema" -ForegroundColor DarkGreen
     Write-Host "Сервер: $Server" -ForegroundColor Gray
     Write-Host "База даних: $Database" -ForegroundColor Gray
-    Write-Host "Об'єкти: $Utils" -ForegroundColor Gray
+    Write-Host "Схема: $Schema" -ForegroundColor Gray
+    Write-Host "Об'єкти: $Objects" -ForegroundColor Gray
     Write-Host ""
     
     # Отримуємо список об'єктів для розгортання
-    $objectsToProcess = Get-ObjectFiles -Utils $Utils
+    $objectsToProcess = Get-ObjectFiles -Utils $Objects
     
     if ($objectsToProcess.Count -eq 0) {
         Write-Error "Не знайдено об'єктів для розгортання"
         exit 1
     }
-    
-    Write-Host "Знайдено об'єктів: $($objectsToProcess.Count)" -ForegroundColor Green
-    Write-Host ($objectsToProcess -join ", ") -ForegroundColor Gray
-    Write-Host ""
+     
     
     # Збираємо SQL для всіх об'єктів
     $finalSql = ""
     
     foreach ($objName in $objectsToProcess) {
-        Write-Host "Збір залежностей для: $objName" -ForegroundColor Yellow
         
         $sql = Get-ObjectWithDependencies -ObjectName $objName
         
@@ -258,21 +269,15 @@ try {
         exit 1
     }
     
-    Write-Host ""
-    Write-Host "=== Розгортання на сервер ===" -ForegroundColor Cyan
-    Write-Host "Кількість символів SQL: $($finalSql.Length)" -ForegroundColor Gray
-    Write-Host ""
     
     # Виконуємо SQL
     try {
         $result = Invoke-DbaQuery -SqlInstance $Server -Database $Database -Query $finalSql -EnableException
-        Write-Host "✓ Розгортання успішно завершено!" -ForegroundColor Green
-        
+     
         # Виводимо інформацію про розгорнуті об'єкти
-        Write-Host ""
-        Write-Host "Розгорнуто об'єктів: $($processedObjects.Count)" -ForegroundColor Green
+        Write-Host "Розгорнуто об'єктів: $($processedObjects.Count)" -ForegroundColor Cyan
         foreach ($obj in $processedObjects.Keys | Sort-Object) {
-            Write-Host "  ✓ $obj" -ForegroundColor Gray
+            Write-Host " - $obj" -ForegroundColor Gray
         }
     }
     catch {
@@ -286,6 +291,10 @@ try {
         
         exit 1
     }
+    Write-Host ""
+    Write-Host "#########################################################" -ForegroundColor DarkGray
+    Write-Host ""
+
 }
 catch {
     Write-Error "Критична помилка: $_"

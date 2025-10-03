@@ -19,30 +19,35 @@ EXEC mcp.GetTables @database = 'utils';
 EXEC mcp.GetTables @database = 'utils', @filter = 'events%';
 */
 CREATE OR ALTER PROCEDURE mcp.GetTables
-    @database NVARCHAR(128),
-    @filter NVARCHAR(128) = NULL
+	@database NVARCHAR(128),
+	@filter NVARCHAR(128) = NULL
 AS
 BEGIN
-    SET NOCOUNT ON;
+	SET NOCOUNT ON;
+	IF(LEN(TRIM(@filter)) = 0)
+	BEGIN
+		SET @filter = NULL;
+	END;
+	DECLARE @tables NVARCHAR(MAX);
+	DECLARE @content NVARCHAR(MAX);
+	DECLARE @result NVARCHAR(MAX);
+	DECLARE @sql NVARCHAR(MAX);
 
-    DECLARE @tables NVARCHAR(MAX);
-    DECLARE @content NVARCHAR(MAX);
-    DECLARE @result NVARCHAR(MAX);
-    DECLARE @sql NVARCHAR(MAX);
-
-    -- Формуємо динамічний SQL для отримання таблиць з вказаної бази даних
-    SET @sql = N'
-    USE ' + QUOTENAME(@database) + N';
+	-- Формуємо динамічний SQL для отримання таблиць з вказаної бази даних
+	SET @sql
+		= N'
+    USE ' + QUOTENAME(@database)
+			+ N';
     
     SELECT @tables = (
         SELECT
-            SCHEMA_NAME(t.schema_id) AS schemaName,
-            t.name AS tableName,
-            t.object_id AS objectId,
-            CONVERT(VARCHAR(23), t.create_date, 126) AS createDate,
-            CONVERT(VARCHAR(23), t.modify_date, 126) AS modifyDate,
-            t.type_desc AS typeDesc,
-            SUM(p.rows) AS rowCount
+            SCHEMA_NAME(t.schema_id) schemaName,
+            t.name tableName,
+            t.object_id objectId,
+            CONVERT(VARCHAR(23), t.create_date, 126) createDate,
+            CONVERT(VARCHAR(23), t.modify_date, 126) modifyDate,
+            t.type_desc typeDesc,
+            SUM(p.rows) rowsCount
         FROM sys.tables t
             LEFT JOIN sys.partitions p ON t.object_id = p.object_id AND p.index_id IN (0, 1)
         WHERE t.is_ms_shipped = 0
@@ -60,20 +65,15 @@ BEGIN
         FOR JSON PATH
     );';
 
-    -- Виконуємо динамічний SQL
-    EXEC sp_executesql @sql, N'@tables NVARCHAR(MAX) OUTPUT, @filter NVARCHAR(128)', @tables = @tables OUTPUT, @filter = @filter;
+	-- Виконуємо динамічний SQL
+	EXEC sys.sp_executesql @sql, N'@tables NVARCHAR(MAX) OUTPUT, @filter NVARCHAR(128)', @tables = @tables OUTPUT, @filter = @filter;
 
-    -- Формуємо масив content з одним елементом типу text
-    SELECT @content = (
-        SELECT
-            'text' AS [type],
-            ISNULL(@tables, '[]') AS [text]
-        FOR JSON PATH
-    );
+	-- Формуємо масив content з одним елементом типу text
+	SELECT @content = (SELECT 'text' type, ISNULL(@tables, '[]') text FOR JSON PATH);
 
-    -- Обгортаємо у фінальну структуру MCP відповіді
-    SET @result = CONCAT('{"content":', @content, '}');
+	-- Обгортаємо у фінальну структуру MCP відповіді
+	SET @result = CONCAT('{"content":', @content, '}');
 
-    SELECT @result AS result;
+	SELECT @result result;
 END;
 GO

@@ -15,19 +15,26 @@ JSON string - валідна MCP відповідь з масивом content, �
 EXEC mcp.GetFunctions @database = 'utils';
 */
 CREATE OR ALTER PROCEDURE mcp.GetFunctions
-    @database NVARCHAR(128), @filter NVARCHAR(128) = NULL
+	@database NVARCHAR(128),
+	@filter NVARCHAR(128) = NULL
 AS
 BEGIN
-    SET NOCOUNT ON;
+	SET NOCOUNT ON;
+	IF(LEN(TRIM(@filter)) = 0)
+	BEGIN
+		SET @filter = NULL;
+	END;
 
-    DECLARE @functions NVARCHAR(MAX);
-    DECLARE @content NVARCHAR(MAX);
-    DECLARE @result NVARCHAR(MAX);
-    DECLARE @sql NVARCHAR(MAX);
+	DECLARE @functions NVARCHAR(MAX);
+	DECLARE @content NVARCHAR(MAX);
+	DECLARE @result NVARCHAR(MAX);
+	DECLARE @sql NVARCHAR(MAX);
 
-    -- Формуємо динамічний SQL для отримання функцій з вказаної бази даних
-    SET @sql = N'
-    USE ' + QUOTENAME(@database) + N';
+	-- Формуємо динамічний SQL для отримання функцій з вказаної бази даних
+	SET @sql
+		= N'
+    USE ' + QUOTENAME(@database)
+			+ N';
     
     SELECT @functions = (
         SELECT
@@ -56,20 +63,15 @@ BEGIN
         FOR JSON PATH
     );';
 
-    -- Виконуємо динамічний SQL
-    EXEC sp_executesql @sql, N'@functions NVARCHAR(MAX) OUTPUT', @functions = @functions OUTPUT;
+	-- Виконуємо динамічний SQL
+	EXEC sys.sp_executesql @sql, N'@filter nvarchar(128), @functions NVARCHAR(MAX) OUTPUT', @filter = @filter, @functions = @functions OUTPUT;
 
-    -- Формуємо масив content з одним елементом типу text
-    SELECT @content = (
-        SELECT
-            'text' AS [type],
-            ISNULL(@functions, '[]') AS [text]
-        FOR JSON PATH
-    );
+	-- Формуємо масив content з одним елементом типу text
+	SELECT @content = (SELECT 'text' type, ISNULL(@functions, '[]') text FOR JSON PATH);
 
-    -- Обгортаємо у фінальну структуру MCP відповіді
-    SET @result = CONCAT('{"content":', @content, '}');
+	-- Обгортаємо у фінальну структуру MCP відповіді
+	SET @result = CONCAT('{"content":', @content, '}');
 
-    SELECT @result AS result;
+	SELECT @result result;
 END;
 GO

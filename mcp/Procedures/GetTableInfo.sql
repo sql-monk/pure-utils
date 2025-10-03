@@ -45,7 +45,6 @@ BEGIN
     SET @sql = CONCAT(N'
     USE ', QUOTENAME(@database), N';
     
-    DECLARE @tableInfo NVARCHAR(MAX);
     
     -- Перевірка існування таблиці
     IF NOT EXISTS (
@@ -57,9 +56,8 @@ BEGIN
     BEGIN
         SET @tableInfo = (
             SELECT ''Table not found'' AS error
-            FOR JSON PATH
+            FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
         );
-        SELECT @tableInfo AS tableInfo;
         RETURN;
     END;
 
@@ -73,12 +71,12 @@ BEGIN
     DECLARE @name NVARCHAR(256);
     DECLARE @description NVARCHAR(MAX);
     DECLARE @createDate NVARCHAR(30);
-    DECLARE @rowCount BIGINT;
+    DECLARE @rowsCount BIGINT;
 
     SELECT 
         @name = CONCAT(s.name, ''.'', t.name),
         @createDate = CONVERT(VARCHAR(23), t.create_date, 126),
-        @rowCount = SUM(p.rows)
+        @rowsCount = SUM(p.rows)
     FROM sys.tables t
     INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
     LEFT JOIN sys.partitions p ON t.object_id = p.object_id AND p.index_id IN (0, 1)
@@ -123,23 +121,23 @@ BEGIN
     SELECT @indexes = (
         SELECT 
             i.name,
-            (
+            JSON_QUERY((
                 SELECT DISTINCT p.partition_number
                 FROM sys.partitions p
                 WHERE p.object_id = i.object_id AND p.index_id = i.index_id
                 FOR JSON PATH
-            ) AS partitions,
-            (
+            )) partitions,
+            JSON_QUERY((
                 SELECT TOP 1 
-                    CAST(SUM(a.total_pages) * 8 / 1024.0 AS DECIMAL(10, 2)) AS totalSpaceMB,
-                    CAST(SUM(a.used_pages) * 8 / 1024.0 AS DECIMAL(10, 2)) AS usedSpaceMB,
-                    CAST(SUM(a.data_pages) * 8 / 1024.0 AS DECIMAL(10, 2)) AS dataSpaceMB
+                    CAST(SUM(a.total_pages) * 8 / 1024.0 AS DECIMAL(10, 2)) totalSpaceMB,
+                    CAST(SUM(a.used_pages) * 8 / 1024.0 AS DECIMAL(10, 2)) usedSpaceMB,
+                    CAST(SUM(a.data_pages) * 8 / 1024.0 AS DECIMAL(10, 2)) dataSpaceMB
                 FROM sys.partitions p
                 INNER JOIN sys.allocation_units a ON p.partition_id = a.container_id
                 WHERE p.object_id = i.object_id AND p.index_id = i.index_id
                 FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
-            ) AS spaceUsed,
-            (
+            )) spaceUsed,
+            JSON_QUERY((
                 SELECT 
                     c.name
                 FROM sys.index_columns ic
@@ -149,8 +147,8 @@ BEGIN
                     AND ic.is_included_column = 0
                 ORDER BY ic.key_ordinal
                 FOR JSON PATH
-            ) AS keyColumns,
-            (
+            )) keyColumns,
+            JSON_QUERY((
                 SELECT 
                     c.name
                 FROM sys.index_columns ic
@@ -160,7 +158,7 @@ BEGIN
                     AND ic.is_included_column = 1
                 ORDER BY ic.index_column_id
                 FOR JSON PATH
-            ) AS includeColumns
+            )) includeColumns
         FROM sys.indexes i
         WHERE i.object_id = @objectId AND i.name IS NOT NULL
         ORDER BY i.index_id
@@ -173,13 +171,11 @@ BEGIN
             @name AS name,
             @description AS description,
             @createDate AS createDate,
-            @rowCount AS rowCount,
+            @rowsCount AS rowsCount,
             JSON_QUERY(@columns) AS [columns],
             JSON_QUERY(@indexes) AS indexes
         FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
     );
-
-    SELECT @tableInfo AS tableInfo;
     ');
 
     -- Виконуємо динамічний SQL
@@ -190,17 +186,29 @@ BEGIN
         @database = @database,
         @tableInfo = @tableInfo OUTPUT;
 
-    -- Формуємо масив content з одним елементом типу text
-    SELECT @content = (
-        SELECT
-            'text' AS [type],
-            ISNULL(@tableInfo, '{"error":"Unable to retrieve table information"}') AS [text]
-        FOR JSON PATH
-    );
+    -- Перевірка на помилку
+    IF @tableInfo IS NULL OR @tableInfo LIKE '%"error"%'
+    BEGIN
+        SET @result = (
+            SELECT 
+                'text' AS [type],
+                ISNULL(@tableInfo, '{"error":"Unable to retrieve table information"}') AS [text]
+            FOR JSON PATH
+        );
+        SET @result = CONCAT('{"content":', @result, '}');
+    END
+    ELSE
+    BEGIN
+        -- Формуємо MCP відповідь: content - це масив з одним елементом
+        SET @result = (
+            SELECT 
+                'text' AS [type],
+                @tableInfo AS [text]
+            FOR JSON PATH
+        );
+        SET @result = CONCAT('{"content":', @result, '}');
+    END
 
-    -- Обгортаємо у фінальну структуру MCP відповіді
-    SET @result = CONCAT('{"content":', @content, '}');
-
-    SELECT @result AS result;
+    SELECT @result result;
 END;
 GO

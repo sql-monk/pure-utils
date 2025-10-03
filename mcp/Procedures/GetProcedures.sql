@@ -19,20 +19,25 @@ EXEC mcp.GetProcedures @database = 'utils';
 EXEC mcp.GetProcedures @database = 'utils', @filter = 'Get%';
 */
 CREATE OR ALTER PROCEDURE mcp.GetProcedures
-    @database NVARCHAR(128),
-    @filter NVARCHAR(128) = NULL
+	@database NVARCHAR(128),
+	@filter NVARCHAR(128) = NULL
 AS
 BEGIN
-    SET NOCOUNT ON;
+	SET NOCOUNT ON;
+	IF(LEN(TRIM(@filter)) = 0)
+	BEGIN
+		SET @filter = NULL;
+	END;
+	DECLARE @procedures NVARCHAR(MAX);
+	DECLARE @content NVARCHAR(MAX);
+	DECLARE @result NVARCHAR(MAX);
+	DECLARE @sql NVARCHAR(MAX);
 
-    DECLARE @procedures NVARCHAR(MAX);
-    DECLARE @content NVARCHAR(MAX);
-    DECLARE @result NVARCHAR(MAX);
-    DECLARE @sql NVARCHAR(MAX);
-
-    -- Формуємо динамічний SQL для отримання процедур з вказаної бази даних
-    SET @sql = N'
-    USE ' + QUOTENAME(@database) + N';
+	-- Формуємо динамічний SQL для отримання процедур з вказаної бази даних
+	SET @sql
+		= N'
+    USE ' + QUOTENAME(@database)
+			+ N';
     
     SELECT @procedures = (
         SELECT
@@ -51,20 +56,15 @@ BEGIN
         FOR JSON PATH
     );';
 
-    -- Виконуємо динамічний SQL
-    EXEC sp_executesql @sql, N'@procedures NVARCHAR(MAX) OUTPUT, @filter NVARCHAR(128)', @procedures = @procedures OUTPUT, @filter = @filter;
+	-- Виконуємо динамічний SQL
+	EXEC sys.sp_executesql @sql, N'@procedures NVARCHAR(MAX) OUTPUT, @filter NVARCHAR(128)', @procedures = @procedures OUTPUT, @filter = @filter;
 
-    -- Формуємо масив content з одним елементом типу text
-    SELECT @content = (
-        SELECT
-            'text' AS [type],
-            ISNULL(@procedures, '[]') AS [text]
-        FOR JSON PATH
-    );
+	-- Формуємо масив content з одним елементом типу text
+	SELECT @content = (SELECT 'text' type, ISNULL(@procedures, '[]') text FOR JSON PATH);
 
-    -- Обгортаємо у фінальну структуру MCP відповіді
-    SET @result = CONCAT('{"content":', @content, '}');
+	-- Обгортаємо у фінальну структуру MCP відповіді
+	SET @result = CONCAT('{"content":', @content, '}');
 
-    SELECT @result AS result;
+	SELECT @result result;
 END;
 GO

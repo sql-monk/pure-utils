@@ -180,11 +180,12 @@ public class PureMcpServer
     private async Task<object> GetToolsListAsync()
     {
         using var connection = new SqlConnection(_connectionString);
+    
         await connection.OpenAsync();
 
         using var command = new SqlCommand("SELECT mcp.ToolsList()", connection);
         command.CommandType = CommandType.Text;
-
+        command.CommandTimeout = 120;
         var result = await command.ExecuteScalarAsync();
         var jsonString = result?.ToString() ?? "{}";
         

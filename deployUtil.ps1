@@ -85,7 +85,7 @@ function Find-ObjectFile {
     $possiblePaths = @(
         Join-Path $schemaPath "Functions\$ObjectName.sql"
         Join-Path $schemaPath "Procedures\$ObjectName.sql"
-        Join-Path $schФemaPath "Tables\$ObjectName.sql"
+        Join-Path $schemaPath "Tables\$ObjectName.sql"
         Join-Path $schemaPath "Views\$ObjectName.sql"
     )
     
@@ -175,7 +175,7 @@ function Get-ObjectWithDependencies {
         if ($dep -ne $ObjectName) {
             $depSql = Get-ObjectWithDependencies -ObjectName $dep -Depth ($Depth + 1)
             if ($depSql) {
-                $dependenciesSql += $depSql + "`r`n`r`n"
+                $dependenciesSql += $depSql + "`r`nGO`r`n`r`n"
             }
         }
     }
@@ -184,6 +184,7 @@ function Get-ObjectWithDependencies {
     $processedObjects[$ObjectName] = $true
     
     # Повертаємо SQL: спочатку всі залежності, потім сам об'єкт
+    # Додаємо GO після кожного об'єкта для правильного виконання батчів
     $result = $dependenciesSql + $content
     
     Write-Verbose ("$('  ' * $Depth)Об'єкт '$ObjectName' успішно оброблено")
@@ -260,7 +261,7 @@ try {
         
         if ($sql) {
             $finalSql += "-- ===== Розгортання $objName =====" + "`r`n"
-            $finalSql += $sql + "`r`n`r`n"
+            $finalSql += $sql + "`r`nGO`r`n`r`n"
         }
     }
     
@@ -272,7 +273,19 @@ try {
     
     # Виконуємо SQL
     try {
-        $result = Invoke-DbaQuery -SqlInstance $Server -Database $Database -Query $finalSql -EnableException
+        # Розділяємо SQL на батчі по GO
+        $batches = $finalSql -split '\r?\nGO\r?\n'
+        
+        $batchNumber = 0
+        foreach ($batch in $batches) {
+            $batch = $batch.Trim()
+            if ($batch) {
+                $batchNumber++
+                Write-Verbose "Виконання батча $batchNumber..."
+                
+                $result = Invoke-DbaQuery -SqlInstance $Server -Database $Database -Query $batch -EnableException
+            }
+        }
      
         # Виводимо інформацію про розгорнуті об'єкти
         Write-Host "Розгорнуто об'єктів: $($processedObjects.Count)" -ForegroundColor Cyan
@@ -281,7 +294,7 @@ try {
         }
     }
     catch {
-        Write-Error "Помилка при виконанні SQL: $_"
+        Write-Error "Помилка при виконанні SQL (батч $batchNumber): $_"
         
         # Зберігаємо SQL в файл для діагностики
         $errorSqlFile = Join-Path $scriptRoot "deployUtil_error.sql"

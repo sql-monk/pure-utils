@@ -1,7 +1,7 @@
 /*
 # Description
 Відстежує прогрес активного створення індексів поточним користувачем.
-Функція моніторить операції CREATE INDEX та показує детальну інформацію про їх виконання в реальному часі.
+Функція моніторить операції  та показує детальну інформацію про їх виконання в реальному часі.
 
 # Returns
 TABLE - Повертає таблицю з колонками:
@@ -12,7 +12,7 @@ TABLE - Повертає таблицю з колонками:
 - RowsProcessed BIGINT - Кількість оброблених рядків
 - RowsLeft BIGINT - Кількість рядків що залишились
 - ElapsedSeconds DECIMAL - Час виконання в секундах
-- currentStatement NVARCHAR - Поточна T-SQL команда CREATE INDEX
+- currentStatement NVARCHAR - Поточна T-SQL команда  
 
 # Usage
 -- Відстежити прогрес всіх активних операцій створення індексів
@@ -67,6 +67,7 @@ RETURN(
 	)
 	SELECT
 		comp.sessionId,
+		comp.PercentComplete,
 		comp.pysicalOperatorName pysicalOperatorName,
 		comp.CurrentStep,
 		comp.TotalRows,

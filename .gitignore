@@ -17,3 +17,5 @@
 /PureSqlsMcp/bin/Release/net8.0
 /deployUtil_error.sql
 *.user
+/PlanSqlsMcp/obj
+/PlanSqlsMcp/bin

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>PlanSqlsMcp</RootNamespace>
+    <LangVersion>12.0</LangVersion>
+    <TrimMode>link</TrimMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TrimmerRootAssembly Include="Microsoft.Data.SqlClient" />
+    <TrimmerRootAssembly Include="Microsoft.Identity.Client" />
+    <TrimmerRootAssembly Include="Azure.Identity" />
+  </ItemGroup>
+
+</Project>

@@ -1,4 +1,40 @@
-﻿CREATE OR ALTER PROCEDURE util.objectScriptWithDependencies
+/*
+# Description
+Процедура для генерації DDL скрипта об'єкта разом з усіма його залежностями.
+Виконує рекурсивний обхід залежностей через sys.sql_expression_dependencies,
+підтримує cross-database залежності, резолвить синоніми та формує правильний порядок створення об'єктів.
+Генерує повний скрипт для відтворення об'єкта та всіх його залежностей в іншій базі даних.
+
+# Parameters
+@objectFullName sysname - Повна назва об'єкта у форматі 'database.schema.object'
+@outputScript NVARCHAR(MAX) OUTPUT - Вихідний параметр, який містить згенерований DDL скрипт
+
+# Returns
+OUTPUT параметр @outputScript - повний DDL скрипт з усіма залежностями в правильному порядку
+
+# Usage
+-- Згенерувати скрипт для процедури з залежностями
+DECLARE @script NVARCHAR(MAX);
+EXEC util.objectsScriptWithDependencies 
+	@objectFullName = 'utils.util.metadataGetDescriptions',
+	@outputScript = @script OUTPUT;
+PRINT @script;
+
+-- Згенерувати скрипт для функції
+DECLARE @script NVARCHAR(MAX);
+EXEC util.objectsScriptWithDependencies 
+	@objectFullName = 'utils.util.tablesGetScript',
+	@outputScript = @script OUTPUT;
+SELECT @script script;
+
+# Notes
+- Підтримує різні типи об'єктів: таблиці (U), представлення (V), процедури (P), функції (FN, IF, TF), тригери (TR)
+- Обробляє синоніми (SN) та резолвить їх у реальні об'єкти
+- Підтримує cross-database залежності
+- Генерує скрипти у правильному порядку (залежності перед об'єктами, які їх використовують)
+- Використовує topological sort для визначення порядку створення
+*/
+CREATE OR ALTER PROCEDURE util.objectsScriptWithDependencies
 	@objectFullName sysname, -- 'db.schema.object'
 	@outputScript NVARCHAR(MAX) OUTPUT
 AS

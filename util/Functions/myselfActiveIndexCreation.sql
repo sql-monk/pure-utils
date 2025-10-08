@@ -45,7 +45,7 @@ RETURN(
 		FROM sys.dm_exec_query_profiles qp
 			JOIN myIndexCreation ic ON ic.session_id = qp.session_id
 		WHERE
-			qp.physical_operator_name IN (N'Table Scan', N'Clustered Index Scan', N'Sort', 'Online Index Insert', 'Nested Loops')
+			qp.physical_operator_name IN (N'Index Scan', N'Table Scan', N'Clustered Index Scan', N'Sort', 'Online Index Insert', 'Nested Loops')
 		GROUP BY
 			ic.session_id,
 			ic.currentStatement,

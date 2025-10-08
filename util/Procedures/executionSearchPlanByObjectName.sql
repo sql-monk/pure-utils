@@ -1,4 +1,28 @@
-CREATE PROCEDURE util.executionSearchPlanByObjectName @fullObjectName NVARCHAR(256), @plan NVARCHAR(max) OUTPUT
+/*
+# Description
+Шукає execution plan для збереженої процедури або функції за повним ім'ям об'єкта.
+Процедура використовує декілька джерел для пошуку плану виконання:
+1. sys.dm_exec_procedure_stats - статистика виконання процедур
+2. util.executionModulesUsers - історія виконання користувацьких запитів
+3. util.executionModulesSSIS - історія виконання через SSIS пакети
+4. util.executionModulesFaust - історія виконання через Faust систему
+
+# Parameters
+@fullObjectName NVARCHAR(256) - повна назва об'єкта включно з базою даних та схемою (формат: database.schema.object)
+@plan NVARCHAR(MAX) OUTPUT - вихідний параметр з XML execution plan
+
+# Usage
+-- Отримати план виконання для процедури
+DECLARE @plan NVARCHAR(MAX);
+EXEC util.executionSearchPlanByObjectName 'MyDatabase.dbo.MyProcedure', @plan OUTPUT;
+SELECT @plan;
+
+-- Знайти план для функції
+DECLARE @execPlan NVARCHAR(MAX);
+EXEC util.executionSearchPlanByObjectName 'AdventureWorks.dbo.ufnGetProductListPrice', @execPlan OUTPUT;
+PRINT @execPlan;
+*/
+CREATE or ALTER PROCEDURE util.executionSearchPlanByObjectName @fullObjectName NVARCHAR(256), @plan NVARCHAR(max) OUTPUT
 AS
 BEGIN
 

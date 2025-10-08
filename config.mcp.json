@@ -1,0 +1,23 @@
+{
+  "inputs": [],
+  "servers": {
+    "puresqls": {
+      "command": ".\\utils\\utils\\PureSqlsMcp\\bin\\Release\\net8.0\\win-x64\\publish\\PureSqlsMcp.exe",
+      "args": [
+        "--server",
+        "local",
+        "--database",
+        "msdb"
+      ]
+    },
+    "showplan": {
+      "command": ".\\utils\\utils\\PlanSqlsMcp\\bin\\Release\\net8.0\\win-x64\\publish\\PlanSqlsMcp.exe",
+      "args": [
+        "--server",
+        "local",
+        "--database",
+        "master"
+      ]
+    }
+  }
+}

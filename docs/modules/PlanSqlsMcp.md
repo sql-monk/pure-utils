@@ -104,9 +104,10 @@ PlanSqlsMcp.exe --server localhost --database AdventureWorks `
     --integrated-security false --user-id app_user --password Pass123
 ```
 
-## Інтеграція з Claude Desktop
+## Інтеграція 
+`Claude Desktop, GitHub Copilot (VS, VSCode)`
 
-### Конфігурація claude_desktop_config.json
+### Конфігурація .mcp
 
 ```json
 {
@@ -158,44 +159,6 @@ GetEstimatedPlan(query="SELECT * FROM sys.tables")
 }
 ```
 
-### Приклади використання
-
-#### Простий SELECT
-
-**Запит**:
-```sql
-SELECT * FROM sys.tables WHERE name LIKE 'error%'
-```
-
-**Відповідь**: XML план з операторами Index Scan/Seek
-
-#### Запит з JOIN
-
-**Запит**:
-```sql
-SELECT t.name, c.name, c.max_length
-FROM sys.tables t
-    JOIN sys.columns c ON t.object_id = c.object_id
-WHERE t.name = 'errorLog'
-```
-
-**Відповідь**: XML план з операторами Join (Nested Loops/Hash/Merge)
-
-#### Складний запит з CTE
-
-**Запит**:
-```sql
-WITH ErrorStats AS (
-    SELECT 
-        ErrorNumber,
-        COUNT(*) AS ErrorCount
-    FROM util.errorLog
-    GROUP BY ErrorNumber
-)
-SELECT * FROM ErrorStats WHERE ErrorCount > 10
-```
-
-**Відповідь**: XML план з CTE та агрегацією
 
 ## Алгоритм роботи
 
@@ -402,8 +365,8 @@ GRANT VIEW SERVER STATE TO plan_reader;
 PlanSqlsMcp **НЕ** виконує запити:
 - Використовує `SET SHOWPLAN_XML ON`
 - SQL Server генерує тільки план
-- Дані не змінюються
-- Результати не повертаються
+- **Дані не змінюються**
+- **Результати не повертаються**
 
 ## Troubleshooting
 
@@ -430,10 +393,8 @@ PlanSqlsMcp **НЕ** виконує запити:
 ## Best Practices
 
 1. **Тестуйте запити** окремо перед отриманням плану
-2. **Використовуйте параметризацію** для уникнення SQL injection
-3. **Обмежуйте складність** запитів
-4. **Аналізуйте плани** для оптимізації
-5. **Використовуйте indexed views** де можливо
+2. **Аналізуйте плани** для оптимізації
+
 
 ## Приклади аналізу планів
 

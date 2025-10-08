@@ -9,14 +9,14 @@
 - **Динамічна генерація MCP tools** з процедур схеми mcp
 - **Автоматичне витягування параметрів** та типів з SQL Server
 - **Підтримка JSON-RPC 2.0** через stdio
-- **Інтеграція з Claude Desktop** та іншими MCP клієнтами
+- **Інтеграція з Claude Desktop, GitHub Copilot** та іншими MCP клієнтами
 - **Self-contained deployment** - не потребує встановленого .NET Runtime
 
 ## Архітектура
 
 ```
 ┌─────────────────────────────────────────┐
-│   AI-асистент (Claude Desktop)          │
+│   AI-асистент (Copilot)                 │
 └──────────────┬──────────────────────────┘
                │ stdio (JSON-RPC 2.0)
                ▼
@@ -27,8 +27,8 @@
 │   │  - tools/list                   │   │
 │   │  - tools/call                   │   │
 │   └─────────────────────────────────┘   │
-│               │                          │
-│               ▼                          │
+│               │                         │
+│               ▼                         │
 │   ┌─────────────────────────────────┐   │
 │   │  SQL Dynamic Tool Generator     │   │
 │   │  - Сканує mcp.* процедури       │   │
@@ -121,9 +121,10 @@ PureSqlsMcp.exe --server localhost --database master `
 PureSqlsMcp.exe --server sql-server.company.com --database Production
 ```
 
-## Інтеграція з Claude Desktop
+## Інтеграція
+Claude Desktop, GitHub Copilot (VS, VSCode)
 
-### Конфігурація claude_desktop_config.json
+### Конфігурація .mcp
 
 **Розташування файлу**:
 - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
@@ -461,16 +462,13 @@ GRANT SELECT ON SCHEMA::util TO mcp_reader;
 ```
 
 3. **Не зберігайте паролі** у відкритому вигляді в конфігурації
-4. **Обмежуйте доступ** до виконуваних файлів
-5. **Аудитуйте виклики** через Extended Events
+
 
 ## Best Practices
 
 1. **Тестуйте процедури mcp** окремо через T-SQL перед використанням з AI
 2. **Додавайте детальні коментарі** для кращого розуміння AI
 3. **Обмежуйте розмір результатів** для швидшої відповіді
-4. **Логуйте помилки** для діагностики
-5. **Версіонуйте зміни** у процедурах mcp
 
 ## Troubleshooting
 

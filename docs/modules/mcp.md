@@ -507,48 +507,8 @@ SELECT util.mcpMapSqlTypeToJsonType('nvarchar'); -- повертає 'string'
 
 ---
 
-## Використання з AI-асистентами
-
-### Приклад діалогу з Claude через MCP
-
-**Користувач**: "Покажи мені структуру таблиці Orders"
-
-**Claude викликає**:
-```
-mcp.GetTableInfo(database=null, schema='dbo', table='Orders')
-```
-
-**Відповідь** містить JSON з колонками, індексами, foreign keys
-
-**Claude відповідає**: "Таблиця Orders має наступну структуру: ..."
-
-### Приклад генерації DDL
-
-**Користувач**: "Згенеруй DDL для представлення CustomerOrders з усіма залежностями"
-
-**Claude викликає**:
-```
-mcp.ScriptObjectAndReferences(
-    schema='dbo', 
-    object='CustomerOrders', 
-    includeReferences=1
-)
-```
-
-**Відповідь** містить повні DDL скрипти у правильному порядку
-
-## Best Practices
-
-1. **Використовуйте параметр @database** для роботи з іншими БД
-2. **Обмежуйте періоди** при виклику GetDdlHistory
-3. **Тестуйте DDL скрипти** перед виконанням на production
-4. **Перевіряйте права доступу** для cross-database операцій
-5. **Налаштуйте DDL triggers** для логування історії змін
-
 ## Обмеження
 
-- Всі процедури повертають результат як NVARCHAR(MAX)
-- Максимальний розмір відповіді обмежений SQL Server (2GB)
 - Cross-database запити вимагають додаткових прав
 - Деякі функції потребують VIEW SERVER STATE
 

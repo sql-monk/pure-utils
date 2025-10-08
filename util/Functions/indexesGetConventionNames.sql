@@ -109,7 +109,6 @@ RETURN(
             pin.TableName,
             pin.CurrentIndexName,
             pin.BaseIndexName + pin.IndexSuffix AS ProposedName,
-            -- ��� ���������� ���� �������� ��� �������, ��� �������� ������ �����
             CASE 
                 WHEN ROW_NUMBER() OVER (PARTITION BY pin.BaseIndexName + pin.IndexSuffix ORDER BY pin.index_id) = 1 
                     AND COUNT(*) OVER (PARTITION BY pin.BaseIndexName + pin.IndexSuffix) = 1 

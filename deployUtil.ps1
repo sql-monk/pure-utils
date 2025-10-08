@@ -292,6 +292,25 @@ try {
         foreach ($obj in $processedObjects.Keys | Sort-Object) {
             Write-Host " - $obj" -ForegroundColor Gray
         }
+
+        # Встановлюємо описи з коментарів для кожного розгорнутого об'єкту
+        Write-Host ""
+        Write-Host "Встановлення описів з коментарів..." -ForegroundColor DarkGreen
+        
+        foreach ($obj in $processedObjects.Keys | Sort-Object) {
+            try {
+                $fullObjectName = "$Schema.$obj"
+                Write-Verbose "Встановлення опису для: $fullObjectName"
+                
+                $descriptionQuery = "EXEC util.modulesSetDescriptionFromComments @object = '$fullObjectName';"
+                Invoke-DbaQuery -SqlInstance $Server -Database $Database -Query $descriptionQuery -EnableException
+                
+                Write-Host " ✓ $fullObjectName" -ForegroundColor Gray
+            }
+            catch {
+                Write-Warning "Не вдалося встановити опис для '$fullObjectName': $_"
+            }
+        }
     }
     catch {
         Write-Error "Помилка при виконанні SQL (батч $batchNumber): $_"

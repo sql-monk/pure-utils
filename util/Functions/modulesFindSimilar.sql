@@ -16,7 +16,7 @@ TABLE - Повертає таблицю з колонками:
 SELECT * FROM util.modulesFindSimilar(NULL);
 -- Знайти всі схожі модулі в базі даних
 */
-CREATE FUNCTION util.modulesFindSimilar(@objectId INT = NULL)
+CREATE OR ALTER FUNCTION util.modulesFindSimilar(@objectId INT = NULL)
 RETURNS TABLE
 AS
 RETURN(

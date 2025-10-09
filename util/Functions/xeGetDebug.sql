@@ -56,42 +56,91 @@ FROM util.xeGetDebug(NULL)
 WHERE SessionId = 123
 ORDER BY EventTime;
 */
-CREATE OR ALTER FUNCTION [util].[xeGetDebug](@minEventTime DATETIME2(7))
+CREATE OR ALTER FUNCTION util.xeGetDebug(@minEventTime DATETIME2(7))
 RETURNS TABLE
 AS
-RETURN (
-	WITH xe_data AS (
+RETURN(
+	WITH xeTarget AS (
 		SELECT
-			CAST(event_data AS XML) event_data,
-			file_name,
-			file_offset
-		FROM sys.fn_xe_file_target_read_file('utilsBatchesDebug*.xel', NULL, NULL, NULL)
+			ISNULL(@minEventTime, lastEventTime) lastEventTime,
+			NULLIF(lastOffset, 0) lastOffset,
+			IIF(lastOffset = 0, NULL, currentFile) currentFile,
+			'utilsDebug*.xel' defaultMask,
+			util.xeGetLogsPath('utilsDebug') mdpath
+		FROM util.xeGetTargetFile('utilsDebug')
+	),
+	xe AS (
+		SELECT
+			CAST(xe.event_data AS XML) event_data,
+			xe.file_name,
+			xe.file_offset,
+			t.lastEventTime,
+			xe.timestamp_utc
+		FROM xeTarget t
+			CROSS APPLY sys.fn_xe_file_target_read_file(t.mdpath + t.defaultMask, NULL, t.currentFile, t.lastOffset) xe
+		WHERE xe.timestamp_utc > t.lastEventTime
+	),
+	cteEvents AS (
+		SELECT
+			x.event_data.value('(event/@timestamp)[1]', 'DATETIME2(7)') EventTime,
+			x.event_data.value('(event/@name)[1]', 'NVARCHAR(128)') EventName,
+			x.event_data.value('(event/action[@name="database_name"]/value)[1]', 'NVARCHAR(128)') DatabaseName,
+			x.event_data.value('(event/data[@name="object_name"]/value)[1]', 'NVARCHAR(128)') ObjectName,
+			COALESCE(
+				x.event_data.value('(event/data[@name="statement"]/value)[1]', 'NVARCHAR(MAX)'),
+				x.event_data.value('(event/data[@name="batch_text"]/value)[1]', 'NVARCHAR(MAX)')
+			) Statement,
+			x.event_data.value('(event/data[@name="line_number"]/value)[1]', 'INT') LineNumber,
+			x.event_data.value('(event/data[@name="offset"]/value)[1]', 'INT') Offset,
+			x.event_data.value('(event/data[@name="offset_end"]/value)[1]', 'INT') OffsetEnd,
+			x.event_data.value('(event/data[@name="duration"]/value)[1]', 'BIGINT') Duration,
+			x.event_data.value('(event/data[@name="cpu_time"]/value)[1]', 'BIGINT') CpuTime,
+			x.event_data.value('(event/data[@name="logical_reads"]/value)[1]', 'BIGINT') LogicalReads,
+			x.event_data.value('(event/data[@name="physical_reads"]/value)[1]', 'BIGINT') PhysicalReads,
+			x.event_data.value('(event/data[@name="writes"]/value)[1]', 'BIGINT') Writes,
+			x.event_data.value('(event/data[@name="row_count"]/value)[1]', 'BIGINT') AffectedRowsCount,
+			x.event_data.value('(event/action[@name="client_hostname"]/value)[1]', 'NVARCHAR(128)') ClientHostname,
+			x.event_data.value('(event/action[@name="client_app_name"]/value)[1]', 'NVARCHAR(128)') ClientAppName,
+			x.event_data.value('(event/action[@name="server_principal_name"]/value)[1]', 'NVARCHAR(128)') ServerPrincipalName,
+			x.event_data.value('(event/action[@name="session_id"]/value)[1]', 'INT') SessionId,
+			x.event_data.value('(event/action[@name="sql_text"]/value)[1]', 'NVARCHAR(MAX)') SqlText,
+			x.event_data.query('event/data[@name="showplan_xml"]/value/*')showPlanXML,
+			CONVERT(VARBINARY(64), x.event_data.value('(event/action[@name="plan_handle"]/value)[1]', 'VARCHAR(MAX)'), 2) PlanHandle,
+			x.event_data.value('(event/action[@name="task_time"]/value)[1]', 'BIGINT') TaskTime,
+			x.file_name FileName,
+			x.file_offset FileOffset
+		FROM xe x
+		WHERE(
+			@minEventTime IS NULL OR x.event_data.value('(event/@timestamp)[1]', 'DATETIME2(7)') > @minEventTime
+		)
 	)
 	SELECT
-		xe_data.event_data.value('(event/@timestamp)[1]', 'DATETIME2(7)') EventTime,
-		xe_data.event_data.value('(event/@name)[1]', 'NVARCHAR(128)') EventName,
-		xe_data.event_data.value('(event/action[@name="database_name"]/value)[1]', 'NVARCHAR(128)') DatabaseName,
-		xe_data.event_data.value('(event/data[@name="object_name"]/value)[1]', 'NVARCHAR(128)') ObjectName,
-		COALESCE(
-			xe_data.event_data.value('(event/data[@name="statement"]/value)[1]', 'NVARCHAR(MAX)'),
-			xe_data.event_data.value('(event/data[@name="batch_text"]/value)[1]', 'NVARCHAR(MAX)')
-		) Statement,
-		xe_data.event_data.value('(event/data[@name="duration"]/value)[1]', 'BIGINT') Duration,
-		xe_data.event_data.value('(event/data[@name="cpu_time"]/value)[1]', 'BIGINT') CpuTime,
-		xe_data.event_data.value('(event/data[@name="logical_reads"]/value)[1]', 'BIGINT') LogicalReads,
-		xe_data.event_data.value('(event/data[@name="physical_reads"]/value)[1]', 'BIGINT') PhysicalReads,
-		xe_data.event_data.value('(event/data[@name="writes"]/value)[1]', 'BIGINT') Writes,
-		xe_data.event_data.value('(event/data[@name="row_count"]/value)[1]', 'BIGINT') AffectedRowsCount,
-		xe_data.event_data.value('(event/action[@name="client_hostname"]/value)[1]', 'NVARCHAR(128)') ClientHostname,
-		xe_data.event_data.value('(event/action[@name="client_app_name"]/value)[1]', 'NVARCHAR(128)') ClientAppName,
-		xe_data.event_data.value('(event/action[@name="server_principal_name"]/value)[1]', 'NVARCHAR(128)') ServerPrincipalName,
-		xe_data.event_data.value('(event/action[@name="session_id"]/value)[1]', 'INT') SessionId,
-		xe_data.event_data.value('(event/action[@name="sql_text"]/value)[1]', 'NVARCHAR(MAX)') SqlText,
-		xe_data.event_data.value('(event/action[@name="plan_handle"]/value)[1]', 'VARBINARY(64)') PlanHandle,
-		xe_data.event_data.value('(event/action[@name="task_time"]/value)[1]', 'BIGINT') TaskTime,
-		xe_data.file_name FileName,
-		xe_data.file_offset FileOffset
-	FROM xe_data
-	WHERE (@minEventTime IS NULL OR xe_data.event_data.value('(event/@timestamp)[1]', 'DATETIME2(7)') > @minEventTime)
+		cteEvents.EventTime,
+		cteEvents.EventName,
+		cteEvents.DatabaseName,
+		cteEvents.ObjectName,
+		cteEvents.Statement,
+		cteEvents.LineNumber,
+		cteEvents.Offset,
+		cteEvents.OffsetEnd,
+		cteEvents.Duration,
+		cteEvents.CpuTime,
+		cteEvents.LogicalReads,
+		cteEvents.PhysicalReads,
+		cteEvents.Writes,
+		cteEvents.AffectedRowsCount,
+		cteEvents.ClientHostname,
+		cteEvents.ClientAppName,
+		cteEvents.ServerPrincipalName,
+		cteEvents.SessionId,
+		cteEvents.SqlText,
+		cteEvents.showPlanXML,
+		cteEvents.PlanHandle,
+		cteEvents.TaskTime,
+		cteEvents.FileName,
+		cteEvents.FileOffset
+	FROM cteEvents
 );
-GO
+
+
+

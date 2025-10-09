@@ -20,3 +20,9 @@
 /PlanSqlsMcp/obj
 /PlanSqlsMcp/bin
 /.mcp.json
+
+# MkDocs documentation build artifacts
+/site/
+.cache/
+*.pyc
+__pycache__/

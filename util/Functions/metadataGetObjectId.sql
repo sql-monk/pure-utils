@@ -1,0 +1,6 @@
+CREATE OR ALTER FUNCTION util.metadataGetObjectId(@object NVARCHAR(128))
+RETURNS INT
+AS
+BEGIN
+    RETURN ISNULL(TRY_CONVERT(INT,@object),OBJECT_ID(@object))
+END;

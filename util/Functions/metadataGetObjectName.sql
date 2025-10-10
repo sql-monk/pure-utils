@@ -4,7 +4,7 @@
 Повертає назву у форматі "схема.об'єкт" в квадратних дужках.
 
 # Parameters
-@majorId INT - ідентифікатор об'єкта (object_id)
+@objectId INT - ідентифікатор об'єкта (object_id)
 
 # Returns
 NVARCHAR(128) - повну назву об'єкта у форматі "[схема].[об'єкт]" або NULL якщо не знайдено
@@ -16,11 +16,11 @@ SELECT util.metadataGetObjectName(OBJECT_ID('dbo.myTable'));
 -- Використовуючи числовий ID
 SELECT util.metadataGetObjectName(1234567890);
 */
-CREATE OR ALTER FUNCTION [util].[metadataGetObjectName](@majorId INT)
+CREATE OR ALTER FUNCTION [util].[metadataGetObjectName](@objectId INT, @dbId INT = NULL)
 RETURNS NVARCHAR(128)
 AS
 BEGIN
-	RETURN (SELECT CONCAT (QUOTENAME (SCHEMA_NAME (o.schema_id)), '.', QUOTENAME (o.name)) name FROM sys.objects o (NOLOCK) WHERE @majorId = o.object_id);
+	RETURN CONCAT(QUOTENAME(DB_NAME(@dbId)), N'.', QUOTENAME(OBJECT_SCHEMA_NAME(@objectId)), N'.', QUOTENAME(OBJECT_NAME(@objectId)));
 END;
 GO
 

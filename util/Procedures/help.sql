@@ -32,8 +32,8 @@ util.help keyword' + @crlf + @crlf;
 		descr.name,
 		CONCAT(@crlf+params.paramsDescription + @crlf + @crlf, descr.description) descr
 	FROM sys.objects o
-		CROSS APPLY util.metadataGetDescriptions(o.object_id, DEFAULT) descr
-		CROSS APPLY(
+		OUTER APPLY util.metadataGetDescriptions(o.object_id, DEFAULT) descr
+		OUTER APPLY(
 		SELECT
 			o.object_id,
 			STRING_AGG('	* ' + descr.description, @crlf) paramsDescription

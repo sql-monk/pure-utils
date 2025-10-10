@@ -33,7 +33,7 @@ SELECT * FROM util.securityScriptDatabasePermissions(NULL, 'SELECT', DEFAULT);
 -- Отримати дозволи включаючи успадковані через ролі
 SELECT * FROM util.securityScriptDatabasePermissions('myUser', DEFAULT, 1);
 */
-CREATE OR ALTER FUNCTION util.securityScriptDatabasePermissions(
+CREATE OR ALTER FUNCTION util.securityGetDatabasePermissions(
 	@granteePrincipal NVARCHAR(128) = NULL,
 	@filter NVARCHAR(128) = '%',
 	@includeInherited BIT = 0

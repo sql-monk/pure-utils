@@ -30,7 +30,7 @@ SELECT * FROM util.securityScriptRoleMembership('db_datareader');
 -- Отримати скрипти тільки для конкретного principal за ID
 SELECT * FROM util.securityScriptRoleMembership('5');
 */
-CREATE OR ALTER FUNCTION util.securityScriptRoleMembership(
+CREATE OR ALTER FUNCTION util.securityGetRoleMembership(
     @principal NVARCHAR(128) = NULL
 )
 RETURNS TABLE

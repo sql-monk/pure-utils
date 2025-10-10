@@ -5,35 +5,24 @@
 
 # Parameters
 @keyword sysname = NULL - ключове слово для фільтрації результатів (NULL = всі об'єкти)
-
-# Usage
--- Показати всю довідку
-EXEC util.help;
-
--- Показати довідку за ключовим словом
-EXEC util.help 'metadata';
 */
-CREATE OR ALTER PROCEDURE util.help @keyword sysname = NULL
+CREATE OR ALTER PROCEDURE util.help
+	@keyword SYSNAME = NULL
 AS
 BEGIN
 
 	SET NOCOUNT ON;
 	DECLARE @crlf VARCHAR(2) = CHAR(13) + CHAR(10);
-	DECLARE @help NVARCHAR(MAX) = N'';
-
-	PRINT N'# pure-utils
-
-```sql
-util.help
-GO
+	DECLARE @help NVARCHAR(MAX) = N'util.help
 --OR
-util.help keyword
-```' + @crlf + @crlf;
+util.help keyword' + @crlf + @crlf;
+
+	PRINT @help;
 
 
 	SELECT @help = N'';
 	DECLARE
-		@typeDesc sysname,
+		@typeDesc SYSNAME,
 		@name NVARCHAR(128),
 		@descr NVARCHAR(MAX);
 
@@ -58,7 +47,7 @@ util.help keyword
 		descr.typeDesc DESC,
 		descr.name;
 
-	DECLARE @lastCat sysname = '';
+	DECLARE @lastCat SYSNAME = '';
 	OPEN mcur;
 	FETCH NEXT FROM mcur
 	INTO
@@ -67,7 +56,7 @@ util.help keyword
 		@descr;
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
-		SELECT @help = CONCAT('## *', @typeDesc, '* `', REPLACE(REPLACE(@name, '[util].[', ''), ']', ''), '`', @crlf, @descr, @crlf);
+		SELECT @help = CONCAT('## *', @typeDesc, '* ', REPLACE(REPLACE(@name, '[util].[', ''), ']', ''), ';', @crlf, @descr, @crlf);
 		PRINT @help;
 
 		FETCH NEXT FROM mcur

@@ -130,7 +130,7 @@ RETURN(
 		GROUP BY cc.parent_object_id
 	)
 	SELECT
-		util.metadataGetObjectName(ti.object_id) tableName,
+		util.metadataGetObjectName(ti.object_id, DEFAULT) tableName,
 		'CREATE TABLE ' + QUOTENAME(ti.SchemaName) + '.' + QUOTENAME(ISNULL(@newName, ti.TableName)) + ' (' + CHAR(13) + CHAR(10)
 		+ STRING_AGG(
 				'    ' + QUOTENAME(ci.ColumnName) + ' '

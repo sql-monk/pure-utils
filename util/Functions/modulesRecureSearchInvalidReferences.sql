@@ -1,34 +1,34 @@
 /*
 # Description
-Знаходить всі об'єкти які залежать від не існуючих об'єктів в базі даних через аналіз залежностей.
-Включає views які посилаються на не існуючі таблиці, процедури які викликають не існуючі об'єкти,
-та рекурсивний пошук всього ланцюжка залежностей. Якщо вказано конкретний об'єкт, перевіряє 
-лише ланцюжок який починається із вказаного об'єкта.
+Р—РЅР°С…РѕРґРёС‚СЊ РІСЃС– РѕР±'С”РєС‚Рё СЏРєС– Р·Р°Р»РµР¶Р°С‚СЊ РІС–Рґ РЅРµ С–СЃРЅСѓСЋС‡РёС… РѕР±'С”РєС‚С–РІ РІ Р±Р°Р·С– РґР°РЅРёС… С‡РµСЂРµР· Р°РЅР°Р»С–Р· Р·Р°Р»РµР¶РЅРѕСЃС‚РµР№.
+Р’РєР»СЋС‡Р°С” views СЏРєС– РїРѕСЃРёР»Р°СЋС‚СЊСЃСЏ РЅР° РЅРµ С–СЃРЅСѓСЋС‡С– С‚Р°Р±Р»РёС†С–, РїСЂРѕС†РµРґСѓСЂРё СЏРєС– РІРёРєР»РёРєР°СЋС‚СЊ РЅРµ С–СЃРЅСѓСЋС‡С– РѕР±'С”РєС‚Рё,
+С‚Р° СЂРµРєСѓСЂСЃРёРІРЅРёР№ РїРѕС€СѓРє РІСЃСЊРѕРіРѕ Р»Р°РЅС†СЋР¶РєР° Р·Р°Р»РµР¶РЅРѕСЃС‚РµР№. РЇРєС‰Рѕ РІРєР°Р·Р°РЅРѕ РєРѕРЅРєСЂРµС‚РЅРёР№ РѕР±'С”РєС‚, РїРµСЂРµРІС–СЂСЏС” 
+Р»РёС€Рµ Р»Р°РЅС†СЋР¶РѕРє СЏРєРёР№ РїРѕС‡РёРЅР°С”С‚СЊСЃСЏ С–Р· РІРєР°Р·Р°РЅРѕРіРѕ РѕР±'С”РєС‚Р°.
 
 # Parameters
-@object NVARCHAR(128) = NULL - назва об'єкта для перевірки ланцюжка залежностей 
-    (NULL = перевіряє всі об'єкти в базі даних)
+@object NVARCHAR(128) = NULL - РЅР°Р·РІР° РѕР±'С”РєС‚Р° РґР»СЏ РїРµСЂРµРІС–СЂРєРё Р»Р°РЅС†СЋР¶РєР° Р·Р°Р»РµР¶РЅРѕСЃС‚РµР№ 
+    (NULL = РїРµСЂРµРІС–СЂСЏС” РІСЃС– РѕР±'С”РєС‚Рё РІ Р±Р°Р·С– РґР°РЅРёС…)
 
 # Returns
-TABLE - Повертає таблицю з колонками:
-- referencingObjectId INT - ідентифікатор об'єкта який посилається
-- referencingObjectName NVARCHAR(256) - повна назва об'єкта який посилається
-- referencingObjectType NVARCHAR(60) - тип об'єкта який посилається
-- referencedObjectName NVARCHAR(256) - назва об'єкта на який посилається (не існує)
-- referencedDatabaseName NVARCHAR(128) - база даних не існуючого об'єкта
-- referencedSchemaName NVARCHAR(128) - схема не існуючого об'єкта  
-- referencedEntityName NVARCHAR(128) - назва не існуючого об'єкта
-- dependencyLevel INT - рівень вкладеності в ланцюжку залежностей
-- invalidReason NVARCHAR(200) - причина чому посилання є невалідним
+TABLE - РџРѕРІРµСЂС‚Р°С” С‚Р°Р±Р»РёС†СЋ Р· РєРѕР»РѕРЅРєР°РјРё:
+- referencingObjectId INT - С–РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ РѕР±'С”РєС‚Р° СЏРєРёР№ РїРѕСЃРёР»Р°С”С‚СЊСЃСЏ
+- referencingObjectName NVARCHAR(256) - РїРѕРІРЅР° РЅР°Р·РІР° РѕР±'С”РєС‚Р° СЏРєРёР№ РїРѕСЃРёР»Р°С”С‚СЊСЃСЏ
+- referencingObjectType NVARCHAR(60) - С‚РёРї РѕР±'С”РєС‚Р° СЏРєРёР№ РїРѕСЃРёР»Р°С”С‚СЊСЃСЏ
+- referencedObjectName NVARCHAR(256) - РЅР°Р·РІР° РѕР±'С”РєС‚Р° РЅР° СЏРєРёР№ РїРѕСЃРёР»Р°С”С‚СЊСЃСЏ (РЅРµ С–СЃРЅСѓС”)
+- referencedDatabaseName NVARCHAR(128) - Р±Р°Р·Р° РґР°РЅРёС… РЅРµ С–СЃРЅСѓСЋС‡РѕРіРѕ РѕР±'С”РєС‚Р°
+- referencedSchemaName NVARCHAR(128) - СЃС…РµРјР° РЅРµ С–СЃРЅСѓСЋС‡РѕРіРѕ РѕР±'С”РєС‚Р°  
+- referencedEntityName NVARCHAR(128) - РЅР°Р·РІР° РЅРµ С–СЃРЅСѓСЋС‡РѕРіРѕ РѕР±'С”РєС‚Р°
+- dependencyLevel INT - СЂС–РІРµРЅСЊ РІРєР»Р°РґРµРЅРѕСЃС‚С– РІ Р»Р°РЅС†СЋР¶РєСѓ Р·Р°Р»РµР¶РЅРѕСЃС‚РµР№
+- invalidReason NVARCHAR(200) - РїСЂРёС‡РёРЅР° С‡РѕРјСѓ РїРѕСЃРёР»Р°РЅРЅСЏ С” РЅРµРІР°Р»С–РґРЅРёРј
 
 # Usage
--- Знайти всі об'єкти з невалідними посиланнями
+-- Р—РЅР°Р№С‚Рё РІСЃС– РѕР±'С”РєС‚Рё Р· РЅРµРІР°Р»С–РґРЅРёРјРё РїРѕСЃРёР»Р°РЅРЅСЏРјРё
 SELECT * FROM util.modulesRecureSearchInvalidReferences(NULL);
 
--- Перевірити ланцюжок залежностей конкретного об'єкта
+-- РџРµСЂРµРІС–СЂРёС‚Рё Р»Р°РЅС†СЋР¶РѕРє Р·Р°Р»РµР¶РЅРѕСЃС‚РµР№ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РѕР±'С”РєС‚Р°
 SELECT * FROM util.modulesRecureSearchInvalidReferences('dbo.myView');
 
--- Групування по типах проблем
+-- Р“СЂСѓРїСѓРІР°РЅРЅСЏ РїРѕ С‚РёРїР°С… РїСЂРѕР±Р»РµРј
 SELECT invalidReason, COUNT(*) as IssueCount
 FROM util.modulesRecureSearchInvalidReferences(NULL)
 GROUP BY invalidReason
@@ -39,72 +39,72 @@ RETURNS TABLE
 AS
 RETURN(
     WITH InvalidObjects AS (
-        -- Крок 1: Знаходимо всі інвалідні об'єкти (на які посилаються, але які не існують)
+        -- РљСЂРѕРє 1: Р—РЅР°С…РѕРґРёРјРѕ РІСЃС– С–РЅРІР°Р»С–РґРЅС– РѕР±'С”РєС‚Рё (РЅР° СЏРєС– РїРѕСЃРёР»Р°СЋС‚СЊСЃСЏ, Р°Р»Рµ СЏРєС– РЅРµ С–СЃРЅСѓСЋС‚СЊ)
         SELECT DISTINCT
             d.referenced_database_name,
             d.referenced_schema_name,
             d.referenced_entity_name,
             d.is_ambiguous,
             CASE
-                -- База даних не існує
+                -- Р‘Р°Р·Р° РґР°РЅРёС… РЅРµ С–СЃРЅСѓС”
                 WHEN d.referenced_database_name IS NOT NULL 
                      AND d.referenced_database_name <> DB_NAME()
                      AND DB_ID(d.referenced_database_name) IS NULL
-                THEN N'База даних не існує: ' + d.referenced_database_name
+                THEN N'Р‘Р°Р·Р° РґР°РЅРёС… РЅРµ С–СЃРЅСѓС”: ' + d.referenced_database_name
                 
-                -- Схема не існує в поточній базі даних
+                -- РЎС…РµРјР° РЅРµ С–СЃРЅСѓС” РІ РїРѕС‚РѕС‡РЅС–Р№ Р±Р°Р·С– РґР°РЅРёС…
                 WHEN (d.referenced_database_name IS NULL OR d.referenced_database_name = DB_NAME())
                      AND d.referenced_schema_name IS NOT NULL
                      AND SCHEMA_ID(d.referenced_schema_name) IS NULL
-                THEN N'Схема не існує: ' + d.referenced_schema_name
+                THEN N'РЎС…РµРјР° РЅРµ С–СЃРЅСѓС”: ' + d.referenced_schema_name
                 
-                -- Об'єкт не існує в існуючій схемі
+                -- РћР±'С”РєС‚ РЅРµ С–СЃРЅСѓС” РІ С–СЃРЅСѓСЋС‡С–Р№ СЃС…РµРјС–
                 WHEN (d.referenced_database_name IS NULL OR d.referenced_database_name = DB_NAME())
                      AND d.referenced_schema_name IS NOT NULL
                      AND d.referenced_entity_name IS NOT NULL
                      AND SCHEMA_ID(d.referenced_schema_name) IS NOT NULL
                      AND OBJECT_ID(QUOTENAME(d.referenced_schema_name) + '.' + QUOTENAME(d.referenced_entity_name)) IS NULL
-                THEN N'Об''єкт не існує в схемі: ' + d.referenced_schema_name + '.' + d.referenced_entity_name
+                THEN N'РћР±''С”РєС‚ РЅРµ С–СЃРЅСѓС” РІ СЃС…РµРјС–: ' + d.referenced_schema_name + '.' + d.referenced_entity_name
                 
-                -- Двозначні посилання
+                -- Р”РІРѕР·РЅР°С‡РЅС– РїРѕСЃРёР»Р°РЅРЅСЏ
                 WHEN d.is_ambiguous = 1
-                THEN N'Двозначне посилання на об''єкт'
+                THEN N'Р”РІРѕР·РЅР°С‡РЅРµ РїРѕСЃРёР»Р°РЅРЅСЏ РЅР° РѕР±''С”РєС‚'
                 
-                -- Невизначена назва об'єкта
+                -- РќРµРІРёР·РЅР°С‡РµРЅР° РЅР°Р·РІР° РѕР±'С”РєС‚Р°
                 WHEN d.referenced_entity_name IS NULL AND d.referenced_schema_name IS NOT NULL
-                THEN N'Невизначена назва об''єкта в схемі: ' + d.referenced_schema_name
+                THEN N'РќРµРІРёР·РЅР°С‡РµРЅР° РЅР°Р·РІР° РѕР±''С”РєС‚Р° РІ СЃС…РµРјС–: ' + d.referenced_schema_name
                 
                 ELSE NULL
             END as invalidReason
         FROM sys.sql_expression_dependencies d (NOLOCK)
         WHERE 
-            -- Фільтруємо тільки інваліди
+            -- Р¤С–Р»СЊС‚СЂСѓС”РјРѕ С‚С–Р»СЊРєРё С–РЅРІР°Р»С–РґРё
             (
-                -- База даних не існує
+                -- Р‘Р°Р·Р° РґР°РЅРёС… РЅРµ С–СЃРЅСѓС”
                 (d.referenced_database_name IS NOT NULL 
                  AND d.referenced_database_name <> DB_NAME()
                  AND DB_ID(d.referenced_database_name) IS NULL)
                 OR
-                -- Схема не існує
+                -- РЎС…РµРјР° РЅРµ С–СЃРЅСѓС”
                 (d.referenced_schema_name IS NOT NULL
                  AND SCHEMA_ID(d.referenced_schema_name) IS NULL
                  AND (d.referenced_database_name IS NULL OR d.referenced_database_name = DB_NAME()))
                 OR
-                -- Об'єкт не існує
+                -- РћР±'С”РєС‚ РЅРµ С–СЃРЅСѓС”
                 (d.referenced_entity_name IS NOT NULL
                  AND OBJECT_ID(QUOTENAME(d.referenced_schema_name) + '.' + QUOTENAME(d.referenced_entity_name)) IS NULL
                  AND SCHEMA_ID(d.referenced_schema_name) IS NOT NULL
                  AND (d.referenced_database_name IS NULL OR d.referenced_database_name = DB_NAME()))
                 OR
-                -- Двозначні посилання
+                -- Р”РІРѕР·РЅР°С‡РЅС– РїРѕСЃРёР»Р°РЅРЅСЏ
                 d.is_ambiguous = 1
                 OR
-                -- Невизначені назви
+                -- РќРµРІРёР·РЅР°С‡РµРЅС– РЅР°Р·РІРё
                 (d.referenced_entity_name IS NULL AND d.referenced_schema_name IS NOT NULL)
             )
     ),
     ReferencingObjects AS (
-        -- Крок 2: Знаходимо хто посилається на інвалідні об'єкти (рекурсивно)
+        -- РљСЂРѕРє 2: Р—РЅР°С…РѕРґРёРјРѕ С…С‚Рѕ РїРѕСЃРёР»Р°С”С‚СЊСЃСЏ РЅР° С–РЅРІР°Р»С–РґРЅС– РѕР±'С”РєС‚Рё (СЂРµРєСѓСЂСЃРёРІРЅРѕ)
         SELECT
             d.referencing_id,
             io.referenced_database_name,
@@ -123,7 +123,7 @@ RETURN(
             
         UNION ALL
         
-        -- Крок 3: Рекурсивно шукаємо хто посилається на ті об'єкти, що мають інвалідні залежності
+        -- РљСЂРѕРє 3: Р РµРєСѓСЂСЃРёРІРЅРѕ С€СѓРєР°С”РјРѕ С…С‚Рѕ РїРѕСЃРёР»Р°С”С‚СЊСЃСЏ РЅР° С‚С– РѕР±'С”РєС‚Рё, С‰Рѕ РјР°СЋС‚СЊ С–РЅРІР°Р»С–РґРЅС– Р·Р°Р»РµР¶РЅРѕСЃС‚С–
         SELECT
             d.referencing_id,
             ro.referenced_database_name,
@@ -134,12 +134,12 @@ RETURN(
             ro.dependencyLevel + 1
         FROM sys.sql_expression_dependencies d (NOLOCK)
         INNER JOIN ReferencingObjects ro ON d.referenced_id = ro.referencing_id
-        WHERE ro.dependencyLevel < 10 -- Захист від циклічних залежностей
+        WHERE ro.dependencyLevel < 10 -- Р—Р°С…РёСЃС‚ РІС–Рґ С†РёРєР»С–С‡РЅРёС… Р·Р°Р»РµР¶РЅРѕСЃС‚РµР№
     )
-    -- Крок 4: Формуємо фінальний результат
+    -- РљСЂРѕРє 4: Р¤РѕСЂРјСѓС”РјРѕ С„С–РЅР°Р»СЊРЅРёР№ СЂРµР·СѓР»СЊС‚Р°С‚
     SELECT
         ro.referencing_id as referencingObjectId,
-        util.metadataGetObjectName(ro.referencing_id) as referencingObjectName,
+        util.metadataGetObjectName(ro.referencing_id, DEFAULT) as referencingObjectName,
         o.type_desc as referencingObjectType,
         CONCAT(
             CASE WHEN ro.referenced_database_name IS NOT NULL 
@@ -150,7 +150,7 @@ RETURN(
                  ELSE '' END,
             CASE WHEN ro.referenced_entity_name IS NOT NULL
                  THEN QUOTENAME(ro.referenced_entity_name)
-                 ELSE N'<невизначено>' END
+                 ELSE N'<РЅРµРІРёР·РЅР°С‡РµРЅРѕ>' END
         ) as referencedObjectName,
         ro.referenced_database_name as referencedDatabaseName,
         ro.referenced_schema_name as referencedSchemaName,

@@ -26,13 +26,13 @@ BEGIN
 	RETURN CASE @cls
 					 WHEN 0 THEN QUOTENAME(DB_NAME())
 					 WHEN 1 THEN CASE
-												 WHEN @minorId = 0 THEN util.metadataGetObjectName(@majorId)
-												 ELSE CONCAT(util.metadataGetObjectName(@majorId), '.', util.metadataGetColumnName(@majorId, @minorId))
+												 WHEN @minorId = 0 THEN util.metadataGetObjectName(@majorId, DEFAULT)
+												 ELSE CONCAT(util.metadataGetObjectName(@majorId, DEFAULT), '.', util.metadataGetColumnName(@majorId, @minorId))
 											 END
 					 WHEN 2 THEN  util.metadataGetParameterName(@majorId, @minorId)
 					 WHEN 3 THEN QUOTENAME(SCHEMA_NAME(@majorId))
 					 WHEN 4 THEN QUOTENAME(USER_NAME(@majorId))
-					 WHEN 7 THEN CONCAT(util.metadataGetObjectName(@majorId), '.', util.metadataGetIndexName(@majorId, @minorId))
+					 WHEN 7 THEN CONCAT(util.metadataGetObjectName(@majorId, DEFAULT), '.', util.metadataGetIndexName(@majorId, @minorId))
 					 WHEN 20 THEN util.metadataGetDataspaceName(@majorId)
 					 WHEN 21 THEN util.metadataGetPartitionFunctionName(@majorId)
 					 WHEN 22 THEN QUOTENAME(FILE_NAME(@majorId))

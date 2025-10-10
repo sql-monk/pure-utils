@@ -47,7 +47,7 @@ AS
 RETURN(
     SELECT 
         OBJECT_SCHEMA_NAME(ic.object_id) AS SchemaName,
-        util.metadataGetObjectName(ic.object_id) AS TableName,
+        util.metadataGetObjectName(ic.object_id, DEFAULT) AS TableName,
         c.name AS ColumnName,
         i.name AS IndexName,
         i.type_desc AS IndexType,

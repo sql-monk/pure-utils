@@ -11,10 +11,10 @@ NVARCHAR(128) - повну назву об'єкта у форматі "[схем
 
 # Usage
 -- Отримати назву об'єкта за його ID
-SELECT util.metadataGetObjectName(OBJECT_ID('dbo.myTable'));
+SELECT util.metadataGetObjectName(OBJECT_ID('dbo.myTable'), DEFAULT);
 
 -- Використовуючи числовий ID
-SELECT util.metadataGetObjectName(1234567890);
+SELECT util.metadataGetObjectName(1234567890, DEFAULT);
 */
 CREATE OR ALTER FUNCTION [util].[metadataGetObjectName](@objectId INT, @dbId INT = NULL)
 RETURNS NVARCHAR(128)

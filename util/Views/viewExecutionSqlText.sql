@@ -7,4 +7,4 @@
 - sqlHash VARBINARY(32) - хеш SQL тексту
 - sqlText NVARCHAR(MAX) - повний текст SQL команди
 */
-CREATE VIEW util.viewExecutionSqlText AS SELECT sqlHash, sqlText FROM msdb.util.executionSqlText (NOLOCK);
+CREATE OR ALTER VIEW util.viewExecutionSqlText AS SELECT sqlHash, sqlText FROM msdb.util.executionSqlText (NOLOCK);

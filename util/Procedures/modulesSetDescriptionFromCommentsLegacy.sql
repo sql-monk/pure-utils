@@ -32,7 +32,7 @@ BEGIN
 	),
 	ctePre AS (
 		SELECT
-			util.metadataGetObjectName(cd.objectId) objName,
+			util.metadataGetObjectName(cd.objectId, DEFAULT) objName,
 			STUFF(cd.objectType, 1, 1, UPPER(LEFT(cd.objectType, 1))) objType,
 			CONCAT('''', REPLACE(cd.description, '''', ''''''), '''') objDescr
 		FROM cteCD cd

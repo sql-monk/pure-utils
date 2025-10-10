@@ -89,7 +89,7 @@ BEGIN
         QUOTENAME(@database), 
         ''.util.metadataGetObjectName('', 
         @objectId, 
-        '')''
+        '', DEFAULT)''
     );
     EXEC sp_executesql @descSql, N''@desc NVARCHAR(MAX) OUTPUT'', @desc = @description OUTPUT;
 

@@ -35,6 +35,9 @@
     .\deployUtil.ps1 -Server "localhost" -Database "master" -Schema "mcp" -Objects @("GetTables", "GetDatabases")
 #>
 
+
+
+
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
@@ -51,6 +54,13 @@ param(
     [object]$Objects
 )
 
+# Імпорт банерів
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+. (Join-Path $scriptRoot "banners.ps1")
+
+# Вивід банера
+Write-PureUtilsBanner
+
 # Перевірка наявності модуля dbatools
 if (-not (Get-Module -ListAvailable -Name dbatools)) {
     Write-Error "Модуль dbatools не встановлено. Встановіть його за допомогою: Install-Module -Name dbatools"
@@ -59,8 +69,7 @@ if (-not (Get-Module -ListAvailable -Name dbatools)) {
 
 Import-Module dbatools
 
-# Отримуємо шлях до кореневої директорії проекту (де знаходиться скрипт)
-$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+# Визначаємо шлях до схеми
 $schemaPath = Join-Path $scriptRoot $Schema
 
 # Перевірка існування директорії схемиФ
@@ -85,7 +94,6 @@ function Find-ObjectFile {
     $possiblePaths = @(
         Join-Path $schemaPath "Functions\$ObjectName.sql"
         Join-Path $schemaPath "Procedures\$ObjectName.sql"
-        Join-Path $schemaPath "Tables\$ObjectName.sql"
         Join-Path $schemaPath "Views\$ObjectName.sql"
     )
     
@@ -148,7 +156,7 @@ function Get-ObjectWithDependencies {
         return ""
     }
     
-    Write-Verbose ("$('  ' * $Depth)Обробка об'єкту: $ObjectName")
+    Write-Host ("$('  ' * $Depth)Обробка об'єкту: $ObjectName")
     
     # Знаходимо файл об'єкту
     $objectFile = Find-ObjectFile -ObjectName $ObjectName
@@ -260,7 +268,6 @@ try {
         $sql = Get-ObjectWithDependencies -ObjectName $objName
         
         if ($sql) {
-            $finalSql += "-- ===== Розгортання $objName =====" + "`r`n"
             $finalSql += $sql + "`r`nGO`r`n`r`n"
         }
     }
@@ -281,8 +288,8 @@ try {
             $batch = $batch.Trim()
             if ($batch) {
                 $batchNumber++
-                Write-Verbose "Виконання батча $batchNumber..."
-                
+                # Write-Verbose "Виконання батча $batchNumber..."
+                Write-Verbose $batch 
                 $result = Invoke-DbaQuery -SqlInstance $Server -Database $Database -Query $batch -EnableException
             }
         }

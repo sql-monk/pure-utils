@@ -1,5 +1,2 @@
-
-CREATE SCHEMA [util]
-    AUTHORIZATION [dbo];
-GO
+if (SCHEMA_ID(N'util') IS NULL) EXEC('CREATE SCHEMA [util] AUTHORIZATION [dbo];');
 

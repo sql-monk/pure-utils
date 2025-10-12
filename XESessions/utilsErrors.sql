@@ -18,6 +18,11 @@ ALTER EVENT SESSION utilsErrors ON SERVER STATE = START;
 -- Зупинити сесію
 ALTER EVENT SESSION utilsErrors ON SERVER STATE = STOP;
 */
+
+IF (NOT EXISTS(SELECT *
+FROM sys.server_event_sessions
+WHERE name = 'utilsErrors'))
+BEGIN
 CREATE EVENT SESSION utilsErrors
 ON SERVER
 	ADD EVENT sqlserver.error_reported
@@ -48,5 +53,4 @@ WITH(
 	TRACK_CAUSALITY = ON,
 	STARTUP_STATE = OFF
 );
-GO
-
+END

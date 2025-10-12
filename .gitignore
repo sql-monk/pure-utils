@@ -26,3 +26,5 @@
 .cache/
 *.pyc
 __pycache__/
+/utils.jfm
+/utils.dbmdl

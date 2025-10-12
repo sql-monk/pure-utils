@@ -1,4 +1,9 @@
-CREATE EVENT SESSION utilsBatchesDebug
+IF (NOT EXISTS(SELECT *
+FROM sys.server_event_sessions
+WHERE name = 'utilsDebug'))
+BEGIN
+
+	CREATE EVENT SESSION utilsDebug
 ON SERVER
 	ADD EVENT sqlserver.sp_statement_completed
 	(SET collect_object_name = (1)
@@ -120,7 +125,7 @@ ON SERVER
 	 )
 	)
 	ADD TARGET package0.event_file
-	(SET FILENAME = N'Log\util\utilsBatchesDebug.xel', max_file_size = (8), MAX_ROLLOVER_FILES = (4))
+	(SET FILENAME = N'Log\util\utilsDebug.xel', max_file_size = (8), MAX_ROLLOVER_FILES = (4))
 WITH(
 	MAX_MEMORY = 4096KB,
 	EVENT_RETENTION_MODE = ALLOW_SINGLE_EVENT_LOSS,
@@ -130,5 +135,5 @@ WITH(
 	TRACK_CAUSALITY = ON,
 	STARTUP_STATE = OFF
 );
-GO
+END
 

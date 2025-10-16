@@ -22,6 +22,15 @@
 - Універсальні функції для отримання ID/назв будь-яких об'єктів БД
 - Процедури встановлення описів для всіх типів об'єктів
 
+**Аналіз SSIS пакетів:** ([детальна документація](docs/SSIS_ANALYSIS.md))
+- [`ssisGetPackages`](util/Functions/ssisGetPackages.sql) - список SSIS пакетів з SSISDB каталогу
+- [`ssisGetExecutions`](util/Functions/ssisGetExecutions.sql) - аналіз виконань пакетів з статистикою
+- [`ssisGetErrors`](util/Functions/ssisGetErrors.sql) - детальна інформація про помилки виконання
+- [`ssisGetConnectionStrings`](util/Functions/ssisGetConnectionStrings.sql) - витягування рядків підключення
+- [`ssisGetDataflows`](util/Functions/ssisGetDataflows.sql) - аналіз потоків даних (джерела/призначення)
+- [`ssisFindTableUsage`](util/Functions/ssisFindTableUsage.sql) - пошук пакетів що працюють з конкретною таблицею
+- [`ssisAnalyze`](util/Procedures/ssisAnalyze.sql) - комплексна процедура аналізу SSIS середовища
+
 **Аналіз та оптимізація індексів:**
 - [`indexesGetConventionNames`](util/Functions/indexesGetConventionNames.sql) - генерація стандартизованих назв (PK_, CI_, IX_ з суфіксами _INC, _FLT, _UQ)
 - [`indexesGetMissing`](util/Functions/indexesGetMissing.sql) - пошук відсутніх індексів з розрахунком переваги створення

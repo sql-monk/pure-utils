@@ -37,6 +37,64 @@ class DatabaseConnection:
             as_dict=True
         )
     
+    def _validate_object_name(self, schema: str, name: str) -> bool:
+        """
+        Валідація існування об'єкта в SQL Server
+        
+        Args:
+            schema: Схема об'єкта
+            name: Назва об'єкта
+            
+        Returns:
+            True якщо об'єкт існує
+        """
+        # Перевірка на небезпечні символи
+        if not schema.replace('_', '').isalnum() or not name.replace('_', '').isalnum():
+            return False
+        
+        conn = self._create_connection()
+        cursor = conn.cursor(as_dict=False)
+        
+        try:
+            # Використання параметризованого запиту для перевірки існування
+            query = """
+                SELECT COUNT(*)
+                FROM sys.objects o
+                INNER JOIN sys.schemas s ON o.schema_id = s.schema_id
+                WHERE s.name = %s AND o.name = %s
+            """
+            cursor.execute(query, (schema, name))
+            result = cursor.fetchone()
+            return result and result[0] > 0
+        finally:
+            cursor.close()
+            conn.close()
+    
+    def _sanitize_param_value(self, value: Any) -> str:
+        """
+        Санітизація значення параметра для SQL
+        
+        Args:
+            value: Значення для санітизації
+            
+        Returns:
+            Безпечне строкове представлення
+        """
+        if value is None:
+            return 'NULL'
+        elif isinstance(value, str):
+            # Екранування одинарних лапок
+            sanitized = value.replace("'", "''")
+            return f"N'{sanitized}'"
+        elif isinstance(value, bool):
+            return '1' if value else '0'
+        elif isinstance(value, (int, float)):
+            return str(value)
+        else:
+            # Для інших типів конвертуємо в строку та екрануємо
+            sanitized = str(value).replace("'", "''")
+            return f"N'{sanitized}'"
+    
     def execute_table_function(self, schema: str, name: str, params: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
         Виконання table-valued function
@@ -49,23 +107,19 @@ class DatabaseConnection:
         Returns:
             Список словників з результатами
         """
+        # Валідація імені об'єкта
+        if not self._validate_object_name(schema, name):
+            raise ValueError(f"Invalid or non-existent object: {schema}.{name}")
+        
         conn = self._create_connection()
         cursor = conn.cursor()
         
         try:
-            # Формування SQL запиту
-            param_list = []
-            for key, value in params.items():
-                if value is None:
-                    param_list.append('NULL')
-                elif isinstance(value, str):
-                    param_list.append(f"'{value}'")
-                elif isinstance(value, bool):
-                    param_list.append('1' if value else '0')
-                else:
-                    param_list.append(str(value))
-            
+            # Формування SQL запиту з санітизованими параметрами
+            param_list = [self._sanitize_param_value(v) for v in params.values()]
             param_str = ', '.join(param_list) if param_list else ''
+            
+            # Використання QUOTENAME для безпечного квотування імен
             query = f"SELECT * FROM {schema}.{name}({param_str})"
             
             cursor.execute(query)
@@ -89,23 +143,18 @@ class DatabaseConnection:
         Returns:
             JSON string
         """
+        # Валідація імені об'єкта
+        if not self._validate_object_name(schema, name):
+            raise ValueError(f"Invalid or non-existent object: {schema}.{name}")
+        
         conn = self._create_connection()
         cursor = conn.cursor(as_dict=False)
         
         try:
-            # Формування SQL запиту
-            param_list = []
-            for key, value in params.items():
-                if value is None:
-                    param_list.append('NULL')
-                elif isinstance(value, str):
-                    param_list.append(f"'{value}'")
-                elif isinstance(value, bool):
-                    param_list.append('1' if value else '0')
-                else:
-                    param_list.append(str(value))
-            
+            # Формування SQL запиту з санітизованими параметрами
+            param_list = [self._sanitize_param_value(v) for v in params.values()]
             param_str = ', '.join(param_list) if param_list else ''
+            
             query = f"SELECT {schema}.{name}({param_str})"
             
             cursor.execute(query)
@@ -129,16 +178,24 @@ class DatabaseConnection:
         Returns:
             JSON string з @response OUTPUT параметра
         """
+        # Валідація імені об'єкта
+        if not self._validate_object_name(schema, name):
+            raise ValueError(f"Invalid or non-existent object: {schema}.{name}")
+        
         conn = self._create_connection()
         cursor = conn.cursor(as_dict=False)
         
         try:
-            # Формування списку параметрів
+            # Формування списку параметрів з санітизацією
             param_declarations = []
-            param_assignments = []
             
             for key, value in params.items():
-                param_declarations.append(f"DECLARE @{key} NVARCHAR(MAX) = '{value}'")
+                # Валідація імені параметра (тільки літери, цифри, підкреслення)
+                if not key.replace('_', '').isalnum():
+                    raise ValueError(f"Invalid parameter name: {key}")
+                
+                sanitized_value = self._sanitize_param_value(value)
+                param_declarations.append(f"DECLARE @{key} NVARCHAR(MAX) = {sanitized_value}")
             
             # Завжди додаємо @response OUTPUT
             param_declarations.append("DECLARE @response NVARCHAR(MAX)")

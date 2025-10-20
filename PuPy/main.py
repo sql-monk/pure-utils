@@ -8,8 +8,13 @@ HTTP → FastAPI (PuPy) → SQL Server (schema pupy) → JSON
 """
 import argparse
 import sys
+import os
 import getpass
 import uvicorn
+
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(__file__))
+
 from database import DatabaseConnection
 from router import create_app
 

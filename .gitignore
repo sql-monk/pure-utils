@@ -28,3 +28,14 @@
 __pycache__/
 /utils.jfm
 /utils.dbmdl
+
+# Python virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Python egg files
+*.egg-info/
+dist/
+build/

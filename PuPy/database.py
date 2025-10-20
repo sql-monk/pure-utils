@@ -74,6 +74,12 @@ class DatabaseConnection:
         """
         Санітизація значення параметра для SQL
         
+        Note: Dynamic SQL is required here for the API design pattern where
+        URL routes map to SQL objects. Multiple security layers are applied:
+        - Object existence validation via sys.objects
+        - Parameter value sanitization (escape quotes)
+        - Alphanumeric validation for identifiers
+        
         Args:
             value: Значення для санітизації
             
@@ -83,7 +89,7 @@ class DatabaseConnection:
         if value is None:
             return 'NULL'
         elif isinstance(value, str):
-            # Екранування одинарних лапок
+            # Екранування одинарних лапок для запобігання SQL injection
             sanitized = value.replace("'", "''")
             return f"N'{sanitized}'"
         elif isinstance(value, bool):

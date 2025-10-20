@@ -28,3 +28,19 @@
 __pycache__/
 /utils.jfm
 /utils.dbmdl
+
+# Python virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Python package distribution
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+*.swp
+*.swo

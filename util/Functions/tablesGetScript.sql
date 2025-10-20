@@ -23,7 +23,10 @@ SELECT * FROM util.tablesGetScript('myTable', 'myNewTable');
 -- Згенерувати скрипти для всіх таблиць
 SELECT * FROM util.tablesGetScript(NULL, NULL);
 */
-CREATE OR ALTER FUNCTION util.tablesGetScript(@table NVARCHAR(128) = NULL, @newName NVARCHAR(128) = NULL)
+CREATE OR ALTER FUNCTION util.tablesGetScript(
+	@table NVARCHAR(128) = NULL,
+	@newName NVARCHAR(128) = NULL
+)
 RETURNS TABLE
 AS
 RETURN(
@@ -36,8 +39,9 @@ RETURN(
 			t.create_date,
 			t.modify_date
 		FROM sys.tables t(NOLOCK)
-		WHERE
-			(@table IS NULL OR t.object_id = ISNULL(TRY_CONVERT(INT, @table), OBJECT_ID(@table))) AND t.is_ms_shipped = 0 -- exclude system tables
+		WHERE(
+			@table IS NULL OR t.object_id = ISNULL(TRY_CONVERT(INT, @table), OBJECT_ID(@table))
+		)		 AND t.is_ms_shipped = 0 -- exclude system tables
 	),
 	ColumnInfo AS (
 		SELECT
@@ -46,17 +50,24 @@ RETURN(
 			c.name ColumnName,
 			tp.name DataType,
 			CASE
-				WHEN tp.name IN ('varchar', 'char', 'varbinary', 'binary', 'text') THEN tp.name + '(' + CASE
-																																																	WHEN c.max_length = -1 THEN 'MAX'
-																																																	ELSE CAST(c.max_length AS VARCHAR(5))
-																																																END + ')'
-				WHEN tp.name IN ('nvarchar', 'nchar', 'ntext') THEN tp.name + '(' + CASE
-																																							WHEN c.max_length = -1 THEN 'MAX'
-																																							ELSE CAST(c.max_length / 2 AS VARCHAR(5))
-																																						END + ')'
-				WHEN tp.name IN ('datetime2', 'time2', 'datetimeoffset') THEN tp.name + '(' + CAST(c.scale AS VARCHAR(5)) + ')'
-				WHEN tp.name IN ('decimal', 'numeric') THEN tp.name + '(' + CAST(c.precision AS VARCHAR(5)) + ', ' + CAST(c.scale AS VARCHAR(5)) + ')'
-				WHEN tp.name IN ('float') THEN tp.name + '(' + CAST(c.precision AS VARCHAR(5)) + ')'
+				WHEN tp.name IN ('varchar', 'char', 'varbinary', 'binary', 'text')
+				THEN tp.name + '(' + CASE
+															 WHEN c.max_length = -1
+															 THEN 'MAX'
+															 ELSE CAST(c.max_length AS VARCHAR(5))
+														 END + ')'
+				WHEN tp.name IN ('nvarchar', 'nchar', 'ntext')
+				THEN tp.name + '(' + CASE
+															 WHEN c.max_length = -1
+															 THEN 'MAX'
+															 ELSE CAST(c.max_length / 2 AS VARCHAR(5))
+														 END + ')'
+				WHEN tp.name IN ('datetime2', 'time2', 'datetimeoffset')
+				THEN tp.name + '(' + CAST(c.scale AS VARCHAR(5)) + ')'
+				WHEN tp.name IN ('decimal', 'numeric')
+				THEN tp.name + '(' + CAST(c.precision AS VARCHAR(5)) + ', ' + CAST(c.scale AS VARCHAR(5)) + ')'
+				WHEN tp.name IN ('float')
+				THEN tp.name + '(' + CAST(c.precision AS VARCHAR(5)) + ')'
 				ELSE tp.name
 			END DataTypeWithSize,
 			c.is_nullable,
@@ -73,8 +84,7 @@ RETURN(
 			LEFT JOIN sys.identity_columns ic(NOLOCK)ON c.object_id = ic.object_id AND c.column_id = ic.column_id
 			LEFT JOIN sys.computed_columns cc(NOLOCK)ON c.object_id = cc.object_id AND c.column_id = cc.column_id
 			LEFT JOIN sys.default_constraints dc(NOLOCK)ON c.object_id = dc.parent_object_id AND c.column_id = dc.parent_column_id
-		WHERE
-			c.object_id IN(SELECT TableInfo.object_id FROM TableInfo)
+		WHERE c.object_id IN(SELECT TableInfo.object_id FROM TableInfo)
 	),
 	PrimaryKeyInfo AS (
 		SELECT
@@ -84,10 +94,8 @@ RETURN(
 		FROM sys.key_constraints kc(NOLOCK)
 			INNER JOIN sys.index_columns ic(NOLOCK)ON kc.parent_object_id = ic.object_id AND kc.unique_index_id = ic.index_id
 			INNER JOIN sys.columns c(NOLOCK)ON ic.object_id = c.object_id AND ic.column_id = c.column_id
-		WHERE
-			kc.type = 'PK' AND kc.parent_object_id IN(SELECT TableInfo.object_id FROM TableInfo)
-		GROUP BY
-			kc.parent_object_id,
+		WHERE kc.type = 'PK' AND kc.parent_object_id IN(SELECT TableInfo.object_id FROM TableInfo)
+		GROUP BY kc.parent_object_id,
 			kc.name
 	),
 	ForeignKeyDetails AS (
@@ -101,10 +109,8 @@ RETURN(
 			INNER JOIN sys.foreign_key_columns fkc(NOLOCK)ON fk.object_id = fkc.constraint_object_id
 			INNER JOIN sys.columns pc(NOLOCK)ON fkc.parent_object_id = pc.object_id AND fkc.parent_column_id = pc.column_id
 			INNER JOIN sys.columns rc(NOLOCK)ON fkc.referenced_object_id = rc.object_id AND fkc.referenced_column_id = rc.column_id
-		WHERE
-			fk.parent_object_id IN(SELECT TableInfo.object_id FROM TableInfo)
-		GROUP BY
-			fk.parent_object_id,
+		WHERE fk.parent_object_id IN(SELECT TableInfo.object_id FROM TableInfo)
+		GROUP BY fk.parent_object_id,
 			fk.object_id,
 			fk.name,
 			fk.referenced_object_id
@@ -125,8 +131,7 @@ RETURN(
 			cc.parent_object_id object_id,
 			STRING_AGG('CONSTRAINT ' + QUOTENAME(cc.name) + ' CHECK ' + cc.definition, ', ') CheckConstraints
 		FROM sys.check_constraints cc(NOLOCK)
-		WHERE
-			cc.parent_object_id IN(SELECT TableInfo.object_id FROM TableInfo)
+		WHERE cc.parent_object_id IN(SELECT TableInfo.object_id FROM TableInfo)
 		GROUP BY cc.parent_object_id
 	)
 	SELECT
@@ -135,42 +140,56 @@ RETURN(
 		+ STRING_AGG(
 				'    ' + QUOTENAME(ci.ColumnName) + ' '
 				+ CASE
-						WHEN ci.is_computed = 1 THEN 'AS ' + ci.ComputedDefinition + CASE WHEN ci.is_persisted = 1 THEN ' PERSISTED' ELSE '' END
-						ELSE
-							ci.DataTypeWithSize
-							+ CASE
-									WHEN ci.is_identity = 1 THEN ' IDENTITY(' + CAST(ci.IdentitySeed AS VARCHAR(10)) + ', ' + CAST(ci.IdentityIncrement AS VARCHAR(10)) + ')'
-									ELSE ''
-								END + CASE WHEN ci.is_nullable = 0 THEN ' NOT NULL' ELSE ' NULL' END
-							+ CASE
-									WHEN ci.DefaultDefinition IS NOT NULL THEN ' DEFAULT ' + ci.DefaultDefinition
-									ELSE ''
-								END
+						WHEN ci.is_computed = 1
+						THEN 'AS ' + ci.ComputedDefinition + CASE WHEN ci.is_persisted = 1 THEN ' PERSISTED' ELSE '' END
+						ELSE ci.DataTypeWithSize + CASE
+																				 WHEN ci.is_identity = 1
+																				 THEN ' IDENTITY(' + CAST(ci.IdentitySeed AS VARCHAR(10)) + ', ' + CAST(ci.IdentityIncrement AS VARCHAR(10)) + ')'
+																				 ELSE ''
+																			 END + CASE WHEN ci.is_nullable = 0 THEN ' NOT NULL' ELSE ' NULL' END + CASE
+																																																								WHEN ci.DefaultDefinition IS NOT NULL
+																																																								THEN ' DEFAULT ' + ci.DefaultDefinition
+																																																								ELSE ''
+																																																							END
 					END,
 				',' + CHAR(13) + CHAR(10)
 			) WITHIN GROUP(ORDER BY ci.column_id)
 		+ CASE
-				WHEN pki.KeyColumns IS NOT NULL THEN
-					',' + CHAR(13) + CHAR(10) + '    CONSTRAINT ' + QUOTENAME(CASE WHEN @newName IS NOT NULL THEN REPLACE(pki.ConstraintName, ti.TableName, @newName) ELSE pki.ConstraintName END) + ' PRIMARY KEY (' + pki.KeyColumns + ')'
+				WHEN pki.KeyColumns IS NOT NULL
+				THEN ',' + CHAR(13) + CHAR(10) + '    CONSTRAINT ' + QUOTENAME(CASE
+																																				 WHEN @newName IS NOT NULL
+																																				 THEN REPLACE(pki.ConstraintName, ti.TableName, @newName)
+																																				 ELSE pki.ConstraintName
+																																			 END
+																														 ) + ' PRIMARY KEY (' + pki.KeyColumns + ')'
 				ELSE ''
 			END + CASE
-							WHEN fki.ForeignKeyConstraints IS NOT NULL THEN ',' + CHAR(13) + CHAR(10) + '    ' + CASE WHEN @newName IS NOT NULL THEN REPLACE(fki.ForeignKeyConstraints, ti.TableName, @newName) ELSE fki.ForeignKeyConstraints END
+							WHEN fki.ForeignKeyConstraints IS NOT NULL
+							THEN ',' + CHAR(13) + CHAR(10) + '    ' + CASE
+																													WHEN @newName IS NOT NULL
+																													THEN REPLACE(fki.ForeignKeyConstraints, ti.TableName, @newName)
+																													ELSE fki.ForeignKeyConstraints
+																												END
 							ELSE ''
 						END + CASE
-										WHEN cci.CheckConstraints IS NOT NULL THEN ',' + CHAR(13) + CHAR(10) + '    ' + CASE WHEN @newName IS NOT NULL THEN REPLACE(cci.CheckConstraints, ti.TableName, @newName) ELSE cci.CheckConstraints END
+										WHEN cci.CHECKCONSTRAINTS IS NOT NULL
+										THEN ',' + CHAR(13) + CHAR(10) + '    ' + CASE
+																																WHEN @newName IS NOT NULL
+																																THEN REPLACE(cci.CHECKCONSTRAINTS, ti.TableName, @newName)
+																																ELSE cci.CHECKCONSTRAINTS
+																															END
 										ELSE ''
 									END + CHAR(13) + CHAR(10) + ');' createScript
 	FROM TableInfo ti
-		INNER JOIN ColumnInfo ci ON ti.object_id = ci.object_id
-		LEFT JOIN PrimaryKeyInfo pki ON ti.object_id = pki.object_id
-		LEFT JOIN ForeignKeyInfo fki ON ti.object_id = fki.object_id
-		LEFT JOIN CheckConstraintInfo cci ON ti.object_id = cci.object_id
-	GROUP BY
-		ti.object_id,
+		INNER JOIN ColumnInfo ci ON ti.OBJECT_ID = ci.OBJECT_ID
+		LEFT JOIN PrimaryKeyInfo pki ON ti.OBJECT_ID = pki.OBJECT_ID
+		LEFT JOIN ForeignKeyInfo fki ON ti.OBJECT_ID = fki.OBJECT_ID
+		LEFT JOIN CheckConstraintInfo cci ON ti.OBJECT_ID = cci.OBJECT_ID
+	GROUP BY ti.OBJECT_ID,
 		ti.SchemaName,
 		ti.TableName,
 		pki.ConstraintName,
 		pki.KeyColumns,
 		fki.ForeignKeyConstraints,
-		cci.CheckConstraints
+		cci.CHECKCONSTRAINTS
 );

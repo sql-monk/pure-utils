@@ -3,6 +3,10 @@
 - Без необхідності не видаляй тимчасові таблиці в процедурах
 - Якщо є об'єкти в схеі util які можуть бути використані в новому об'єкті - використовуй їх не дублюючи код
 - оптимізуй для роботи на SQL Server 2022
+- для отримання інформації про SSIS використовуй документацію Microsoft по SSIS 2022 https://learn.microsoft.com/ru-ru/sql/integration-services/sql-server-integration-services?view=sql-server-ver17
+
+# XSD
+- для аналізку XML пакетів зі схемою www.microsoft.com/SqlServer/Dts використовуй  по XSD для SSIS https://learn.microsoft.com/en-us/openspecs/sql_data_portability/ms-dtsx/d578be53-65c5-424e-8757-1e8c4e33b56b
 
 
 # Code Style

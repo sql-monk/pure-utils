@@ -13,8 +13,6 @@ NVARCHAR(128) - повна назва у форматі "схема.об'єкт 
 -- Отримати назву параметра за ID
 SELECT util.metadataGetParameterName(OBJECT_ID('myProc'), 1);
 */
-USE model;
-GO
 CREATE OR ALTER FUNCTION util.metadataGetParameterName(@majorId INT, @minorId INT)
 RETURNS NVARCHAR(128)
 AS

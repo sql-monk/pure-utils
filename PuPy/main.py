@@ -194,22 +194,24 @@ async def execute_stored_procedure(schema: str, object_name: str, params: Dict[s
         cursor = db_connection.cursor()
         
         # Build parameter list for procedure call
-        param_declarations = []
+        param_placeholders = []
         param_values = []
         
         for key, value in params.items():
-            param_declarations.append(f"@{key}=?")
+            param_placeholders.append("?")
             param_values.append(value)
         
-        # Add @response output parameter with placeholder
-        param_declarations.append("@response=? OUTPUT")
+        # Use a different approach: call procedure and use a temp variable for output
+        # Build the SQL batch that declares output variable, calls proc, and returns result
+        param_assigns = ", ".join([f"@{key}=?" for key in params.keys()])
+        if param_assigns:
+            param_assigns = param_assigns + ", "
         
-        # Build EXEC statement
-        param_str = ", ".join(param_declarations)
-        query = f"DECLARE @output NVARCHAR(MAX); EXEC {schema}.{object_name} {param_str}; SELECT @output AS response;"
-        
-        # Add output variable to parameters
-        param_values_exec = param_values + [pyodbc.SQL_PARAM_OUTPUT]
+        query = f"""
+        DECLARE @response NVARCHAR(MAX);
+        EXEC {schema}.{object_name} {param_assigns}@response=@response OUTPUT;
+        SELECT @response AS result;
+        """
         
         cursor.execute(query, param_values)
         

@@ -37,6 +37,47 @@ class SQLObjectType:
     UNKNOWN = "UNKNOWN"
 
 
+def is_valid_sql_identifier(name: str) -> bool:
+    """
+    Validate that a string is a safe SQL identifier.
+    Only allows alphanumeric characters and underscores, must start with letter or underscore.
+    
+    Args:
+        name: The identifier to validate
+    
+    Returns:
+        True if valid, False otherwise
+    """
+    if not name or len(name) > 128:
+        return False
+    
+    # Must start with letter or underscore
+    if not (name[0].isalpha() or name[0] == '_'):
+        return False
+    
+    # Only alphanumeric and underscore allowed
+    return all(c.isalnum() or c == '_' for c in name)
+
+
+def validate_identifier(identifier: str, name: str) -> None:
+    """
+    Validate and raise HTTPException if identifier is not safe.
+    
+    Args:
+        identifier: The identifier to validate
+        name: Human-readable name for error message
+    
+    Raises:
+        HTTPException: If identifier is not valid
+    """
+    if not is_valid_sql_identifier(identifier):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid {name}: must contain only alphanumeric characters and underscores, "
+                   f"start with a letter or underscore, and be max 128 characters"
+        )
+
+
 async def get_sql_object_type(schema: str, object_name: str) -> str:
     """
     Determine the type of SQL object
@@ -49,6 +90,10 @@ async def get_sql_object_type(schema: str, object_name: str) -> str:
         SQLObjectType constant
     """
     global db_connection
+    
+    # Validate identifiers to prevent SQL injection
+    validate_identifier(schema, "schema name")
+    validate_identifier(object_name, "object name")
     
     query = """
     SELECT 
@@ -93,15 +138,26 @@ async def execute_view_or_tvf(schema: str, object_name: str, params: Dict[str, A
     """
     global db_connection
     
-    # Build the SQL query
+    # Validate identifiers to prevent SQL injection
+    validate_identifier(schema, "schema name")
+    validate_identifier(object_name, "object name")
+    
+    # Validate parameter names
+    for param_name in params.keys():
+        validate_identifier(param_name, f"parameter name '{param_name}'")
+    
+    # Build the SQL query using brackets for identifiers
+    # NOTE: schema, object_name, and all param keys have been validated above
+    # to only contain safe alphanumeric characters and underscores (validated by is_valid_sql_identifier)
+    # Parameter VALUES use parameterized queries (?), preventing SQL injection
     if params:
         # Table-Valued Function with parameters
         param_list = ", ".join([f"@{key}=?" for key in params.keys()])
-        query = f"SELECT * FROM {schema}.{object_name}({param_list})"
+        query = f"SELECT * FROM [{schema}].[{object_name}]({param_list})"
         param_values = list(params.values())
     else:
         # VIEW or TVF without parameters
-        query = f"SELECT * FROM {schema}.{object_name}"
+        query = f"SELECT * FROM [{schema}].[{object_name}]"
         param_values = []
     
     try:
@@ -149,13 +205,24 @@ async def execute_scalar_function(schema: str, object_name: str, params: Dict[st
     """
     global db_connection
     
-    # Build the SQL query for scalar function
+    # Validate identifiers to prevent SQL injection
+    validate_identifier(schema, "schema name")
+    validate_identifier(object_name, "object name")
+    
+    # Validate parameter names
+    for param_name in params.keys():
+        validate_identifier(param_name, f"parameter name '{param_name}'")
+    
+    # Build the SQL query for scalar function using brackets for identifiers
+    # NOTE: schema, object_name, and all param keys have been validated above
+    # to only contain safe alphanumeric characters and underscores (validated by is_valid_sql_identifier)
+    # Parameter VALUES use parameterized queries (?), preventing SQL injection
     if params:
         param_list = ", ".join([f"@{key}=?" for key in params.keys()])
-        query = f"SELECT {schema}.{object_name}({param_list})"
+        query = f"SELECT [{schema}].[{object_name}]({param_list})"
         param_values = list(params.values())
     else:
-        query = f"SELECT {schema}.{object_name}()"
+        query = f"SELECT [{schema}].[{object_name}]()"
         param_values = []
     
     try:
@@ -190,26 +257,35 @@ async def execute_stored_procedure(schema: str, object_name: str, params: Dict[s
     """
     global db_connection
     
+    # Validate identifiers to prevent SQL injection
+    validate_identifier(schema, "schema name")
+    validate_identifier(object_name, "object name")
+    
+    # Validate parameter names
+    for param_name in params.keys():
+        validate_identifier(param_name, f"parameter name '{param_name}'")
+    
     try:
         cursor = db_connection.cursor()
         
         # Build parameter list for procedure call
-        param_placeholders = []
         param_values = []
         
         for key, value in params.items():
-            param_placeholders.append("?")
             param_values.append(value)
         
         # Use a different approach: call procedure and use a temp variable for output
         # Build the SQL batch that declares output variable, calls proc, and returns result
+        # NOTE: schema, object_name, and all param keys have been validated above
+        # to only contain safe alphanumeric characters and underscores (validated by is_valid_sql_identifier)
+        # Parameter VALUES use parameterized queries (?), preventing SQL injection
         param_assigns = ", ".join([f"@{key}=?" for key in params.keys()])
         if param_assigns:
             param_assigns = param_assigns + ", "
         
         query = f"""
         DECLARE @response NVARCHAR(MAX);
-        EXEC {schema}.{object_name} {param_assigns}@response=@response OUTPUT;
+        EXEC [{schema}].[{object_name}] {param_assigns}@response=@response OUTPUT;
         SELECT @response AS result;
         """
         

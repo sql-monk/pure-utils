@@ -19,6 +19,8 @@
 *.user
 /PlanSqlsMcp/obj
 /PlanSqlsMcp/bin
+/PureSqlsApi/obj
+/PureSqlsApi/bin
 /.mcp.json
 
 # MkDocs documentation build artifacts

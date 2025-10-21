@@ -1,0 +1,1 @@
+if (SCHEMA_ID(N'api') IS NULL) EXEC('CREATE SCHEMA [api] AUTHORIZATION [dbo];');

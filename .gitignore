@@ -28,3 +28,5 @@
 __pycache__/
 /utils.jfm
 /utils.dbmdl
+/garage/util
+/garage/XSD

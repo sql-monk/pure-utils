@@ -1,0 +1,52 @@
+## Build results
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio cache/options
+.vs/
+.vscode/
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Build results
+*.exe
+*.dll
+*.pdb
+*.cache
+
+## NuGet Packages
+*.nupkg
+*.snupkg
+**/packages/*
+
+## Publish profiles
+PublishProfiles/
+*.pubxml
+*.publishsettings
+
+## VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+## Rider
+.idea/
+*.sln.iml

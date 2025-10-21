@@ -94,7 +94,7 @@ param(
     [bool]$SkipReferences = $false,
 
     [Parameter(Mandatory = $false)]
-    [ValidateSet('util', 'mcp')]
+    [ValidateSet('util', 'mcp', 'api')]
     [string]$Schema = 'util',
 
     [Parameter(Mandatory = $false)]
@@ -367,14 +367,17 @@ function Deploy-SqlFile {
         [string]$FilePath
     )
     
+    Write-Host $FilePath -ForegroundColor DarkCyan
+    # Console.WriteLine("Deploying SQL File: $FilePath");
+
     $fileName = [System.IO.Path]::GetFileNameWithoutExtension($FilePath)
-    $relativePath = $FilePath.Replace($script:scriptRoot, "").TrimStart('\', '/')
+    # $relativePath = $FilePath.Replace($script:scriptRoot, "").TrimStart('\', '/')
     
     # Визначаємо схему з шляху
-    $schema = if ($FilePath -match '[\\/](util|mcp)[\\/]') { $matches[1] } else { 'dbo' }
+    $schema = if ($FilePath -match '[\\/](api|util|mcp)[\\/]') { $matches[1] } else { 'dbo' }
     $fullObjectName = "[$schema].[$fileName]"
     
-    Write-Host $fullObjectName -ForegroundColor DarkCyan
+    Write-Host $fullObjectName -ForegroundColor DarkMagenta
     
     try {
         # Якщо це таблиця - перейменовуємо існуючу
@@ -384,6 +387,10 @@ function Deploy-SqlFile {
         
         $sql = Get-Content -Path $FilePath -Raw -Encoding UTF8
         
+        Write-Host "Executing SQL..." -ForegroundColor DarkYellow
+        Write-Host $SqlInstance -ForegroundColor DarkGreen
+        Write-Host $Database -ForegroundColor DarkGreen
+
         Invoke-DbaQuery -SqlInstance $SqlInstance -Database $Database -Query $sql -QueryTimeout 300 -EnableException | Out-Null
         
         # Успішно розгорнуто - нічого не виводимо

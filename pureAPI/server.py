@@ -64,6 +64,8 @@ def validate_sql_identifier(identifier: str) -> str:
     alphanumeric characters and underscores.
     
     Raises HTTPException if validation fails.
+    
+    Returns the validated identifier that is safe to use in SQL queries.
     """
     if not identifier:
         raise HTTPException(status_code=400, detail="Identifier cannot be empty")
@@ -80,6 +82,7 @@ def validate_sql_identifier(identifier: str) -> str:
     if len(identifier) > 128:
         raise HTTPException(status_code=400, detail="Identifier too long")
     
+    # This identifier has been validated and is safe from SQL injection
     return identifier
 
 
@@ -109,7 +112,9 @@ def execute_table_function(function_name: str, params: Dict[str, Any]) -> Dict[s
         
         param_str = ", ".join(param_list) if param_list else ""
         
-        # Execute function - function_name is now validated
+        # SECURITY: function_name has been validated by validate_sql_identifier()
+        # to contain only alphanumeric characters and underscores, preventing SQL injection.
+        # Parameter values are passed via parameterized query (%s placeholders).
         query = f"SELECT jsondata FROM api.{function_name}({param_str})"
         cursor.execute(query, tuple(param_values))
         
@@ -168,7 +173,9 @@ def execute_scalar_function(function_name: str, params: Dict[str, Any]) -> Any:
         
         param_str = ", ".join(param_list) if param_list else ""
         
-        # Execute function - function_name is now validated
+        # SECURITY: function_name has been validated by validate_sql_identifier()
+        # to contain only alphanumeric characters and underscores, preventing SQL injection.
+        # Parameter values are passed via parameterized query (%s placeholders).
         query = f"SELECT api.{function_name}({param_str})"
         cursor.execute(query, tuple(param_values))
         
@@ -220,6 +227,10 @@ def execute_procedure(procedure_name: str, params: Dict[str, Any]) -> Any:
         
         declare_stmt = "DECLARE @response NVARCHAR(MAX);"
         exec_params = ", ".join(param_assignments) if param_assignments else ""
+        
+        # SECURITY: procedure_name has been validated by validate_sql_identifier()
+        # to contain only alphanumeric characters and underscores, preventing SQL injection.
+        # Parameter values are passed via parameterized query (%s placeholders).
         if exec_params:
             exec_stmt = f"EXEC api.{procedure_name} {exec_params}, @response = @response OUTPUT;"
         else:

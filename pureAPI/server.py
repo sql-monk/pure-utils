@@ -56,6 +56,33 @@ def get_connection():
         raise HTTPException(status_code=500, detail=f"Database connection error: {str(e)}")
 
 
+def validate_sql_identifier(identifier: str) -> str:
+    """
+    Validate that a string is a safe SQL identifier.
+    
+    Prevents SQL injection by ensuring identifier only contains
+    alphanumeric characters and underscores.
+    
+    Raises HTTPException if validation fails.
+    """
+    if not identifier:
+        raise HTTPException(status_code=400, detail="Identifier cannot be empty")
+    
+    # SQL identifiers should only contain alphanumeric characters and underscores
+    # and should not start with a digit
+    if not identifier.replace('_', '').isalnum():
+        raise HTTPException(status_code=400, detail=f"Invalid identifier: {identifier}")
+    
+    if identifier[0].isdigit():
+        raise HTTPException(status_code=400, detail=f"Identifier cannot start with a digit: {identifier}")
+    
+    # Prevent excessively long identifiers
+    if len(identifier) > 128:
+        raise HTTPException(status_code=400, detail="Identifier too long")
+    
+    return identifier
+
+
 def execute_table_function(function_name: str, params: Dict[str, Any]) -> Dict[str, Any]:
     """
     Execute a table-valued function that returns JSON data.
@@ -65,20 +92,24 @@ def execute_table_function(function_name: str, params: Dict[str, Any]) -> Dict[s
     
     Returns: {"data": [...], "count": N}
     """
+    # Validate function name to prevent SQL injection
+    function_name = validate_sql_identifier(function_name)
+    
     conn = get_connection()
     try:
         cursor = conn.cursor()
         
-        # Build parameter list
+        # Build parameter list - validate parameter names
         param_list = []
         param_values = []
         for key, value in params.items():
-            param_list.append(f"@{key} = %s")
+            validated_key = validate_sql_identifier(key)
+            param_list.append(f"@{validated_key} = %s")
             param_values.append(value)
         
         param_str = ", ".join(param_list) if param_list else ""
         
-        # Execute function
+        # Execute function - function_name is now validated
         query = f"SELECT jsondata FROM api.{function_name}({param_str})"
         cursor.execute(query, tuple(param_values))
         
@@ -89,8 +120,9 @@ def execute_table_function(function_name: str, params: Dict[str, Any]) -> Dict[s
                 try:
                     json_obj = json.loads(row[0])
                     results.append(json_obj)
-                except json.JSONDecodeError as e:
-                    raise HTTPException(status_code=500, detail=f"Invalid JSON in row: {str(e)}")
+                except json.JSONDecodeError:
+                    # Don't expose JSON parsing details
+                    raise HTTPException(status_code=500, detail="Invalid JSON in database result")
         
         cursor.close()
         conn.close()
@@ -99,12 +131,16 @@ def execute_table_function(function_name: str, params: Dict[str, Any]) -> Dict[s
             "data": results,
             "count": len(results)
         }
+    except HTTPException:
+        conn.close()
+        raise
     except pymssql.DatabaseError as e:
         conn.close()
-        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
-    except Exception as e:
+        # Don't expose full database error details
+        raise HTTPException(status_code=500, detail="Database error occurred")
+    except Exception:
         conn.close()
-        raise HTTPException(status_code=500, detail=f"Error executing function: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error executing function")
 
 
 def execute_scalar_function(function_name: str, params: Dict[str, Any]) -> Any:
@@ -115,20 +151,24 @@ def execute_scalar_function(function_name: str, params: Dict[str, Any]) -> Any:
     
     Returns: parsed JSON or raw string
     """
+    # Validate function name to prevent SQL injection
+    function_name = validate_sql_identifier(function_name)
+    
     conn = get_connection()
     try:
         cursor = conn.cursor()
         
-        # Build parameter list
+        # Build parameter list - validate parameter names
         param_list = []
         param_values = []
         for key, value in params.items():
-            param_list.append(f"@{key} = %s")
+            validated_key = validate_sql_identifier(key)
+            param_list.append(f"@{validated_key} = %s")
             param_values.append(value)
         
         param_str = ", ".join(param_list) if param_list else ""
         
-        # Execute function
+        # Execute function - function_name is now validated
         query = f"SELECT api.{function_name}({param_str})"
         cursor.execute(query, tuple(param_values))
         
@@ -145,12 +185,15 @@ def execute_scalar_function(function_name: str, params: Dict[str, Any]) -> Any:
                 return result[0]
         else:
             return None
-    except pymssql.DatabaseError as e:
+    except HTTPException:
         conn.close()
-        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
-    except Exception as e:
+        raise
+    except pymssql.DatabaseError:
         conn.close()
-        raise HTTPException(status_code=500, detail=f"Error executing function: {str(e)}")
+        raise HTTPException(status_code=500, detail="Database error occurred")
+    except Exception:
+        conn.close()
+        raise HTTPException(status_code=500, detail="Error executing function")
 
 
 def execute_procedure(procedure_name: str, params: Dict[str, Any]) -> Any:
@@ -162,39 +205,18 @@ def execute_procedure(procedure_name: str, params: Dict[str, Any]) -> Any:
     
     Returns: parsed JSON from @response parameter
     """
+    # Validate procedure name to prevent SQL injection
+    procedure_name = validate_sql_identifier(procedure_name)
+    
     conn = get_connection()
     try:
         cursor = conn.cursor()
         
-        # Build parameter list
-        param_list = []
-        param_values = []
-        for key, value in params.items():
-            param_list.append(f"@{key} = %s")
-            param_values.append(value)
-        
-        # Add OUTPUT parameter
-        param_list.append("@response = %s OUTPUT")
-        param_values.append("")  # Initial value for OUTPUT parameter
-        
-        param_str = ", ".join(param_list) if param_list else "@response = %s OUTPUT"
-        
-        # Execute procedure
-        query = f"EXEC api.{procedure_name} {param_str}"
-        cursor.execute(query, tuple(param_values))
-        
-        # Get OUTPUT parameter value
-        # Note: pymssql doesn't directly support OUTPUT parameters in the same way as pyodbc
-        # We'll need to use a different approach
-        
-        # Alternative approach: Use a SELECT statement with OUTPUT
-        cursor.close()
-        
-        # Rebuild query to capture output
-        cursor = conn.cursor()
+        # Build parameter list - validate parameter names
         param_assignments = []
         for key, value in params.items():
-            param_assignments.append(f"@{key} = %s")
+            validated_key = validate_sql_identifier(key)
+            param_assignments.append(f"@{validated_key} = %s")
         
         declare_stmt = "DECLARE @response NVARCHAR(MAX);"
         exec_params = ", ".join(param_assignments) if param_assignments else ""
@@ -215,16 +237,19 @@ def execute_procedure(procedure_name: str, params: Dict[str, Any]) -> Any:
         if result and result[0]:
             try:
                 return json.loads(result[0])
-            except json.JSONDecodeError as e:
-                raise HTTPException(status_code=500, detail=f"Invalid JSON in response: {str(e)}")
+            except json.JSONDecodeError:
+                raise HTTPException(status_code=500, detail="Invalid JSON in response")
         else:
             return None
-    except pymssql.DatabaseError as e:
+    except HTTPException:
         conn.close()
-        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
-    except Exception as e:
+        raise
+    except pymssql.DatabaseError:
         conn.close()
-        raise HTTPException(status_code=500, detail=f"Error executing procedure: {str(e)}")
+        raise HTTPException(status_code=500, detail="Database error occurred")
+    except Exception:
+        conn.close()
+        raise HTTPException(status_code=500, detail="Error executing procedure")
 
 
 @app.get("/{resource}/list")
@@ -241,10 +266,10 @@ async def resource_list(resource: str, request: Request):
     try:
         result = execute_table_function(function_name, params)
         return JSONResponse(content=result)
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.get("/{resource}/get")
@@ -261,10 +286,10 @@ async def resource_get(resource: str, request: Request):
     try:
         result = execute_scalar_function(function_name, params)
         return JSONResponse(content=result)
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.get("/exec/{procedure_name}")
@@ -281,10 +306,10 @@ async def exec_procedure(procedure_name: str, request: Request):
     try:
         result = execute_procedure(procedure_name, params)
         return JSONResponse(content=result)
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.get("/health")
@@ -298,10 +323,10 @@ async def health_check():
         cursor.close()
         conn.close()
         return {"status": "healthy", "database": db_config['database']}
-    except Exception as e:
+    except Exception:
         return JSONResponse(
             status_code=503,
-            content={"status": "unhealthy", "error": str(e)}
+            content={"status": "unhealthy"}
         )
 
 

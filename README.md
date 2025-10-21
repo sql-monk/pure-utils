@@ -1,5 +1,15 @@
 ## Основні компоненти проекту:
 
+### 🌐 HTTP API сервіс
+
+- **PureSqlsApi** - тонкий HTTP API адаптер для SQL об'єктів ([детальна документація](PureSqlsApi/README.md)):
+  - GET `/{resource}/list` → виклик `api.{resource}List()` (таблична функція)
+  - GET `/{resource}/get` → виклик `api.{resource}Get()` (скалярна функція)
+  - GET `/exec/{procedureName}` → виклик `api.{procedureName}` (процедура з OUTPUT параметром)
+  - Автоматична серіалізація SQL результатів у JSON
+  - CLI параметри для конфігурації (сервер, база, порт, автентифікація)
+  - Порт за замовчуванням: 51433
+
 ### 🔧 MCP інтеграція (Model Context Protocol)
 Два .NET 8 сервери, які реалізують протокол для взаємодії з SQL Server через AI-асистентів:
 
@@ -57,11 +67,19 @@
 - [`ScriptObjectAndReferences`](mcp/Procedures/ScriptObjectAndReferences.sql) - генерація DDL з усіма залежностями
 - [`FindLastModulePlan`](mcp/Procedures/FindLastModulePlan.sql) - пошук останнього execution plan для об'єкта
 
+### 🌐 Схема api - HTTP API об'єкти
+
+SQL об'єкти для взаємодії через HTTP API (PureSqlsApi):
+- Таблично функції `api.{resource}List` - для отримання списків у JSON форматі
+- Скалярні функції `api.{resource}Get` - для отримання окремих об'єктів
+- Процедури `api.{procedureName}` - для виконання операцій з OUTPUT параметром `@response`
+- Приклади: [`exampleList`](api/Functions/exampleList.sql), [`exampleGet`](api/Functions/exampleGet.sql), [`ExampleCreate`](api/Procedures/ExampleCreate.sql)
+
 ### 🛠️ Допоміжні компоненти
 
 **PowerShell скрипти:**
 - [`deployUtil.ps1`](deployUtil.ps1) - розгортання об'єктів з автоматичним вирішенням залежностей
-- Build скрипти для компіляції MCP серверів у self-contained executables ([`PureSqlsMcp/build.ps1`](PureSqlsMcp/build.ps1), [`PlanSqlsMcp/build.ps1`](PlanSqlsMcp/build.ps1))
+- Build скрипти для компіляції .NET серверів у self-contained executables ([`PureSqlsMcp/build.ps1`](PureSqlsMcp/build.ps1), [`PlanSqlsMcp/build.ps1`](PlanSqlsMcp/build.ps1), [`PureSqlsApi/build.ps1`](PureSqlsApi/build.ps1))
 
 **Таблиці для аудиту та моніторингу:**
 - [`eventsNotifications`](util/Tables/eventsNotifications.sql) - журнал DDL подій
